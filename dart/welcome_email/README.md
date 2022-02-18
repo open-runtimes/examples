@@ -53,3 +53,4 @@ Copy this function folder somewhere and follow the instructions in the [Dart run
 
 ## 📝 Notes
  - This function is designed for use with Appwrite Cloud Functions and may be hard to run on your local runtime.
+ - This example is compatible with Dart 2.13, 2.14 and 2.15.
