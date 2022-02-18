@@ -2,15 +2,22 @@
 
 ![open-runtimes-box-bg-cover](https://user-images.githubusercontent.com/1297371/151676246-0e18f694-dfd7-4bab-b64b-f590fec76ef1.png)
 
-[![Discord](https://img.shields.io/discord/937092945713172480?label=discord&style=flat-square)](https://discord.gg/mkZcevnxuf)
+[![Discord](https://img.shields.io/discord/937092945713172480?label=discord&style=flat-square)](https://discord.gg/fP6W2qEzfQ)
 [![Twitter Account](https://img.shields.io/twitter/follow/appwrite?color=00acee&label=twitter&style=flat-square)](https://twitter.com/appwrite)
 
 Example Functions to show off what you can achieve with Open Runtimes.
 
 ## List of Examples
 
-### Dart
-- [Welcome Email with Appwrite](/dart/welcome_email)
+| Runtime | Welcome Email With Appwrite |
+|---------|-----------------------------|
+| Dart    | [✅](/dart/welcome-email)   |
+| Deno    |                             |
+| Node    |                             |
+| PHP     |                             |
+| Python  |                             |
+| Ruby    |                             |
+
 
 
 ## Contributing
@@ -23,9 +30,9 @@ We truly ❤️ pull requests! If you wish to help, you can learn more about how
 
 For security issues, kindly email us at [security@appwrite.io](mailto:security@appwrite.io) instead of posting a public issue on GitHub.
 
-## Follow Us
+## Discord Server
 
-Join our growing community around the world! See our official [Blog](https://medium.com/appwrite-io). Follow us on [Twitter](https://twitter.com/appwrite), [Facebook Page](https://www.facebook.com/appwrite.io), [Facebook Group](https://www.facebook.com/groups/appwrite.developers/) , [Dev Community](https://dev.to/appwrite) or join our live [Discord server](https://discord.gg/mkZcevnxuf) for more help, ideas, and discussions.
+Join our live [Discord server](https://discord.gg/fP6W2qEzfQ) for more help, ideas, and discussions.
 
 ## License
 
