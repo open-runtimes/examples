@@ -9,8 +9,8 @@ Future<void> start(final req, final res) async {
     domain: domain ?? '',
   );
 
-  // Get the name and email of the newly created user from Appwrite's environment variable
-  final payload = jsonDecode(req.env['APPWRITE_FUNCTION_EVENT_DATA']!);
+  // Get the name and email of the newly created user from the payload
+  final payload = jsonDecode(req.payload!);
   final name = payload['name'];
   final email = payload['email'];
 
