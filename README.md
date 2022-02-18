@@ -9,14 +9,9 @@ Example Functions to show off what you can achieve with Open Runtimes.
 
 ## List of Examples
 
-| Runtime | Welcome Email With Appwrite |
-|---------|-----------------------------|
-| Dart    | [✅](/dart/welcome-email)   |
-| Deno    |                             |
-| Node    |                             |
-| PHP     |                             |
-| Python  |                             |
-| Ruby    |                             |
+| Example                     | Dart                        | Deno | Node | PHP | Python | Ruby |
+|-----------------------------|-----------------------------|------|------|-----|--------|------|
+| Welcome Email With Appwrite | [✅](/dart/welcome-email) |      |      |     |        |      |
 
 
 
