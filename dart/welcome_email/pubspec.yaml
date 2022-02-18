@@ -1,0 +1,10 @@
+name: functions_demo_dart_welcome_email
+description: ""
+version: 1.0.0
+
+environment:
+  sdk: '>=2.12.0 <3.0.0'
+
+dependencies:
+  dart_appwrite: ^0.6.1
+  http: ^0.13.3
