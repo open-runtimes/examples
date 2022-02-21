@@ -17,7 +17,6 @@ _Example input:_
 
 _Example output:_
 
-<!-- Update with your expected output -->
 
 ```
 email sent successfully.
