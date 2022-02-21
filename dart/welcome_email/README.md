@@ -35,4 +35,4 @@ Copy this function folder somewhere and follow the instructions in the [Dart run
 
 ## 📝 Notes
  - This function is designed for use with Appwrite Cloud Functions. You can learn more about it [here](https://appwrite.io/docs/functions).
- - This example is compatible with Dart 2.13, 2.14 and 2.15.
+ - This example is compatible with Dart 2.13, 2.14 and 2.15. Other versions may work but are not guarenteed to work as they haven't been tested.

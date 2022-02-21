@@ -4,8 +4,9 @@ import 'package:http/http.dart' as http;
 
 Future<void> start(final req, final res) async {
   final domain = req.env['MAILGUN_DOMAIN'];
+  final apiKey = req.env['MAILGUN_API_KEY'];
   final mailgun = MailgunMailer(
-    apiKey: req.env['MAILGUN_API_KEY']!,
+    apiKey: apiKey!,
     domain: domain ?? '',
   );
 
@@ -95,12 +96,14 @@ class MailgunMailer {
       }
       var response = await client.send(request);
       if (response.statusCode != HttpStatus.ok) {
-        return false;
+        client.close();
+        throw await response.stream.bytesToString();
       }
 
       return true;
     } catch (e) {
-      return false;
+      client.close();
+      throw e;
     } finally {
       client.close();
     }
