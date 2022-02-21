@@ -1,4 +1,4 @@
-name: send-email-with-mailgun
+name: send_email_with_mailgun
 description: ""
 version: 1.0.0
 
