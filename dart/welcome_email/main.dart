@@ -5,15 +5,16 @@ import 'package:http/http.dart' as http;
 Future<void> start(final req, final res) async {
   final domain = req.env['MAILGUN_DOMAIN'];
   final apiKey = req.env['MAILGUN_API_KEY'];
+
+  // Validate Domain
+  if ((RegExp(r"^((?!-))(xn--)?[a-z0-9][a-z0-9-_]{0,61}[a-z0-9]{0,1}\.(xn--)?([a-z0-9\-]{1,61}|[a-z0-9-]{1,30}\.[a-z]{2,})$")).hasMatch(domain) == false) {
+    return res.send('Invalid domain', status: 400);
+  }
+
   final mailgun = MailgunMailer(
     apiKey: apiKey!,
     domain: domain,
   );
-
-  // Validate Domain
-  if ((RegExp(r"/^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/")).hasMatch(email) == false) {
-    return res.send('Invalid domain', status: 400);
-  }
 
   // Get the name and email of the newly created user from the payload
   final payload = jsonDecode(req.payload!);
