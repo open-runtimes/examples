@@ -4,7 +4,6 @@
 
 A sample Dart Cloud Function for sending emails using the Mailgun API.
 
-<!-- Update with your description, for example 'Create Stripe payment and return payment URL' -->
 
 _Example input:_
 
