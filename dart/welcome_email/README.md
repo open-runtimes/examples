@@ -31,7 +31,7 @@ List of environment variables used by this cloud function:
 
 ## 🚀 Deployment
 
-Copy this function folder somewhere and follow the instructions in the [Dart runtime readme](https://github.com/open-runtimes/open-runtimes/tree/main/runtimes/dart-2.15#readme) to deploy it.
+Copy this function folder somewhere and follow the instructions in the [Dart runtime README](https://github.com/open-runtimes/open-runtimes/tree/main/runtimes/dart-2.15#readme) to deploy it.
 
 ## 📝 Notes
  - This function is designed for use with Appwrite Cloud Functions. You can learn more about it [here](https://appwrite.io/docs/functions).
