@@ -2,7 +2,7 @@
 
 
 
-A sample Dart Cloud Function for sending a welcome email to a newly registered user.
+A sample Dart Cloud Function for sending emails using the Mailgun API.
 
 <!-- Update with your description, for example 'Create Stripe payment and return payment URL' -->
 
