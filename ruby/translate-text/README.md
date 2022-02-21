@@ -10,9 +10,11 @@ _Example input:_
 
 ```json
 {
-    "text": "The text to translate.",
-    "sourceLanguage": "en",
-    "targetLanguage": "es"
+    "payload": "{
+        \"text\": \"The message body.\",
+        \"source\": \"en\",
+        \"target\": \"es\"
+    }"
 }
 ```
 
