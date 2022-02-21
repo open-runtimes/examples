@@ -14,7 +14,7 @@ Future<void> start(final req, final res) async {
   final name = payload['name'];
   final email = payload['email'];
 
-// Create your email
+  // Create your email
   final sent = await mailgun.send(
       from: 'Welcome to My Awesome App <mailgun@$domain>',
       to: [email],
