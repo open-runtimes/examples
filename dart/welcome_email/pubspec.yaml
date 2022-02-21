@@ -1,4 +1,4 @@
-name: functions_demo_dart_welcome_email
+name: send-email-with-mailgun
 description: ""
 version: 1.0.0
 
