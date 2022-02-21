@@ -34,7 +34,7 @@ Future<void> start(final req, final res) async {
   if (sent) {
     res.send("email sent successfully.");
   } else {
-    res.send("failed to send message");
+    res.send("failed to send message", status: 400);
   }
 }
 
