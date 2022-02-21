@@ -27,33 +27,25 @@ func main(req: RequestValue, res: RequestResponse) async throws -> RequestRespon
     ]
 
     let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
+    var request = HTTPClientRequest(url: targetURL)
+    request.method = .POST
+    request.headers.add(name: "Content-Type", value: "multipart/form-data")
+    request.headers.add(name: "Authorization", value: "Basic \(auth)")
+    
+    buildMultipart(&request, with: params)
 
-    do {
-        var request = HTTPClientRequest(url: targetURL)
-        request.method = .POST
-        request.headers.add(name: "Content-Type", value: "multipart/form-data")
-        request.headers.add(name: "Authorization", value: "Basic \(auth)")
-        
-        buildMultipart(&request, with: params)
-
-        let response = try await httpClient.execute(request, timeout: .seconds(30))
-        var body = try await response.body.collect(upTo: 1024*1024) //1MB
-        let string = body.readString(length: body.readableBytes)
-        if response.status == .ok {
-            return res.json(data: [
-                "code": 200,
-                "message": string ?? "OK"
-            ])
-        } else {
-            return res.json(data: [
-                "code": 500,
-                "message": string ?? "Unknown error"
-            ])
-        }
-    } catch let error {
+    let response = try await httpClient.execute(request, timeout: .seconds(30))
+    var body = try await response.body.collect(upTo: 1024*1024) //1MB
+    let string = body.readString(length: body.readableBytes)
+    if response.status == .ok {
+        return res.json(data: [
+            "code": 200,
+            "message": string ?? "OK"
+        ])
+    } else {
         return res.json(data: [
             "code": 500,
-            "message": "Failed to send message: \(error)"
+            "message": string ?? "Unknown error"
         ])
     }
 }
