@@ -14,7 +14,6 @@ _Example input:_
 }
 ```
 
-<!-- If input is expected, add example -->
 
 _Example output:_
 
