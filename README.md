@@ -5,7 +5,7 @@
 [![Discord](https://img.shields.io/discord/937092945713172480?label=discord&style=flat-square)](https://discord.gg/fP6W2qEzfQ)
 [![Twitter Account](https://img.shields.io/twitter/follow/appwrite?color=00acee&label=twitter&style=flat-square)](https://twitter.com/appwrite)
 
-Example Functions to show off what you can achieve with Open Runtimes.
+Example functions to show off what you can achieve with Open Runtimes.
 
 ## List of Examples
 
