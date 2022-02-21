@@ -11,12 +11,14 @@ func main(req: RequestValue, res: RequestResponse) async throws -> RequestRespon
         return res.json(data: ["error": "Invalid payload."])
     }
 
-    let mailgunDomain = req.env["MAILGUN_DOMAIN"] ?? "";
-    let mailgunAPIKey = req.env["MAILGUN_API_KEY"] ?? "";
+    guard let mailgunDomain = req.env["MAILGUN_DOMAIN"],
+        let mailgunAPIKey = req.env["MAILGUN_API_KEY"] else {
+        return res.json(data: ["error": "Missing environment variables."])
+    }
 
     let message = "Welcome \(name)!"
     let targetURL = "https://api.mailgun.net/v3/\(mailgunDomain)/messages"
-    let auth = "api:\(mailgunAPIKey)".data(using: .utf8)?.base64EncodedString() ?? ""
+    let auth = "api:\(mailgunAPIKey)".data(using: .utf8)!.base64EncodedString()
     let params =  [
         "from" : "Excited User <hello@example.com>",
         "to" : email,
@@ -51,7 +53,7 @@ func main(req: RequestValue, res: RequestResponse) async throws -> RequestRespon
     } catch let error {
         return res.json(data: [
             "code": 500,
-            "message": "Failed to send simple message: \(error)"
+            "message": "Failed to send message: \(error)"
         ])
     }
 }

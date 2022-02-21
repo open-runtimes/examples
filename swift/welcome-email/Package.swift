@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "WelcomeEmail",
     dependencies: [
-        .package(url: "https://github.com/swift-server/async-http-client.git", from: "1.0.0"),
+        .package(url: "https://github.com/swift-server/async-http-client.git", from: "1.9.0"),
     ],
     targets: [
         .target(

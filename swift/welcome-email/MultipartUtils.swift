@@ -5,6 +5,16 @@ let DASHDASH = "--"
 let CRLF = "\r\n"
 let boundaryChars = "abcdefghijklmnopqrstuvwxyz1234567890"
 
+open class File {
+    public let name: String
+    public var buffer: ByteBuffer
+
+    public init(name: String, buffer: ByteBuffer) {
+        self.name = name
+        self.buffer = buffer
+    }
+}
+
 func randomBoundary() -> String {
     var string = ""
     for _ in 0..<16 {
@@ -69,5 +79,3 @@ func buildMultipart(
     request.headers.add(name: "Content-Type", value: "multipart/form-data;boundary=\"\(boundary)\"")
     request.body = .bytes(bodyBuffer)
 }
-
-extension String: Error {}
