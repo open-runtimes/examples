@@ -7,8 +7,13 @@ Future<void> start(final req, final res) async {
   final apiKey = req.env['MAILGUN_API_KEY'];
   final mailgun = MailgunMailer(
     apiKey: apiKey!,
-    domain: domain ?? '',
+    domain: domain,
   );
+
+  // Validate Domain
+  if ((RegExp(r"/^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/")).hasMatch(email) == false) {
+    return res.send('Invalid domain', status: 400);
+  }
 
   // Get the name and email of the newly created user from the payload
   final payload = jsonDecode(req.payload!);
