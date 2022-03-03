@@ -11,7 +11,7 @@ Example functions to show off what you can achieve with Open Runtimes.
 
 | Example                     | Dart                        | Deno | Node | PHP | Python | Ruby |
 |-----------------------------|-----------------------------|------|------|-----|--------|------|
-| Send email with Mailgun | [✅](/dart/welcome-email) |      |      |     |        |      |
+| Send email with Mailgun | [✅](/dart/send_email_with_mailgun) |      |      |     |        |      |
 
 
 
