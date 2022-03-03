@@ -9,12 +9,10 @@ Example functions to show off what you can achieve with Open Runtimes.
 
 ## List of Examples
 
-| Example                     | Dart                        | Deno | Node | PHP | Python | Ruby |
-|-----------------------------|-----------------------------|------|------|-----|--------|------|
+| Example                     | Dart                        | Deno | Node | PHP | Python | Ruby | Swift |
+|-----------------------------|-----------------------------|------|------|-----|--------|------|-------|
 | Send email with Mailgun | [✅](/dart/send_email_with_mailgun) |      |      |     |        |      |
-| Convert phone number to country name | [✅](/dart/convert_phone_number_to_country_name)  | [✅](/deno/convert_phone_number_to_country_name) |   [✅](/node/convert_phone_number_to_country_name)   |   [✅](/php/convert_phone_number_to_country_name)   |  [✅](/python/convert_phone_number_to_country_name)   |    [✅](/ruby/convert_phone_number_to_country_name)   |
-
-
+| Convert phone number to country name | [✅](/dart/convert_phone_number_to_country_name) | [✅](/deno/convert_phone_number_to_country_name) | [✅](/node/convert_phone_number_to_country_name) | [✅](/php/convert_phone_number_to_country_name) | [✅](/python/convert_phone_number_to_country_name) | [✅](/ruby/convert_phone_number_to_country_name) | [✅](/swift/convert_phone_number_to_country_name) |
 
 ## Contributing
 
