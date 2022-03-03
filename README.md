@@ -12,6 +12,7 @@ Example functions to show off what you can achieve with Open Runtimes.
 | Example                     | Dart                        | Deno | Node | PHP | Python | Ruby |
 |-----------------------------|-----------------------------|------|------|-----|--------|------|
 | Send email with Mailgun | [✅](/dart/send_email_with_mailgun) |      |      |     |        |      |
+| Convert phone number to country name | [✅](/dart/convert_phone_number_to_country_name)  | [✅](/deno/convert_phone_number_to_country_name) |   [✅](/node/convert_phone_number_to_country_name)   |   [✅](/php/convert_phone_number_to_country_name)   |  [✅](/python/convert_phone_number_to_country_name)   |    [✅](/ruby/convert_phone_number_to_country_name)   |
 
 
 
