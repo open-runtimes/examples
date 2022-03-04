@@ -1,3 +1,33 @@
+const sdk = require('node-appwrite');
+
+/*
+Globaly-scoped cache used by function. Example value:
+[
+    {
+        "code": "+1",
+        "countryCode": "US",
+        "countryName": "United States"
+    }
+]
+*/
+let phonePrefixList;
+
+
+module.exports = async (req, res) => {
+    // Input validation
+    let phoneNumber;
+    try {
+        const payload = JSON.parse(req.payload);
+        phoneNumber = payload.phoneNumber.split(" ").join("");
+    } catch(err) {
+        console.log(err);
+        throw new Error('Payload is invalid.');
+    }
+
+    if(!phoneNumber || !phoneNumber.startsWith('+')) {
+        throw new Error('Invalid phone number.');
+    }
+
     // Make sure we have envirnment variables required to execute
     if(
         !req.env.APPWRITE_FUNCTION_ENDPOINT || 
