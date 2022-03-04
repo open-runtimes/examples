@@ -41,7 +41,7 @@ def main(req, res)
 
         client
             .set_endpoint(req.env['APPWRITE_FUNCTION_ENDPOINT'])
-            .set_project(req.env['APPWRITE_FUNCTION_PROJECTID'])
+            .set_project(req.env['APPWRITE_FUNCTION_PROJECT_ID'])
             .set_key(req.env['APPWRITE_FUNCTION_API_KEY'])
 
         # Fetch and store phone number prefixes
