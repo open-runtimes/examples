@@ -6,7 +6,7 @@ _Example input:_
 
 ```json
 {
-    "phoneNumber": "+421957215740",
+    "phoneNumber": "+421957215740"
 }
 ```
 
