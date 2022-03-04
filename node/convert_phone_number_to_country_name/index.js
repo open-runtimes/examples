@@ -12,7 +12,6 @@ Globaly-scoped cache used by function. Example value:
 */
 let phonePrefixList;
 
-
 module.exports = async (req, res) => {
     // Input validation
     let phoneNumber;
