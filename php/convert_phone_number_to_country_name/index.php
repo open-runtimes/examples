@@ -70,7 +70,7 @@ return function($req, $res) use ($phonePrefixList) {
     // Return phone number prefix
     $res->json([
         'phoneNumber' => $phoneNumber,
-        'code' => $phonePrefix['code'],
+        'phonePrefix' => $phonePrefix['code'],
         'countryCode' => $phonePrefix['countryCode'],
         'countryName' => $phonePrefix['countryName']
     ]);

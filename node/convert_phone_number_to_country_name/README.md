@@ -19,7 +19,7 @@ _Example output:_
 ```json
 {
     "phoneNumber": "+421957215740",
-    "code": "+421",
+    "phonePrefix": "+421",
     "countryCode": "SK",
     "countryName": "Slovakia"
 }

@@ -59,7 +59,7 @@ def main(req, res)
     # Return phone number prefix
     return res.json({
         :phone_number => phone_number,
-        :code => phone_prefix[0].code,
+        :phonePrefix => phone_prefix[0].code,
         :countryCode => phone_prefix[0].country_code,
         :countryName => phone_prefix[0].country_name,
     })

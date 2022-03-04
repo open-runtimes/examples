@@ -64,7 +64,7 @@ Future<void> start(final req, final res) async {
     // Return phone number prefix
     res.json({
         'phoneNumber': phoneNumber,
-        'code': phonePrefix.code,
+        'phonePrefix': phonePrefix.code,
         'countryCode': phonePrefix.countryCode,
         'countryName': phonePrefix.countryName
     });

@@ -58,8 +58,8 @@ def main(req, res):
 
     # Return phone number prefix
     return res.json({
-        'phone_number': phone_number,
-        'code': phonePrefix[0]['code'],
+        'phoneNumber': phone_number,
+        'phonePrefix': phonePrefix[0]['code'],
         'countryCode': phonePrefix[0]['countryCode'],
         'countryName': phonePrefix[0]['countryName']
     })

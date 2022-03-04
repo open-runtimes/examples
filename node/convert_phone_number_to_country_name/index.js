@@ -63,6 +63,8 @@ module.exports = async (req, res) => {
     // Return phone number prefix
     res.json({
         phoneNumber,
-        ...phonePrefix
+        phonePrefix: phonePrefix.code,
+        countryCode: phonePrefix.countryCode,
+        countryName: phonePrefix.countryName
     });
 };
