@@ -38,9 +38,10 @@ var phonePrefixList:PhoneList?;
 func main(req: RequestValue, res: RequestResponse) async throws -> RequestResponse {
   var phoneNumber = ""
 
-  guard let payload = try JSONSerialization.jsonObject(with: req.payload.data(using: .utf8)!, options: []) as? [String:Any] else {
-    throw ExampleError.invalid("Payload is invalid")
-  }
+    guard let data = (req.payload.isEmpty ? "{}" : req.payload).data(using: .utf8),
+          let payload = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else {
+            return res.json(data: ["error": "Invalid payload."])
+    }
 
   phoneNumber = payload["phoneNumber"] as? String ?? ""
 
@@ -48,9 +49,9 @@ func main(req: RequestValue, res: RequestResponse) async throws -> RequestRespon
     throw ExampleError.invalid("Invalid phone number")
   }
 
-  guard let endpoint = String(utf8String: getenv("APPWRITE_FUNCTION_ENDPOINT")),
-        let projectId = String(utf8String: getenv("APPWRITE_FUNCTION_PROJECT_ID")),
-        let apiKey = String(utf8String: getenv("APPWRITE_FUNCTION_API_KEY")) else {
+  guard let endpoint = req.env["APPWRITE_FUNCTION_ENDPOINT"],
+        let projectId = req.env["APPWRITE_FUNCTION_PROJECT_ID"],
+        let apiKey = req.env["APPWRITE_FUNCTION_API_KEY"] else {
     throw ExampleError.missing("Please provide all required environment variables")
   }
 
