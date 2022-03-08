@@ -1,0 +1,28 @@
+## Open-Runtime specific rules
+code.tar.gz
+
+## General rules, taken from https://gist.github.com/octocat/9257657
+
+# Compiled source #
+###################
+*.com
+*.dll
+*.exe
+*.o
+*.so
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
