@@ -59,9 +59,7 @@ return function($req, $res) use ($phonePrefixList) {
     }
 
     // Get phone prefix
-    $phonePrefix = \current(\array_filter($phonePrefixList, function($prefix) use ($phoneNumber) {
-        return \str_starts_with($phoneNumber, $prefix['code']);
-    }));
+    $phonePrefix = \current(\array_filter($phonePrefixList, fn($prefix) => \str_starts_with($phoneNumber, $prefix['code'])));
 
     if(empty($phonePrefix)) {
         throw new \Exception('Invalid phone number.');
