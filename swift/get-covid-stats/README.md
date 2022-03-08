@@ -1,25 +1,24 @@
 # 🦠 Get COVID-19 stats from an API
 
-A sample Swift Cloud Function for fetching data from a REST API, in this case [Covid19Api](https://covid19api.com/).
+A Swift Cloud Function for fetching COVID information using [Covid19Api](https://covid19api.com/).
 
 _Example input:_
 
 ```json
 {
-    "payload": "{
-        \"country\": \"NZ\",
-    }"
+    "country": "NZ"
 }
 ```
 
 _Example output:_
 
+
 ```json
 {
-  "deathsToday" : 0,
-  "recoveredToday" : 0,
-  "confirmedCasesToday" : 0,
-  "country" : "New Zealand"
+    "country": "New Zealand",
+    "confirmedCasesToday": 2,
+    "recoveredToday": 4,
+    "deathsToday": 0
 }
 ```
 
@@ -29,8 +28,26 @@ No environment variables needed.
 
 ## 🚀 Deployment
 
-Copy this function folder somewhere and follow the instructions in the [Swift runtime readme](https://github.com/open-runtimes/open-runtimes/tree/main/runtimes/swift-5.5#readme) to deploy it.
+1. Clone this repository, and enter this function folder:
+
+```
+$ git clone https://github.com/open-runtimes/examples.git && cd examples
+$ cd swift/convert_phone_number_to_country_name
+```
+
+2. Enter this function folder and build the code:
+```
+docker run --rm --interactive --tty --volume $PWD:/usr/code openruntimes/swift:5.5 sh /usr/local/src/build.sh
+```
+As a result, a `code.tar.gz` file will be generated.
+
+3. Start the Open Runtime:
+```
+docker run -p 3000:3000 -e INTERNAL_RUNTIME_KEY=secret-key --rm --interactive --tty --volume $PWD/code.tar.gz:/tmp/code.tar.gz:ro openruntimes/swift:5.5 sh /usr/local/src/start.sh
+```
+
+Your function is now listening on port `3000`, and you can execute it by sending `POST` request with appropriate authorization headers. To learn more about runtime, you can visit Swift runtime [README](https://github.com/open-runtimes/open-runtimes/tree/main/runtimes/swift-5.5).
 
 ## 📝 Notes
- - This function is designed for use with Open Runtimes. You can learn more about it [here](https://github.com/open-runtimes/open-runtimes).
- - This example is compatible with Swift 5.5.
+ - This function is designed for use with Appwrite Cloud Functions. You can learn more about it in [Appwrite docs](https://appwrite.io/docs/functions).
+ - This example is compatible with Swift 5.5. Other versions may work but are not guarenteed to work as they haven't been tested.
