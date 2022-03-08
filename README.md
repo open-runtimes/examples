@@ -9,11 +9,10 @@ Example functions to show off what you can achieve with Open Runtimes.
 
 ## List of Examples
 
-| Example                     | Dart                        | Deno | Node | PHP | Python | Ruby |
-|-----------------------------|-----------------------------|------|------|-----|--------|------|
+| Example                     | Dart                        | Deno | Node | PHP | Python | Ruby | Swift |
+|-----------------------------|-----------------------------|------|------|-----|--------|------|-------|
 | Send email with Mailgun | [✅](/dart/send_email_with_mailgun) |      |      |     |        |      |
-
-
+| Send SMS with Twilio |      |      |      |     |        | [✅](/ruby/send-sms-with-twilio) |      |
 
 ## Contributing
 
