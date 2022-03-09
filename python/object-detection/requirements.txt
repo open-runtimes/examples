@@ -1,0 +1,2 @@
+requests==2.27.1
+cloudmersive-image-api-client==3.0.1
