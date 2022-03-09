@@ -9,9 +9,10 @@ Example functions to show off what you can achieve with Open Runtimes.
 
 ## List of Examples
 
-| Example                     | Dart                        | Deno | Node | PHP | Python | Ruby |
-|-----------------------------|-----------------------------|------|------|-----|--------|------|
-| Send email with Mailgun | [✅](/dart/send_email_with_mailgun) |      |      |     |        |      |
+| Example                     | Dart                        | Deno | Node | PHP | Python | Ruby | Swift |
+|-----------------------------|-----------------------------|------|------|-----|--------|------|-------|
+| Send email with Mailgun | [✅](/dart/send_email_with_mailgun) |      |      |     |        |      |      |
+| Translate text with Google |       |      |      |     |        | [✅](/ruby/translate-text-with-google) |      |
 
 
 
