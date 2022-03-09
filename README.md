@@ -15,6 +15,7 @@ Example functions to show off what you can achieve with Open Runtimes.
 | Send SMS with Twilio |      |      |      |     |        | [✅](/ruby/send-sms-with-twilio) |      |
 | Translate text with Google |       |      |      |     |        | [✅](/ruby/translate-text-with-google) |      |
 | Object Detection |    |      |      |     |   [✅](/python/object-detection)     |      |      |
+| Generate Giphy GIF |      |      |      |     |  [✅](/python/generate-giphy-gif)  |      |      |
 
 ## Contributing
 
