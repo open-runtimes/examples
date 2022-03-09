@@ -5,14 +5,25 @@ from cloudmersive_image_api_client import Configuration, RecognizeApi, ApiClient
 from cloudmersive_image_api_client.rest import ApiException
 
 def main(req, res):
-    payload = json.loads(req.payload)
-    file_url = payload.get("url", None)
-    api_key = req.env.get("CLOUDMERSIVE_API_KEY", None)
+    # Input validation
+    file_url = None
+    try:
+        payload = json.loads(req.payload)
+        file_url = payload['url']
+    except Exception as err:
+        print(err)
+        raise Exception('Payload is invalid.')
 
-    if file_url is None or api_key is None:
-        return res.json({'error': 'Missing payload or env data.'})
+    if not file_url:
+        raise Exception('Invalid search.')
+    
+    # Make sure we have envirnment variables required to execute
+    if not req.env.get('CLOUDMERSIVE_API_KEY', None):
+        raise Exception('Please provide all required environment variables.')
 
-    # Download the file to the container
+    api_key = req.env.get('CLOUDMERSIVE_API_KEY', None)
+
+    # Download the file
     response = requests.get(file_url, stream=True)
     with open("temp.jpg", 'wb') as newFile:
         for chunk in response.iter_content(chunk_size=1024): 
@@ -30,6 +41,7 @@ def main(req, res):
     # Detect objects including types and locations in an image
     api_response = api_client.recognize_detect_objects("temp.jpg")
     
+    # Return object detection results
     results = list(map(lambda x: {
         "name": x.object_class_name,
         "confidence": x.score,
@@ -39,4 +51,7 @@ def main(req, res):
         "height": x.height
     }, api_response.objects))
 
-    return res.json(results)
+    if len(results) < 1:
+        raise Exception('No objects found in the image.')
+
+    return res.json(results[0])
