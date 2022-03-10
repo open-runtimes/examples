@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
     let phoneNumber;
     try {
         const payload = JSON.parse(req.payload);
-        phoneNumber = payload.phoneNumber.split(" ").join("");
+        phoneNumber = payload.phoneNumber.split(' ').join('');
     } catch(err) {
         console.log(err);
         throw new Error('Payload is invalid.');

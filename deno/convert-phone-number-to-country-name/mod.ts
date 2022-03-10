@@ -19,10 +19,10 @@ let phonePrefixList: {
 
 export default async function(req: any, res: any) {
     // Input validation
-    let phoneNumber: string = "";
+    let phoneNumber: string = '';
     try {
         const payload = JSON.parse(req.payload);
-        phoneNumber = payload.phoneNumber.split(" ").join("");
+        phoneNumber = payload.phoneNumber.split(' ').join('');
     } catch(err) {
         console.log(err);
         throw new Error('Payload is invalid.');
