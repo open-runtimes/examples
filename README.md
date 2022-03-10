@@ -11,7 +11,7 @@ Example functions to show off what you can achieve with Open Runtimes.
 
 | Example                     | Dart                        | Deno | Node | PHP | Python | Ruby | Swift |
 |-----------------------------|-----------------------------|------|------|-----|--------|------|-------|
-| Send email with Mailgun | [✅](/dart/send_email_with_mailgun) |      |      |     |        |      |      |
+| Send email with Mailgun | [✅](/dart/send_email_with_mailgun) |      | [✅](/node/send_email_with_mailgun) |     |        |      |      |
 | Send SMS with Twilio |      |      |      |     |        | [✅](/ruby/send-sms-with-twilio) |      |
 | Translate text with Google |       |      |      |     |        | [✅](/ruby/translate-text-with-google) |      |
 | Object Detection |    |      |      |     |   [✅](/python/object-detection)     |      |      |
