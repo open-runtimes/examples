@@ -1,7 +1,7 @@
 import { sdk } from "./deps.ts";
 
 /*
-Globaly-scoped cache used by function. Example value:
+Globally scoped cache used by function. Example value:
 [
     {
         "code": "+1",

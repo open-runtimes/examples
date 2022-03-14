@@ -15,7 +15,7 @@ enum ExampleError : Error {
 }
 
 /*
-Globaly-scoped cache used by function. Example value:
+Globally scoped cache used by function. Example value:
 [
     {
         "code": "+1",

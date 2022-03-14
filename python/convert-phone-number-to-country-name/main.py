@@ -4,7 +4,7 @@ from appwrite.client import Client
 from appwrite.services.locale import Locale
 
 """
-Globaly-scoped cache used by function. Example value:
+Globally scoped cache used by function. Example value:
 [
     {
         "code": "+1",

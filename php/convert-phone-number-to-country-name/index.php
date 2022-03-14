@@ -7,7 +7,7 @@ use Appwrite\Services\Locale;
 
 
 /*
-Globaly-scoped cache used by function. Example value:
+Globally scoped cache used by function. Example value:
 [
     {
         "code": "+1",

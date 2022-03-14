@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dart_appwrite/dart_appwrite.dart';
 
 /*
-Globaly-scoped cache used by function. Example value:
+Globally scoped cache used by function. Example value:
 [
     {
         "code": "+1",

@@ -29,7 +29,7 @@ _Example output:_
 
 List of environment variables used by this cloud function:
 
-- **APPWRITE_FUNCTION_ENDPOINT** - Endpoint of Appwrite project
+- **APPWRITE_FUNCTION_ENDPOINT** - Endpoint of your Appwrite server
 - **APPWRITE_FUNCTION_API_KEY** - Appwrite API Key
 - **APPWRITE_FUNCTION_PROJECT_ID** - Appwrite project ID. If running on Appwrite, this variable is provided automatically.
 
@@ -57,4 +57,4 @@ Your function is now listening on port `3000`, and you can execute it by sending
 
 ## 📝 Notes
  - This function is designed for use with Appwrite Cloud Functions. You can learn more about it in [Appwrite docs](https://appwrite.io/docs/functions).
- - This example is compatible with Node 17.0. Other versions may work but are not guarenteed to work as they haven't been tested.
+ - This example is compatible with Node 17.0. Other versions may work but are not guaranteed to work as they haven't been tested.
