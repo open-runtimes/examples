@@ -37,7 +37,7 @@ $ cd node/get_covid_stats
 
 2. Enter this function folder and build the code:
 ```
-docker run -e INTERNAL_RUNTIME_ENTRYPOINT=src/index.js --rm --interactive --tty --volume $PWD:/usr/code openruntimes/node:17.0 sh /usr/local/src/build.sh
+docker run --rm --interactive --tty --volume $PWD:/usr/code openruntimes/node:17.0 sh /usr/local/src/build.sh
 ```
 As a result, a `code.tar.gz` file will be generated.
 
