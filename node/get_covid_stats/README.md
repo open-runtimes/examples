@@ -1,6 +1,6 @@
 # 🦠 Get COVID-19 stats from an API
 
-A Swift Cloud Function for fetching COVID information using [Covid19Api](https://covid19api.com/).
+A Node Cloud Function for fetching COVID information using [Covid19Api](https://covid19api.com/).
 
 _Example input:_
 
