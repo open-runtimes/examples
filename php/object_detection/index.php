@@ -1,6 +1,6 @@
 <?php
 
-function test($req, $res) {
+return function ($req, $res) {
     // Input validation
     $url = null;
     try {
