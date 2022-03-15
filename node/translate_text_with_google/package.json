@@ -1,5 +1,5 @@
 {
-    "name": "send_sms_with_twilio",
+    "name": "translate_text_with_google",
     "version": "1.0.0",
     "description": "",
     "main": "src/index.js",
