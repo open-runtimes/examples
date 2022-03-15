@@ -1,6 +1,6 @@
 # 🖼️ Get Giphy GIF
 
-A Deno Cloud Function for generating Giphy GIF from the [Giphy API](https://developers.giphy.com/docs/api#quick-start-guide).
+A Node Cloud Function for generating Giphy GIF from the [Giphy API](https://developers.giphy.com/docs/api#quick-start-guide).
 
 _Example input:_
 
