@@ -1,6 +1,6 @@
 # 📱 Send SMS with Twilio
 
-A Deno Cloud Function for sending message to a phone number using [Twilio API](https://www.twilio.com/docs/usage/api).
+A Node Cloud Function for sending message to a phone number using [Twilio API](https://www.twilio.com/docs/usage/api).
 
 _Example input:_
 
