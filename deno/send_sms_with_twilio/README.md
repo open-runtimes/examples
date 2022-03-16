@@ -40,7 +40,7 @@ $ cd deno/send_sms_with_twilio
 
 2. Enter this function folder and build the code:
 ```
-docker run --rm --interactive --tty --volume $PWD:/usr/code openruntimes/deno:1.14 sh /usr/local/src/build.sh
+docker run -e INTERNAL_RUNTIME_ENTRYPOINT=src/mod.ts --rm --interactive --tty --volume $PWD:/usr/code openruntimes/deno:1.14 sh /usr/local/src/build.sh
 ```
 As a result, a `code.tar.gz` file will be generated.
 
