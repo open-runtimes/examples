@@ -15,7 +15,7 @@ Example functions to show off what you can achieve with Open Runtimes.
 | Convert phone number to country name | [✅](/dart/convert-phone-number-to-country-name) | [✅](/deno/convert-phone-number-to-country-name) | [✅](/node/convert-phone-number-to-country-name) | [✅](/php/convert-phone-number-to-country-name) | [✅](/python/convert-phone-number-to-country-name) | [✅](/ruby/convert-phone-number-to-country-name) | [✅](/swift/convert-phone-number-to-country-name) |
 | Send SMS with Twilio |      |      |      |     |        | [✅](/ruby/send-sms-with-twilio) |      |
 | Translate text with Google |       |      |      |     |        | [✅](/ruby/translate-text-with-google) |      |
-| Object Detection |[ ✅](/dart/object_detection) |      |      |     |   [✅](/python/object-detection)     |      |      |
+| Object Detection |[ ✅](/dart/object_detection) |      | [✅](/node/object_detection) |     |   [✅](/python/object-detection)     |      |      |
 | Generate Giphy GIF | [✅](/dart/generate_giphy_gif) |      |      |     |  [✅](/python/generate-giphy-gif)  |      |      |
 | Get COVID-19 Stats |      |      |      |     |        |      | [✅](/swift/get-covid-stats) |
 
