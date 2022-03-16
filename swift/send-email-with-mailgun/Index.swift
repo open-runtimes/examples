@@ -37,11 +37,9 @@ func main(req: RequestValue, res: RequestResponse) async throws -> RequestRespon
     let response = try await httpClient.execute(request, timeout: .seconds(30))
     var body = try await response.body.collect(upTo: 1024*1024) //1MB
     let string = body.readString(length: body.readableBytes)
+    
     if response.status == .ok {
-        return res.json(data: [
-            "code": 200,
-            "message": string ?? "OK"
-        ])
+        return res.send(data: string ?? "OK")
     } else {
         return res.json(data: [
             "code": 500,
