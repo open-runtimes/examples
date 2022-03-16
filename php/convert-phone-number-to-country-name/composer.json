@@ -1,0 +1,11 @@
+{
+    "name": "opr/convert_phone_number_to_country_name",
+    "description": "",
+    "type": "library",
+    "license": "ISC",
+    "authors": [],
+    "require": {
+        "php": ">=8.0.0",
+        "appwrite/appwrite": "4.0.*"
+    }
+}
