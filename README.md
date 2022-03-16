@@ -16,7 +16,7 @@ Example functions to show off what you can achieve with Open Runtimes.
 | Send SMS with Twilio |      |      | [✅](/node/send_sms_with_twilio) |     |        | [✅](/ruby/send-sms-with-twilio) |      |
 | Translate text with Google |       |      | [✅](/node/translate_text_with_google) |     |        | [✅](/ruby/translate-text-with-google) |      |
 | Object Detection |[ ✅](/dart/object_detection) |      | [✅](/node/object_detection) | [✅](/php/object_detection) |   [✅](/python/object-detection)     |      |      |
-| Generate Giphy GIF | [✅](/dart/generate_giphy_gif) |      | [✅](/node/generate_giphy_gif) |     |  [✅](/python/generate-giphy-gif)  |      |      |
+| Generate Giphy GIF | [✅](/dart/generate_giphy_gif) | [✅](/deno/generate-giphy-gif) | [✅](/node/generate_giphy_gif) |     |  [✅](/python/generate-giphy-gif)  |      |      |
 | Get COVID-19 Stats |      |      |      |     |        |      | [✅](/swift/get-covid-stats) |
 
 ## Contributing
