@@ -17,7 +17,7 @@ Example functions to show off what you can achieve with Open Runtimes.
 | Translate text with Google |       |      | [✅](/node/translate_text_with_google) |     |        | [✅](/ruby/translate-text-with-google) |      |
 | Object Detection |[ ✅](/dart/object_detection) |      |      |     |   [✅](/python/object-detection)     |      |      |
 | Generate Giphy GIF | [✅](/dart/generate_giphy_gif) |      |      |     |  [✅](/python/generate-giphy-gif)  |      |      |
-| Get COVID-19 Stats |      |      |      |     | [✅](/python/generate-giphy-gif) |      | [✅](/swift/get-covid-stats) |
+| Get COVID-19 Stats |      |      |      |     |     |      | [✅](/swift/get-covid-stats) |
 
 ## Contributing
 
