@@ -33,8 +33,6 @@ struct PhonePrefix {
 
 var phonePrefixList:PhoneList?;
 
-
-
 func main(req: RequestValue, res: RequestResponse) async throws -> RequestResponse {
   var phoneNumber = ""
 
@@ -55,11 +53,10 @@ func main(req: RequestValue, res: RequestResponse) async throws -> RequestRespon
     throw ExampleError.missing("Please provide all required environment variables")
   }
 
-  if(phonePrefixList == nil) {
+  if phonePrefixList == nil {
     let group = DispatchGroup()
 
-    let client = 
-      Client()
+    let client = Client()
       .setEndpoint(endpoint)
       .setProject(projectId)
       .setKey(apiKey)
@@ -81,7 +78,7 @@ func main(req: RequestValue, res: RequestResponse) async throws -> RequestRespon
     group.wait()
   }
 
-  if(phonePrefixList == nil) {
+  if phonePrefixList == nil {
     throw ExampleError.invalid("Unable to fetch phone prefix list")
   }
 
