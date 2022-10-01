@@ -1,0 +1,16 @@
+{
+  "name": "sendsms",
+  "version": "1.0.0",
+  "description": "tosendsms",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vonage/server-sdk": "^2.11.2",
+    "axios": "^0.27.2",
+    "nexmo": "^2.9.1"
+  }
+}
