@@ -17,7 +17,7 @@ export default async function (req: any, res: any) {
     throw new Error("body is required");
   }
 
-  const response = await fetch(url, { method, headers });
+  const response = await fetch(url, { method, headers, body });
 
   if (response.status !== 200) {
     res.json({ success: false, message: "URL could not be reached." });
