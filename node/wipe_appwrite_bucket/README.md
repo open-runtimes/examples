@@ -1,0 +1,1 @@
+# 🪣 Wipe Appwrite Bucket
