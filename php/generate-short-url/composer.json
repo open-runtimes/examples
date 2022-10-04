@@ -1,0 +1,10 @@
+{
+    "name": "thesylwio/generate-short-url",
+    "description": "",
+    "type": "library",
+    "license": "ISC",
+    "authors": [],
+    "require": {
+        "php": ">=8.0.0"
+    }
+}
