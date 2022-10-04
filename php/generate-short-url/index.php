@@ -5,8 +5,8 @@ require_once 'vendor/autoload.php';
 return function ($req, $res) {
   $payload = json_decode($req['payload'], true);
 
-  $chosenProvider = $payload['provider'];
-  $longUrl = $payload['url'];
+  $chosenProvider = $payload['provider'] ?? null;
+  $longUrl = $payload['url'] ?? null;
 
   if (null === $chosenProvider) {
     $res->json(['success' => false, 'message' => 'Provider param is required. [bitly, tinyurl]'], 400);
@@ -22,12 +22,12 @@ return function ($req, $res) {
   switch ($chosenProvider) {
     case 'bitly':
       $apiUrl = 'https://api-ssl.bitly.com/v4/shorten';
-      $authorizationToken = $req['variables']['API_BITLY_AUTHORIZATION_TOKEN'];
+      $authorizationToken = $req['env']['API_BITLY_AUTHORIZATION_TOKEN'] ?? null;
       $data = json_encode(['long_url' => $longUrl]);
       break;
     case 'tinyurl':
       $apiUrl = 'https://api.tinyurl.com/create';
-      $authorizationToken = $req['variables']['API_TINYURL_AUTHORIZATION_TOKEN'];
+      $authorizationToken = $req['env']['API_TINYURL_AUTHORIZATION_TOKEN'] ?? null;
       $data = json_encode(['url' => $longUrl]);
       break;
     default:
@@ -58,12 +58,12 @@ return function ($req, $res) {
   // Extract request result
   switch ($chosenProvider){
     case 'bitly':
-      $shortenUrl = $apiResponse['link'];
-      $errorMessage = $apiResponse['message'] || null;
+      $shortenUrl = $apiResponse['link'] ?? null;
+      $errorMessage = $apiResponse['message'] ?? null;
       break;
     case 'tinyurl':
-      $shortenUrl = $apiResponse['data']['tiny_url'];
-      $errorMessage = $apiResponse['errors'][0];
+      $shortenUrl = $apiResponse['data']['tiny_url'] ?? null;
+      $errorMessage = $apiResponse['errors'][0] ?? null;
       break;
     default:
       $shortenUrl = null;
@@ -71,7 +71,7 @@ return function ($req, $res) {
   }
 
   if (null === $shortenUrl) {
-    $res->json(['success' => false, 'message' => $errorMessage]);
+    $res->json(['success' => false, 'message' => $errorMessage], 401);
     return;
   }
 
