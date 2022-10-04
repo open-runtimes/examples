@@ -1,5 +1,4 @@
 const axios = require('axios').default;
-const { v4: uuidv4 } = require('uuid');
 
 module.exports = async function(payload, variables){
   const {
