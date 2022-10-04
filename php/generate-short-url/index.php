@@ -2,49 +2,6 @@
 
 require_once 'vendor/autoload.php';
 
-function makeRequest(
-  string $apiUrl,
-  string $authorizationTokenKey,
-  string $data,
-  array $req,
-  mixed $res,
-): ?array
-{
-  $authorizationToken = $req['variables'][$authorizationTokenKey];
-
-  if (null === $authorizationToken) {
-    $res->json(['success' => false, 'message' => 'Authorization token not set in variables'], 401);
-
-    return null;
-  }
-
-  $curl = curl_init();
-
-  curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-  curl_setopt($curl, CURLOPT_URL, $apiUrl);
-  curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-  curl_setopt($curl, CURLOPT_POST, true);
-  curl_setopt($curl, CURLOPT_HTTPHEADER, [
-    'Content-Type: application/json',
-    sprintf('Authorization: Bearer %s', $authorizationToken)
-  ]);
-
-  $response = json_decode(curl_exec($curl), true);
-  curl_close($curl);
-
-  return $response;
-}
-
-function displayResponse(mixed $res, ?string $shortenUrl, ?string $errorMessage): void
-{
-  if (null === $shortenUrl) {
-    $res->json(['success' => false, 'message' => $errorMessage]);
-    return;
-  }
-
-  $res->json(['success' => true, 'url' => $shortenUrl]);
-}
-
 return function ($req, $res) {
   $payload = json_decode($req['payload'], true);
 
@@ -61,30 +18,62 @@ return function ($req, $res) {
     return;
   }
 
+  // Prepare request data
   switch ($chosenProvider) {
     case 'bitly':
-      $apiResponse = makeRequest(
-        'https://api-ssl.bitly.com/v4/shorten',
-        'API_BITLY_AUTHORIZATION_TOKEN',
-        json_encode(['long_url' => $longUrl]),
-        $req,
-        $res,
-      );
-
-      displayResponse($res, $apiResponse['link'], $apiResponse['message']);
-
+      $apiUrl = 'https://api-ssl.bitly.com/v4/shorten';
+      $authorizationToken = $req['variables']['API_BITLY_AUTHORIZATION_TOKEN'];
+      $data = json_encode(['long_url' => $longUrl]);
       break;
     case 'tinyurl':
-      $apiResponse = makeRequest(
-        'https://api.tinyurl.com/create',
-        'API_TINYURL_AUTHORIZATION_TOKEN',
-        json_encode(['url' => $longUrl]),
-        $req,
-        $res,
-      );
-
-      displayResponse($res, $apiResponse['data']['tiny_url'], $apiResponse['errors'][0]);
-
+      $apiUrl = 'https://api.tinyurl.com/create';
+      $authorizationToken = $req['variables']['API_TINYURL_AUTHORIZATION_TOKEN'];
+      $data = json_encode(['url' => $longUrl]);
       break;
+    default:
+      $apiUrl = null;
+      $authorizationToken = null;
+      $data = null;
   }
+
+  if (null === $authorizationToken) {
+    $res->json(['success' => false, 'message' => 'Authorization token not set in variables'], 401);
+    return;
+  }
+
+  // Make request
+  $curl = curl_init();
+  curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($curl, CURLOPT_URL, $apiUrl);
+  curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+  curl_setopt($curl, CURLOPT_POST, true);
+  curl_setopt($curl, CURLOPT_HTTPHEADER, [
+    'Content-Type: application/json',
+    sprintf('Authorization: Bearer %s', $authorizationToken)
+  ]);
+
+  $apiResponse = json_decode(curl_exec($curl), true);
+  curl_close($curl);
+
+  // Extract request result
+  switch ($chosenProvider){
+    case 'bitly':
+      $shortenUrl = $apiResponse['link'];
+      $errorMessage = $apiResponse['message'] || null;
+      break;
+    case 'tinyurl':
+      $shortenUrl = $apiResponse['data']['tiny_url'];
+      $errorMessage = $apiResponse['errors'][0];
+      break;
+    default:
+      $shortenUrl = null;
+      $errorMessage = 'Error.';
+  }
+
+  if (null === $shortenUrl) {
+    $res->json(['success' => false, 'message' => $errorMessage]);
+    return;
+  }
+
+  $res->json(['success' => true, 'url' => $shortenUrl]);
 };
