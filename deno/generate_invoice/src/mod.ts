@@ -1,8 +1,8 @@
 import { PDFDocument } from "https://cdn.pika.dev/pdf-lib@^1.7.0";
 
 export default async function (req: any, res: any) {
-  const payload = JSON.parse(req.payload);
-  const { issuer, customer, vat, currency, items } = payload;
+  const { issuer, customer, vat, currency, items } = req.payload;
+
   let err = "";
   if (!issuer || issuer === "") err = "issuer";
   if (!customer || customer === "") err = "customer";
