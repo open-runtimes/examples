@@ -32,9 +32,16 @@ export default async function(req: any, res: any) {
   ;
 
   try {
-    for (const file of (await storage.listFiles(bucketId)).files) {
-      storage.deleteFile(bucketId, file.$id);
-    }
+    const limit = 25;
+    let offset = 0;
+    let listFiles;
+    do {
+      listFiles = await storage.listFiles(bucketId, [sdk.Query.limit(limit), sdk.Query.offset(offset)]);
+      for(const file of listFiles.files) {
+        await storage.deleteFile(bucketId, file.$id);
+      }
+      offset += limit;
+    } while(offset < listFiles.total);
     return res.json({
       success: true,
     });
