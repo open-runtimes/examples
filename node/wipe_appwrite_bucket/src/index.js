@@ -24,6 +24,7 @@ module.exports = async function (req, res) {
     !req.variables['APPWRITE_FUNCTION_API_KEY']
   ) {
     console.warn("Environment variables are not set. Function cannot use Appwrite SDK.");
+    return;
   } else {
     client
       .setEndpoint(req.variables['APPWRITE_FUNCTION_ENDPOINT'])
