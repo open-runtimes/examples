@@ -50,7 +50,7 @@ $ cd csharp/send-http-request
 2. Enter this function folder and build the code:
    
    ```
-   docker run -e INTERNAL_RUNTIME_ENTRYPOINT=src/mod.ts --rm --interactive --tty --volume $PWD:/usr/code openruntimes/java:1.8 sh /usr/local/src/build.sh
+   docker run -e INTERNAL_RUNTIME_ENTRYPOINT=src/mod.ts --rm --interactive --tty --volume $PWD:/usr/code openruntimes/dotnet:v2-6.0 sh /usr/local/src/build.sh
    ```
    
    As a result, a `code.tar.gz` file will be generated.
