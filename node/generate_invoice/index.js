@@ -1,18 +1,13 @@
 const PDFDOC = require("pdfkit")
 const doc = new PDFDOC();
-const data  = {
-    "currency":"EUR",
-    "items":[{"name":"Web development","price":15}],
-    "issuer":"Some Issuer",
-    "customer":"Some Customer",
-    // "vat":21
-}
-const generateInvoice = (data) => {
-    if(!data.issuer || data.issuer ==="") return {status:false,message:"Please provide Issuer"}
-    if(!data.customer || data.customer ==="") return {status:false,message:"Please provide Customer"}
-    if(!data.vat) return {status:false,message:"Please provide Vat"}
-    if(!data.currency || data.currency ==="") return {status:false,message:"Please provide Currency"}
-    if(!data.items) return {status:false,message:"Please provide Items"}
+export default function generateInvoice(req,res){
+    const {currency,items,issuer,customer,vat} = req.payload;
+    console.log(issuer);
+    if(!issuer || issuer ==="") return {status:false,message:"Please provide Issuer"}
+    if(!customer || customer ==="") return {status:false,message:"Please provide Customer"}
+    if(!vat) return {status:false,message:"Please provide Vat"}
+    if(!currency || currency ==="") return {status:false,message:"Please provide Currency"}
+    if(!items) return {status:false,message:"Please provide Items"}
     doc
     .fontSize(26).text("Invoice",{
         align:"center",
@@ -22,17 +17,33 @@ const generateInvoice = (data) => {
     } ,100, 100);
 
     doc.moveDown();
-    doc.fontSize(15).text(`Issuer: ${data.issuer}`,{align:"left"});
+    doc.fontSize(15).text(`Issuer: ${issuer}`,{align:"left"});
     doc.moveDown();
-    doc.text(`Customer: ${data.customer}`,{align:"left"});
+    doc.text(`Customer: ${customer}`,{align:"left"});
     doc.moveDown();
-    doc.text(`Currency: ${data.currency}`,{align:"left"});
+    doc.text(`Currency: ${currency}`,{align:"left"});
     doc.moveDown();
-    doc.text(`VAT: ${data.vat}%`,{align:"left"});
+    doc.text(`VAT: ${vat}%`,{align:"left"});
+    let totalPrice=0;
     doc.moveDown();
-    doc.text(`Items:${data.items[0].name} ,Price:${data.items[0].price}`,{align:"left"});
-    doc.end()
+    for (let index = 0; index < items.length; index++) {
+        doc.text(
+          `Items:${items[index].name}          Price:${items[index].price}`,
+          {
+            x: 50,
+          },
+        );
+        totalPrice += items[index].price;
+        if (index === items.length - 1) {
+            doc.moveDown();
+          doc.fontSize(20).text(`Total:${totalPrice}`, {
+            x: 50,
+          });
+        }
+        doc.moveDown();
+      }
+    doc.end();
     const output = doc.read();
     const string = output.toString("base64");
-    return {status:true,invoice:string}
+    res.send({status:true,invoice:string})
 }
