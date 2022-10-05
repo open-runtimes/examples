@@ -4,14 +4,6 @@ This function deletes every file from a specified Appwrite Storage Bucket.
 
 ## 🤖 Documentation
 
-**Before:**
-
-![Appwrite Storage Bucket containing 4 different files](assets/before.png)
-
-**After:**
-
-![The same Appwrite Storage Bucket which is now empty](assets/after.png)
-
 _Example input:_
 
 ```JSON
