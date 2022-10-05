@@ -18,6 +18,8 @@ module.exports = async function (req, res) {
 
   const storage = new sdk.Storage(client);
 
+  console.log("Starting function");
+
   // initialize appwrite client
   if (
     !req.variables["APPWRITE_FUNCTION_ENDPOINT"] ||
@@ -26,6 +28,7 @@ module.exports = async function (req, res) {
     console.warn(
       "Environment variables are not set. Function cannot use Appwrite SDK."
     );
+    res.json({ success: false, message: "Environment variables are not set." });
     return;
   } else {
     client
@@ -33,36 +36,34 @@ module.exports = async function (req, res) {
       .setProject(req.variables["APPWRITE_FUNCTION_PROJECT_ID"])
       .setKey(req.variables["APPWRITE_FUNCTION_API_KEY"]);
   }
-
+ 
   // parse payload
   const payload = req.payload;
   const { bucketId } = JSON.parse(payload);
   if (!bucketId) {
     console.warn("Bucket ID is not set.");
+    res.json({ success: false, message: "Bucket ID is not set." });
     return;
   }
 
   // get files
   let filesFound = true;
   let offset = 0;
-  let files = {
-    total: 0,
-    files: [],
-  };
+  let files = [];
 
+  console.log("Getting files from bucket: " + bucketId);
   while (filesFound) {
     try {
       // fetch files from appwrite
       const sto = await storage.listFiles(bucketId, [
-        sdk.Query.limit(50),
-        sdk.Query.limit(0),
+        sdk.Query.limit(2),
+        sdk.Query.offset(offset),
       ]);
-      if (sto.total && sto.total > 0) {
+      if (sto.files.length && sto.files.length > 0) {
         // some files were found, save them for deletion
-        files.total += sto.total;
-        files.files += sto.files;
+        files = files.concat(sto.files);
 
-        offset += files.total;
+        offset += sto.files.length;
       } else {
         // no more files were found
         filesFound = false;
@@ -74,19 +75,27 @@ module.exports = async function (req, res) {
     }
   }
 
-  if (!files.total || files.total === 0) {
+  console.log(`Found ${files.length} files.`);
+  if (files.length === 0) {
     console.log("No files found.");
+    res.json({ success: false, message: "No files found." });
     return;
   }
 
   // add all deleteFile() requests to a list so we can run them all at once later
   const deleteStack = [];
-  for (const file of files.files) {
-    deleteStack.push(await storage.deleteFile(bucketId, file.$id));
+  for (const file of files) {
+    deleteStack.push(storage.deleteFile(bucketId, file.$id));
   }
 
-  const result = await Promise.allSettled(deleteStack);
-  //TODO: iterate over result to make sure every promise resolved correctly
+  const results = await Promise.allSettled(deleteStack);
+  for (const result of results) {
+    if (result.status === "rejected") {
+      console.warn(result.reason);
+      res.json({ success: false, message: "Failed to delete files." });
+      return;
+    }
+  }
 
   res.json({
     success: true,
