@@ -1,48 +1,71 @@
 import 'dart:convert';
-import 'package:generate_short_url/utils/api.dart';
 import 'package:http/http.dart' as http;
 
-Future<void> bitly (final res, String url) async {
-  String token = ApiInfo.bitly_token;
-  String group_guid = ApiInfo.bitly_group_guid;
-  var reqUrl = Uri.parse(ApiInfo.bitly_url);
+Future<void> bitly (final res, String url, String token) async {
+  var reqUrl = Uri.parse("https://api-ssl.bitly.com/v4/shorten");
+
   var body = {
-    "group_guid": group_guid,
     "long_url": url,
   };
+
   var headers = {
     "Content-Type": "application/json",
     "Authorization": "Bearer $token",
   };
+
   var response = await http.post(reqUrl, body: json.encode(body), headers: headers);
+  var resBody = json.decode(response.body);
+
+  if (resBody["message"] == "INVALID_ARG_LONG_URL") {
+    markFailure(res, "Invalid URL");
+    return;
+  } else if (resBody["message"] == "FORBIDDEN") {
+    markFailure(res, "Invalid API key");
+    return;
+  }
+
   try {
-    if (json.decode(response.body)["link"] == null) {
-      markFailure(res, "Invalid URL");
+    if (resBody["link"] == null) {
+      markFailure(res, "Something went wrong");
     } else {
-      markSuccess(res, json.decode(response.body)["link"]);
+      markSuccess(res, resBody["link"]);
     }
   } catch (err) {
-    markFailure(res, "Invalid URL");
+    markFailure(res, "Something went wrong");
   }
 }
 
-Future<void> tinyurl (final res, String url) async {
-  String token = ApiInfo.tinyurl_token;
-  var reqUrl = Uri.parse(ApiInfo.tinyurl_url);
+Future<void> tinyurl (final res, String url, String token) async {
+  var reqUrl = Uri.parse("https://api.tinyurl.com/create");
+
   var body = {
-    "apikey": token,
     "url": url,
   };
+
   var headers = {
     "Content-Type": "application/json",
     "Authorization": "Bearer $token",
   };
+
   var response = await http.post(reqUrl, body: json.encode(body), headers: headers);
-  try {
-    markSuccess(res, json.decode(response.body)["data"]["tiny_url"]);
-  } catch (err) {
-    markFailure(res, "Invalid URL");
+  var resBody = json.decode(response.body);
+
+  if (resBody["errors"].length != 0) {
+    var err = resBody["errors"][0];
+
+    if (err == "Unauthenticated.") {
+      markFailure(res, "Invalid API key");
+      return;
+    } else if (err == "Invalid URL") {
+      markFailure(res, "Invalid URL");
+      return;
+    }
+
+    markFailure(res, "Something went wrong");
+    return;
   }
+
+  markSuccess(res, resBody["data"]["tiny_url"]);
 }
 
 void markSuccess (final res, final url) {
@@ -63,22 +86,30 @@ Future<void> start (final req, final res) async {
 
   var provider = "";
   var url = "";
+  var apiKey = "";
+
   try {
     final payload = jsonDecode(req.payload);
     provider = payload["provider"];
     url = payload["url"];
   } catch (err) {
-    print(err);
     markFailure(res, "Payload is invalid");
+    return;
+  }
+
+  try {
+    apiKey = req.variables["apiKey"];
+  } catch (err) {
+    markFailure(res, "apiKey is not provided");
     return;
   }
 
   provider = provider.toLowerCase();
   if (provider == "bitly") {
-    await bitly(res, url);
+    await bitly(res, url, apiKey);
   } else if (provider == "tinyurl") {
-    await tinyurl(res, url);
+    await tinyurl(res, url, apiKey);
   } else {
-    markFailure(res, "Provider is not supported");
+    markFailure(res, "$provider provider is not supported");
   }
 }
