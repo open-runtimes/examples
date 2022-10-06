@@ -25,7 +25,7 @@ export default async function (req: any, res: any) {
       response = await send_message_discord_webhook(req.env, message);
       break;
 
-    case "TWEET":
+    case "TWITTER":
       response = await send_tweet(req.env, message);
       break;
 
