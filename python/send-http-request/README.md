@@ -38,7 +38,7 @@ _Example output:_
 
 ```
 $ git clone https://github.com/open-runtimes/examples.git && cd examples
-$ cd python/get-http-response
+$ cd python/send-http-request
 ```
 
 2. Enter this function folder and build the code:
