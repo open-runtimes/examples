@@ -2,7 +2,7 @@
 
 A Python Cloud Function for sending a message using a specific channel to a receiver
 
-Supported channels are `SMS`, `EMAIL` ,`DISCORD` and `TWEET`.
+Supported channels are `SMS`, `EMAIL` ,`DISCORD` and `TWITTER`.
 
 
 _Example function payloads:_
@@ -23,7 +23,7 @@ _Example function payloads:_
 }
 // Sending a tweet
 {
-    "type":"TWEET","receiver":"","message":"Programming is fun!"
+    "type":"TWITTER","receiver":"","message":"Programming is fun!"
 }
 ```
 
@@ -81,7 +81,7 @@ Twitter
 
 ```
 $ git clone https://github.com/open-runtimes/examples.git && cd examples
-$ cd deno/send_email_with_mailgun
+$ cd python/send_message
 ```
 
 2. Enter this function folder and build the code:
@@ -95,7 +95,7 @@ As a result, a `code.tar.gz` file will be generated.
 docker run -p 3000:3000 -e INTERNAL_RUNTIME_KEY=secret-key -e INTERNAL_RUNTIME_ENTRYPOINT=main.py --rm --interactive --tty --volume $PWD/code.tar.gz:/tmp/code.tar.gz:ro openruntimes/python:3.10 sh /usr/local/src/start.sh
 ```
 
-Your function is now listening on port `3000`, and you can execute it by sending `POST` request with appropriate authorization headers. To learn more about runtime, you can visit Deno runtime [README](https://github.com/open-runtimes/open-runtimes/tree/main/runtimes/deno-1.14).
+Your function is now listening on port `3000`, and you can execute it by sending `POST` request with appropriate authorization headers. To learn more about runtime, you can visit Python runtime [README](https://github.com/open-runtimes/open-runtimes/tree/main/runtimes/python-3.10/example).
 
 ## 📝 Notes
  - This function is designed for use with Appwrite Cloud Functions. You can learn more about it in [Appwrite docs](https://appwrite.io/docs/functions).
