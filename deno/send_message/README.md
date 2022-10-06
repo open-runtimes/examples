@@ -81,7 +81,7 @@ Twitter
 
 ```
 $ git clone https://github.com/open-runtimes/examples.git && cd examples
-$ cd deno/send_email_with_mailgun
+$ cd deno/send_message
 ```
 
 2. Enter this function folder and build the code:
