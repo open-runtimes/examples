@@ -8,10 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Appwrite" />
-    <None Remove=".gitignore" />
+    <None Remove="Newtonsoft.Json" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Appwrite" Version="0.2.0" />
+    <PackageReference Include="AWSSDK.Translate" Version="3.7.6.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 </Project>
