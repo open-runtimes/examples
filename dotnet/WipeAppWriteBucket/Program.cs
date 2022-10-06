@@ -1,9 +1,7 @@
 ﻿using System;
+using System.Net;
 using Appwrite;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Linq;
-
+using Newtonsoft.Json;
 namespace WipeAppWriteBucket{
 
     class Payload
@@ -32,7 +30,7 @@ namespace WipeAppWriteBucket{
         public List<AppWriteFile>? Files { get; set; }
     }
     class Program{
-        public static void Main(string[] args){
+        static async Task Main(string[] args){
 
             string APPWRITE_FUNCTION_PROJECT_ID = "";
 
@@ -40,30 +38,36 @@ namespace WipeAppWriteBucket{
 
             string APPWRITE_FUNCTION_API_KEY = "";
 
-            WipeAppWriteBucket(APPWRITE_FUNCTION_ENDPOINT, APPWRITE_FUNCTION_PROJECT_ID, APPWRITE_FUNCTION_API_KEY).RunSynchronously();
+            try
+            {
+                await WipeAppWriteBucket(APPWRITE_FUNCTION_ENDPOINT, APPWRITE_FUNCTION_PROJECT_ID, APPWRITE_FUNCTION_API_KEY);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
 
-        public static async Task<bool> WipeAppWriteBucket(string endpoint,string projectId,string key)
+        public static async Task<HttpResponseMessage> WipeAppWriteBucket(string endpoint,string projectId,string key)
         {
             var client = new Client();
 
             client.SetEndPoint(endpoint) // Make sure your endpoint is accessible
                   .SetProject(projectId) // Your project ID
-                  .SetKey(key)
-                  .SetSelfSigned(true);
+                  .SetKey(key);
 
             var storage = new Storage(client);
             try
             {
-                var request = "{\"bucketId\":\"profilePictures\"}";
-                var payload = JsonSerializer.Deserialize<Payload>(request);
+                var request = "{ \"bucketId\":\"profilePictures\"}";
+                var payload = JsonConvert.DeserializeObject<Payload>(request);
 
                 //List files in a bucket
                 var response = await storage.ListFiles(search: payload?.BucketId, limit: 25, offset: 0, orderType: OrderType.ASC);
 
                 var responseContent = await response.Content.ReadAsStringAsync();
-                var result = JsonSerializer.Deserialize<Result>(responseContent);
+                var result = JsonConvert.DeserializeObject<Result>(responseContent);
 
                 var files = result?.Files;
 
@@ -71,12 +75,14 @@ namespace WipeAppWriteBucket{
                 {
                     await storage.DeleteFile(file.Id.ToString());
                 }
-                return true;
+
+                return new HttpResponseMessage(HttpStatusCode.OK);
             }
             catch (AppwriteException e)
             {
                 Console.WriteLine(e.Message);
-                return false;
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+
             }
 
         }
