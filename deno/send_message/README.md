@@ -2,7 +2,7 @@
 
 A sample Deno Cloud Function sending a message using a specific channel to a receiver
 
-Supported channels are `SMS`, `EMAIL` ,`DISCORD` and `TWEET`.
+Supported channels are `SMS`, `EMAIL` ,`DISCORD` and `TWITTER`.
 
 
 _Example function payloads:_
@@ -23,7 +23,7 @@ _Example function payloads:_
 }
 // Sending a tweet
 {
-    "type":"TWEET","receiver":"","message":"Programming is fun!"
+    "type":"TWITTER","receiver":"","message":"Programming is fun!"
 }
 ```
 
