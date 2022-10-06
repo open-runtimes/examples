@@ -22,7 +22,7 @@ def main(req, res):
             reciever = payload["receiver"]
             subject = payload["subject"]
             result = send_email_mailgun(req.env, reciever, message, subject)
-        elif Type == "TWEET":
+        elif Type == "TWITTER":
             result = send_tweet(req.env, message)
         elif Type == "DISCORD":
             result = send_message_discord_webhook(req.env, message)
