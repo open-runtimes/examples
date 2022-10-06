@@ -1,4 +1,4 @@
-# 🌐 Shorten any URL using bitly, and tinyurl.
+# 🌐 Shorten any URL using bitly and tinyurl.
 
 A Dart Cloud Function that shortens any given URL using bitly and tinyurl.
 
@@ -20,6 +20,13 @@ _Example output:_
     "url": "https://bit.ly/3SDv4VA"
 }
 ```
+
+## 📝 Environment Variables
+
+List of environment variables used by this cloud function:
+
+* **BITLY_API_KEY** - API Key for Bitly 
+* **TINYURL_API_KEY** - API Key for TinyUrl
 
 ## 🚀 Deployment
 
