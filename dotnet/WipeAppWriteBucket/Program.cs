@@ -2,7 +2,8 @@
 using System.Net;
 using Appwrite;
 using Newtonsoft.Json;
-namespace WipeAppWriteBucket{
+namespace WipeAppWriteBucket
+{
 
     class Payload
     {
@@ -11,8 +12,8 @@ namespace WipeAppWriteBucket{
 
     class AppWriteFile
     {
-        public Guid Id { get; set; }
-        public Guid BucketId { get; set; }
+        public string? Id { get; set; }
+        public string? BucketId { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public string? Name { get; set; }
@@ -29,63 +30,43 @@ namespace WipeAppWriteBucket{
         public int Total { get; set; }
         public List<AppWriteFile>? Files { get; set; }
     }
-    class Program{
-        static async Task Main(string[] args){
+    class Program
+    {
+        static async Task Main(string[] args)
+        {
 
             string APPWRITE_FUNCTION_PROJECT_ID = "";
-
-            string APPWRITE_FUNCTION_ENDPOINT = "";
-
             string APPWRITE_FUNCTION_API_KEY = "";
-
+            string baseUrl = "http://localhost/v1";
+            var bucketId = "";
             try
             {
-                await WipeAppWriteBucket(APPWRITE_FUNCTION_ENDPOINT, APPWRITE_FUNCTION_PROJECT_ID, APPWRITE_FUNCTION_API_KEY);
+                var client = new HttpClient();
+                client.DefaultRequestHeaders.Add("X-Appwrite-Project", APPWRITE_FUNCTION_PROJECT_ID);
+                client.DefaultRequestHeaders.Add("X-Appwrite-key", APPWRITE_FUNCTION_API_KEY);
+
+                //Get Files from the Bucket
+                var response = await client.GetStringAsync($"{baseUrl}/storage/buckets/{bucketId}/files");
+                var payload = JsonConvert.DeserializeObject<Result>(response);
+
+                if (payload != null && payload.Files != null && payload?.Files.Count > 0)
+                {
+                    foreach (var file in payload.Files)
+                    {
+                        //Delete Files from the Bucket
+                        var url = $"{baseUrl}/storage/buckets/{bucketId}/files/{file.Id}";
+                        await client.DeleteAsync(url);
+                    }
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
         }
 
 
-        public static async Task<HttpResponseMessage> WipeAppWriteBucket(string endpoint,string projectId,string key)
-        {
-            var client = new Client();
 
-            client.SetEndPoint(endpoint) // Make sure your endpoint is accessible
-                  .SetProject(projectId) // Your project ID
-                  .SetKey(key);
 
-            var storage = new Storage(client);
-            try
-            {
-                var request = "{ \"bucketId\":\"profilePictures\"}";
-                var payload = JsonConvert.DeserializeObject<Payload>(request);
-
-                //List files in a bucket
-                var response = await storage.ListFiles(search: payload?.BucketId, limit: 25, offset: 0, orderType: OrderType.ASC);
-
-                var responseContent = await response.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<Result>(responseContent);
-
-                var files = result?.Files;
-
-                foreach(var file in files ?? new List<AppWriteFile>())
-                {
-                    await storage.DeleteFile(file.Id.ToString());
-                }
-
-                return new HttpResponseMessage(HttpStatusCode.OK);
-            }
-            catch (AppwriteException e)
-            {
-                Console.WriteLine(e.Message);
-                return new HttpResponseMessage(HttpStatusCode.BadRequest);
-
-            }
-
-        }
-        
     }
 }
