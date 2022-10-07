@@ -3,7 +3,7 @@ import json
 
 def main(req,res):
     try:
-        payload = req.payload
+        payload = json.loads(req.payload)
         url = payload['url']
         method = payload['method']
         headers = payload['headers']
