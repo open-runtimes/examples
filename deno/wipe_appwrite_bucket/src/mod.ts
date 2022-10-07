@@ -33,15 +33,15 @@ export default async function(req: any, res: any) {
 
   try {
     const limit = 25;
-    let offset = 0;
-    let listFiles;
+    let lastCursor = '';
+    let listFiles = await storage.listFiles(bucketId, [sdk.Query.limit(limit)]);
     do {
-      listFiles = await storage.listFiles(bucketId, [sdk.Query.limit(limit), sdk.Query.offset(offset)]);
+      lastCursor = listFiles.files[listFiles.files.length - 1].$id;
       for(const file of listFiles.files) {
         storage.deleteFile(bucketId, file.$id);
       }
-      offset += limit;
-    } while(offset < listFiles.total);
+      listFiles = await storage.listFiles(bucketId, [sdk.Query.limit(limit), sdk.Query.cursorAfter(lastCursor)]);
+    } while(listFiles.total > limit);
     return res.json({
       success: true,
     });
