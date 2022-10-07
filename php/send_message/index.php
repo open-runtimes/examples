@@ -11,10 +11,10 @@ include_once 'src/NullChannel.php';
 return function($req, $res) {
     try {
         $payload = \json_decode($req['payload'], true);
-    } catch (\Exception $error) {
+    } catch (\Exception $e) {
         $res->json([
             'status' => false,
-            'message' => $error->getMessage(),
+            'message' => $e->getMessage(),
         ]);
     };
 
