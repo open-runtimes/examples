@@ -2,7 +2,32 @@
 
 A Java Cloud Function for generating a Short URL using [tinyurl](https://tinyurl.com/app) and [bitly](https://bitly.com/)
 
-_Example input:_
+Supported providers: tinyurl, bitly
+
+_Bitly Example input:_
+
+
+
+```json
+{
+    "provider": "bitly",
+    "url": "https://google.com"
+}
+```
+
+_Bitly Example output:_
+
+
+```json
+{
+    "success": true,
+    "url": "https://bit.ly/3CywbjA"
+}
+```
+
+_Tinyurl Example input:_
+
+
 
 ```json
 {
@@ -11,9 +36,7 @@ _Example input:_
 }
 ```
 
-Supported providers: tinyurl, bitly
-
-_Example output:_
+_Tinyurl Example output:_
 
 
 ```json
@@ -23,11 +46,23 @@ _Example output:_
 }
 ```
 
+_Error Example output:_
+
+```json
+{
+    "success": false,
+    "message":"Provided URL: https://xyz is not valid, please provide a valid, correctly formed URL"
+}
+```
+
+
 ## 📝 Environment Variables
 
-List of environment variables used by this cloud function:
+List of environment variables used by this cloud function. These must be passed within 'variables' section of the request:
 
-**apiKey** - This must be passed within 'variables' section of the request. This API key would be the access token used by the provider for generating a short URL.
+**BITLY_API_KEY** - Pass this API key if the requested provider is bitly. This API key would be the access token used by bitly for generating a short URL.
+
+**TINYURL_API_KEY** - Pass this API key if the requested provider is tinyurl. This API key would be the access token used by tinyurl for generating a short URL.
 
 ## 🚀 Deployment
 

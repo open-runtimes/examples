@@ -53,14 +53,6 @@ public RuntimeResponse main(RuntimeRequest req, RuntimeResponse res) throws Exce
         return errorResponse;
     }
 
-    // Validate that the API key is not empty
-    errorResponse = checkEmptyAPIKey(req, res);
-    if(errorResponse != null) {
-        return errorResponse;
-    }
-
-    String apiKey = req.getVariables().get("apiKey");
-
     // Validate the requested payload (provider and URL)
     String payloadString = req.getPayload();
     Map<String, Object> payload = gson.fromJson(payloadString, Map.class);
@@ -73,6 +65,17 @@ public RuntimeResponse main(RuntimeRequest req, RuntimeResponse res) throws Exce
     // Generate short url
     String provider = payload.get("provider").toString();
     String url = payload.get("url").toString();
+
+    // Validate that the API key is not empty
+    String apiKeyVariable = Provider.BITLY.getName().equals(provider) ? "BITLY_API_KEY" : "TINYURL_API_KEY";
+
+    errorResponse = checkEmptyAPIKey(req, res, apiKeyVariable);
+    if(errorResponse != null) {
+        return errorResponse;
+    }
+
+    String apiKey = req.getVariables().get(apiKeyVariable);
+
     String shortUrl = "";
 
     Map<String, Object> responseData = new HashMap<>();
@@ -187,15 +190,15 @@ private RuntimeResponse checkEmptyPayloadAndVariables(RuntimeRequest req, Runtim
  * @param req is the received POST request
  * @return null if non-empty API key is present, otherwise an error response
  */
-private RuntimeResponse checkEmptyAPIKey(RuntimeRequest req, RuntimeResponse res) {
+private RuntimeResponse checkEmptyAPIKey(RuntimeRequest req, RuntimeResponse res, String apiKeyVariable) {
     Map<String, String> variables = req.getVariables();
 
-    if(!variables.containsKey("apiKey")
-        || variables.get("apiKey") == null
-        || variables.get("apiKey").trim().isEmpty()) {
+    if(!variables.containsKey(apiKeyVariable)
+        || variables.get(apiKeyVariable) == null
+        || variables.get(apiKeyVariable).trim().isEmpty()) {
         Map<String, Object> responseData = new HashMap<>();
         responseData.put("success", false);
-        responseData.put("message", "Please pass a non-empty API Key for the provider");
+        responseData.put("message", "Please pass a non-empty API Key " + apiKeyVariable + " for the provider");
         return res.json(responseData);
     }
 
