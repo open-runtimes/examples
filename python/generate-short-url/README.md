@@ -1,4 +1,4 @@
-# 📱 Validate phone number and get it's country information
+# Generates Short URL with Bitly and Tinyurl
 
 A Python Cloud Function that generates short URLs with help of Bitly or Tinyurl.
 
