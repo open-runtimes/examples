@@ -2,7 +2,7 @@
 
 A Dart Cloud Function that shortens any given URL using bitly and tinyurl.
 
-_Example input:_
+_Example input 1:_
 
 ```json
 {
@@ -11,8 +11,16 @@ _Example input:_
 }
 ```
 
-_Example output:_
+_Example input 2:_
 
+```json
+{
+    "provider": "tinyurl",
+    "url": "https://www.google.com"
+}
+```
+
+_Example output:_
 
 ```json
 {
@@ -20,6 +28,7 @@ _Example output:_
     "url": "https://bit.ly/3SDv4VA"
 }
 ```
+
 
 ## 📝 Environment Variables
 
