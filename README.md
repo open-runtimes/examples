@@ -18,6 +18,7 @@ Example functions to show off what you can achieve with Open Runtimes.
 | Object Detection |[✅](/dart/object_detection) |  [✅](/deno/object_detection) | [✅](/node/object_detection) | [✅](/php/object_detection) |   [✅](/python/object-detection)     |      |      |
 | Generate Giphy GIF | [✅](/dart/generate_giphy_gif) | [✅](/deno/generate-giphy-gif) | [✅](/node/generate_giphy_gif) |     |  [✅](/python/generate-giphy-gif)  |      |      |
 | Get COVID-19 Stats |      |      |      |     |        |      | [✅](/swift/get-covid-stats) |
+| Generate Short URL |      |      |      |     |        | [✅](/ruby/generate-short-url) | |
 
 ## Contributing
 
