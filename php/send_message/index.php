@@ -19,24 +19,10 @@ return function($req, $res) {
     };
 
     $notificator = match (strtolower($payload['type'])) {
-        'sms' => new SMSChannel(
-            $req['variables']['TWILIO_ACCOUNT_SID'],
-            $req['variables']['TWILIO_AUTH_TOKEN'],
-            $req['variables']['TWILIO_SENDER'],
-        ),
-        'email' => new EmailChannel(
-            $req['variables']['MAILGUN_API_KEY'],
-            $req['variables']['MAILGUN_DOMAIN'],
-        ),
-        'twitter' => new TwitterChannel(
-            $req['variables']['TWITTER_API_KEY'],
-            $req['variables']['TWITTER_API_KEY_SECRET'],
-            $req['variables']['TWITTER_ACCESS_TOKEN'],
-            $req['variables']['TWITTER_ACCESS_KEY_SECRET'],
-        ),
-        'discord' => new DiscordChannel(
-            $req['variables']['DISCORD_WEBHOOK_URL'],
-        ),
+        'sms' => new SMSChannel($req['variables']),
+        'email' => new EmailChannel($req['variables']),
+        'twitter' => new TwitterChannel($req['variables']),
+        'discord' => new DiscordChannel($req['variables']),
         default => new NullChannel,
     };
 

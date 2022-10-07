@@ -16,20 +16,47 @@ final class SMSChannel implements Channel
     private Client $client;
 
     public function __construct(
-        private readonly string $SID,
-        private readonly string $token,
-        private readonly string $phoneNumber,
+        private readonly array $environment,
     ) {
         $this->client = new Client;
     }
 
+    public function hasEnvironmentVariables(): string
+    {
+        return array_key_exists('TWILIO_ACCOUNT_SID', $this->environment)
+            && array_key_exists('TWILIO_AUTH_TOKEN', $this->environment)
+            && array_key_exists('TWILIO_SENDER', $this->environment);
+    }
+
+    public function getAccountSID(): string
+    {
+        return $this->environment['TWILIO_ACCOUNT_SID'];
+    }
+
+    public function getToken(): string
+    {
+        return $this->environment['TWILIO_AUTH_TOKEN'];
+    }
+
+    public function getPhoneNumber(): string
+    {
+        return $this->environment['TWILIO_SENDER'];
+    }
+
     public function send(array $payload): array
     {
+        if (! $this->hasEnvironmentVariables()) {
+            return [
+                'success' => false,
+                'message' => 'Environment variables are not set.',
+            ];
+        }
+
         if (! $this->validate(
             validator: new PhoneNumberValidator(
                 client: $this->client,
-                SID: $this->SID,
-                token: $this->token,
+                SID: $this->getAccountSID(),
+                token: $this->getToken(),
             ),
             receiver: $payload['receiver'],
         )) {
@@ -43,7 +70,7 @@ final class SMSChannel implements Channel
             $response = $this->client->send(
                 request: new Request(
                     method: 'POST',
-                    uri: sprintf('https://api.twilio.com/2010-04-01/Accounts/%s/Messages.json', rawurlencode($this->SID)),
+                    uri: sprintf('https://api.twilio.com/2010-04-01/Accounts/%s/Messages.json', rawurlencode($this->getAccountSID())),
                     headers: [
                         'content-type'  => 'application/x-www-form-urlencoded',
                     ],
@@ -52,13 +79,13 @@ final class SMSChannel implements Channel
                     RequestOptions::BODY => Query::build(
                         params: [
                             'To'   => $payload['receiver'],
-                            'From' => $this->phoneNumber,
+                            'From' => $this->getPhoneNumber(),
                             'Body' => $payload['message'],
                         ],
                         encoding: PHP_QUERY_RFC1738,
                     ),
                     RequestOptions::AUTH => [
-                        $this->SID, $this->token,
+                        $this->getAccountSID(), $this->getToken(),
                     ],
                     RequestOptions::ALLOW_REDIRECTS => false,
                 ],

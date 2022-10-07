@@ -11,7 +11,7 @@ final class DiscordChannel implements Channel
     private Client $client;
 
     public function __construct(
-        private readonly string $endpoint,
+        private readonly array $environment,
     ) {
         $this->client = new Client(
             config: [
@@ -22,13 +22,30 @@ final class DiscordChannel implements Channel
         );
     }
 
+    public function hasEnvironmentVariables(): string
+    {
+        return array_key_exists('DISCORD_WEBHOOK_URL', $this->environment);
+    }
+
+    public function getEndpoint(): string
+    {
+        return $this->environment['DISCORD_WEBHOOK_URL'];
+    }
+
     public function send(array $payload): array
     {
+        if (! $this->hasEnvironmentVariables()) {
+            return [
+                'success' => false,
+                'message' => 'Environment variables are not set.',
+            ];
+        }
+
         try {
             $response = $this->client->send(
                 request: new Request(
                     method: 'POST',
-                    uri: $this->endpoint,
+                    uri: $this->getEndpoint(),
                 ),
                 options: [
                     RequestOptions::JSON => [
