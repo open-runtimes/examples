@@ -12,11 +12,11 @@ export default async function(req: any, res: any) {
       message: "Missing required environment variables or payload.",
     });
   }
-  let bucketId: string = '';
+  let bucketId = '';
   try {
     const payload = JSON.parse(req.payload);
     bucketId = payload.bucketId;
-  } catch(err) {
+  } catch(_err) {
     return res.json({
       success: false,
       message: "Payload is invalid.",
@@ -45,7 +45,7 @@ export default async function(req: any, res: any) {
     return res.json({
       success: true,
     });
-  } catch(err) {
+  } catch(_err) {
     return res.json({
       success: false,
       message: "Bucket not found.",
