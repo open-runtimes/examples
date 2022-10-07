@@ -12,8 +12,8 @@ This example includes the following channels, `SMS`, `Email`, `Twitter`, and `Di
   "receiver": "+123456789",
   "message": "Programming is fun!"
 }
-
 ```
+
 *Example input: (Email)*
 
 ```json
@@ -25,7 +25,6 @@ This example includes the following channels, `SMS`, `Email`, `Twitter`, and `Di
 }
 ```
 
-```
 *Example input: (Twitter)*
 
 ```json
@@ -35,7 +34,6 @@ This example includes the following channels, `SMS`, `Email`, `Twitter`, and `Di
 }
 ```
 
-```
 *Example input: (Discord)*
 
 ```json
