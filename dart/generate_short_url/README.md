@@ -11,6 +11,15 @@ _Example input 1:_
 }
 ```
 
+_Example output 1:_
+
+```json
+{
+    "success": true,
+    "url": "https://bit.ly/3SDv4VA"
+}
+```
+
 _Example input 2:_
 
 ```json
@@ -20,15 +29,41 @@ _Example input 2:_
 }
 ```
 
-_Example output:_
+_Example output 2:_
 
 ```json
 {
     "success": true,
-    "url": "https://bit.ly/3SDv4VA"
+    "url": "https://tinyurl.com/2p9hzpun"
 }
 ```
 
+_Example input 3:_
+
+```json
+{
+    "provider": "tinyurl",
+    "url": "httpswwwgooglecom"
+}
+```
+
+_Example output 3:_
+
+```json
+{
+    "success": false,
+    "message": "Invalid URL"
+}
+```
+
+If the API Key is not correct, you would get:
+
+```json
+{
+    "success": false,
+    "message": "Invalid API key"
+}
+```
 
 ## 📝 Environment Variables
 
