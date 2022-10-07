@@ -56,7 +56,7 @@ module.exports = async function (req, res) {
     try {
       // fetch files from appwrite
       const sto = await storage.listFiles(bucketId, [
-        sdk.Query.limit(2),
+        sdk.Query.limit(50),
         sdk.Query.offset(offset),
       ]);
       if (sto.files.length && sto.files.length > 0) {
