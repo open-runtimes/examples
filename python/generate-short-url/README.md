@@ -8,7 +8,6 @@ _Example input:_
 {
 	"provider": "tinyurl", 
 	"url": "https://github.com/open-runtimes/examples",
-	"api_key": "API_KEY"
 }
 ```
 
@@ -18,11 +17,27 @@ _Example output:_
 
 ```json
 {
-    "response": {
-        "success": true,
-        "url": "https://tinyurl.com/xxxxxxx"
-    },
-    "stdout": ""
+	"success": true,
+	"url": "https://tinyurl.com/abc3df"
+}
+```
+
+_Example input:_
+
+```json
+{
+	"provider": "bitly", 
+	"url": "https://github.com/open-runtimes/examples",
+}
+```
+
+_Example output:_
+
+
+```json
+{
+	"success": true,
+	"url": "https://bit.ly/asd57dd"
 }
 ```
 
@@ -30,9 +45,8 @@ _Example output:_
 
 List of environment variables used by this cloud function:
 
-- **APPWRITE_FUNCTION_ENDPOINT** - Endpoint of your Appwrite server
-- **APPWRITE_FUNCTION_API_KEY** - Appwrite API Key
-- **APPWRITE_FUNCTION_PROJECT_ID** - Appwrite project ID. If running on Appwrite, this variable is provided automatically.
+- **TINYURL_API_KEY** - Tinyurl API Key
+- **BITLY_API_KEY** - Bitly API Key
 
 ## 🚀 Deployment
 

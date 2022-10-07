@@ -4,13 +4,11 @@ import requests
 
 def main(req, res):
     # Required parameters
-    api_key = None
     provider = None
     url = None
 
     try:
         payload = json.loads(req.payload)
-        api_key = payload['api_key']
         provider = payload['provider']
         url = payload['url']
         
@@ -18,11 +16,12 @@ def main(req, res):
         err = 'Please provide all the required parameters.'
         return res.json({
             "success": False,
-            "error": err,
+            "message": err,
         }) 
 
     # Logic if the provider is tinyurl
     if provider == "tinyurl":
+        api_key = req.env.get('TINYURL_API_KEY', None)
         response = requests.post(f'https://api.tinyurl.com/create?api_token={api_key}&url={url}')
         response = response.json()
 
@@ -35,15 +34,13 @@ def main(req, res):
         elif response['code'] == 1:
             return res.json({
                 "success": False,
-                "message": response['errors'],
-                "error": "Please provide a valid API Key"
+                "message": "Please provide a valid API Key"
             })
             
         elif response['code'] == 5:
             return res.json({
                 "success": False,
-                "message": response['errors'],
-                "error": "Please provide a valid URL"
+                "message": "Please provide a valid URL"
             })
             
         else:
@@ -54,6 +51,7 @@ def main(req, res):
 
     # Logic if provider is bitly
     elif provider == "bitly":
+        api_key = req.env.get('BITLY_API_KEY', None)
         headers = {
             'Authorization': f'Bearer {api_key}',
             'Content-Type': 'application/json',
@@ -72,8 +70,7 @@ def main(req, res):
             response = response.json()
             return res.json({
                 "success": False,
-                "message": str(response['message']),
-                "error": "Please provide a valid API Key"
+                "message": "Please provide a valid API Key"
             })
             
         else:
@@ -88,5 +85,5 @@ def main(req, res):
         err = f'{provider} is not a valid provider.'
         return res.json({
             "success": False,
-            "error": err
+            "message": err
         }) 
