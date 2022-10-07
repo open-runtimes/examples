@@ -38,7 +38,7 @@ export default async function(req: any, res: any) {
     do {
       listFiles = await storage.listFiles(bucketId, [sdk.Query.limit(limit), sdk.Query.offset(offset)]);
       for(const file of listFiles.files) {
-        await storage.deleteFile(bucketId, file.$id);
+        storage.deleteFile(bucketId, file.$id);
       }
       offset += limit;
     } while(offset < listFiles.total);
