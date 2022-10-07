@@ -1,0 +1,11 @@
+{
+  "name": "opr/send-message",
+  "description": "An example PHP Cloud Function sending a message using a specific channel to a receiver",
+  "type": "project",
+  "require": {
+      "guzzlehttp/guzzle": "^7.5",
+      "guzzlehttp/oauth-subscriber": "^0.6.0"
+  },
+  "license": "ISC",
+  "minimum-stability": "stable"
+}
