@@ -2,7 +2,7 @@
 
 A Python Cloud Function that generates short URLs with help of Bitly or Tinyurl.
 
-_Example input:_
+_Example input:_ 
 
 ```json
 {
@@ -14,13 +14,13 @@ _Example input:_
 
 _Example output:_
 
-
 ```json
 {
 	"success": true,
 	"url": "https://tinyurl.com/abc3df"
 }
 ```
+
 
 _Example input:_
 
@@ -33,11 +33,29 @@ _Example input:_
 
 _Example output:_
 
-
 ```json
 {
 	"success": true,
 	"url": "https://bit.ly/asd57dd"
+}
+```
+
+
+_Example input:_
+
+```json
+{
+	"provider": "owly", 
+	"url": "https://github.com/open-runtimes/examples",
+}
+```
+
+_Example output:_
+
+```json
+{
+	"success": false,
+	"message": "owly is not a valid provider"
 }
 ```
 
