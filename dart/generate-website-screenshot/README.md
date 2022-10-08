@@ -6,17 +6,34 @@ _Example input:_
 
 ```json
 {
-    "search": "https://google.com/"
+    "url": "https://google.com/"
 }
 ```
 
 _Example output:_
 
-
 ```json
 {
     "success": "true",
     "screenshot": "iVBORw0KGgoAAAANSUhEUgAAAaQAAALiCAYQoH9hbkTPQAAAABJRU5ErkJggg=="
+}
+```
+
+
+_Example input:_
+
+```json
+{
+    "url": "Not A Link"
+}
+```
+
+_Example output:_
+
+```json
+{
+    "success": "false",
+    "screenshot": "An internal error accoured."
 }
 ```
 
