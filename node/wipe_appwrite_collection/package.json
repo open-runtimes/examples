@@ -1,0 +1,14 @@
+{
+  "name": "wipe_appwrite_collection",
+  "version": "1.0.0",
+  "description": "Delete all documents from a collection",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kritika Sharma",
+  "license": "ISC",
+  "dependencies": {
+    "node-appwrite": "^8.1.0"
+  }
+}
