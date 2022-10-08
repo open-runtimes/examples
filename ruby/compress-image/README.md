@@ -2,12 +2,15 @@
 
 A Ruby Cloud Function that compresses png images.
 
+
+`image` and `provider` are recieved from the payload, where `image` is a base64 encoded string and `provider` is either [`tinypng`](https://tinypng.com) or [`krakenio`](https://kraken.io)
+
 _Example input:_
 
 ```json
 {
-    "image": "iVBORw0KGgoA...CYII=", // image encoded in base64
-    "provider": "tinypng", // either "tinypng" or "krakenio"
+    "image": "iVBORw0KGgoA...CYII=",
+    "provider": "tinypng", 
 }
 ```
 
@@ -15,7 +18,7 @@ _Example output:_
 
 ```json
 {
-    "success": True,
+    "success": true,
     "image": "iVBORw0KGgoA...ggg=="
 }
 ```
