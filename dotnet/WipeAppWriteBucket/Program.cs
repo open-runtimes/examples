@@ -1,63 +1,25 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using Appwrite;
 using Newtonsoft.Json;
+using WipeAppWriteBucket.Models;
+
 namespace WipeAppWriteBucket
 {
-
-    class Payload
-    {
-        public string? BucketId { get; set; }
-    }
-
-    class AppWriteFile
-    {
-        public string? Id { get; set; }
-        public string? BucketId { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
-        public string? Name { get; set; }
-        public string[]? Permissions { get; set; }
-        public Guid Signature { get; set; }
-        public string? MimeType { get; set; }
-        public int OriginalSize { get; set; }
-        public int TotalChunks { get; set; }
-        public int ChunksUploaded { get; set; }
-    }
-
-    class Result
-    {
-        public int Total { get; set; }
-        public List<AppWriteFile>? Files { get; set; }
-    }
     class Program
     {
+        static string APPWRITE_FUNCTION_PROJECT_ID = "";
+        static string APPWRITE_FUNCTION_API_KEY = "";
+        static string baseUrl = "http://localhost/v1";
+        static string bucketId = "";
         static async Task Main(string[] args)
         {
-
-            string APPWRITE_FUNCTION_PROJECT_ID = "";
-            string APPWRITE_FUNCTION_API_KEY = "";
-            string baseUrl = "http://localhost/v1";
-            var bucketId = "";
             try
             {
-                var client = new HttpClient();
-                client.DefaultRequestHeaders.Add("X-Appwrite-Project", APPWRITE_FUNCTION_PROJECT_ID);
-                client.DefaultRequestHeaders.Add("X-Appwrite-key", APPWRITE_FUNCTION_API_KEY);
-
-                //Get Files from the Bucket
-                var response = await client.GetStringAsync($"{baseUrl}/storage/buckets/{bucketId}/files");
-                var payload = JsonConvert.DeserializeObject<Result>(response);
-
-                if (payload != null && payload.Files != null && payload?.Files.Count > 0)
-                {
-                    foreach (var file in payload.Files)
-                    {
-                        //Delete Files from the Bucket
-                        var url = $"{baseUrl}/storage/buckets/{bucketId}/files/{file.Id}";
-                        await client.DeleteAsync(url);
-                    }
-                }
+                var response = await GetFilesFromBucketByBucketId(bucketId);
+                //String replace is used as $id property was not getting deserialized
+                var output = response.Replace("\"$id\"", "\"id\"");
+                var payload = JsonConvert.DeserializeObject<ApiResponse>(output);
+                await WipeAppWriteBucket(payload);
             }
             catch (Exception ex)
             {
@@ -65,8 +27,40 @@ namespace WipeAppWriteBucket
             }
         }
 
+        
+        public static async Task<string> GetFilesFromBucketByBucketId(string bucketId)
+        {
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.Add("X-Appwrite-Project", APPWRITE_FUNCTION_PROJECT_ID);
+            client.DefaultRequestHeaders.Add("X-Appwrite-key", APPWRITE_FUNCTION_API_KEY);
 
+            //Get Files from the Bucket
+            return await client.GetStringAsync($"{baseUrl}/storage/buckets/{bucketId}/files");
+        }
 
+        public static async Task<HttpResponseMessage> WipeAppWriteBucket(ApiResponse payload)
+        {
+            var appWriteClient = new Client();
+            appWriteClient.SetEndPoint(baseUrl) // Make sure your endpoint is accessible
+            .SetProject(APPWRITE_FUNCTION_PROJECT_ID) // Your project ID
+            .SetKey(APPWRITE_FUNCTION_API_KEY);
+
+            var storage = new Storage(appWriteClient);
+
+            if (payload != null && payload.Files != null && payload?.Files.Count > 0)
+            {
+                foreach (var file in payload.Files)
+                {
+                    await storage.DeleteFile(file.id);
+                }
+                return new HttpResponseMessage(HttpStatusCode.OK);
+            }
+            else
+            {
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            }
+
+        }
 
     }
 }
