@@ -21,7 +21,15 @@ def main(req, res):
 
     # Logic if the provider is tinyurl
     if provider == "tinyurl":
+        
+        if not req.env.get('TINYURL_API_KEY', None):
+            return res.json({
+                "success": False,
+                "message": "Please provide all required environment variables."
+            })
+        
         api_key = req.env.get('TINYURL_API_KEY', None)
+        
         response = requests.post(f'https://api.tinyurl.com/create?api_token={api_key}&url={url}')
         response = response.json()
 
@@ -51,7 +59,14 @@ def main(req, res):
 
     # Logic if provider is bitly
     elif provider == "bitly":
+        if not req.env.get('BITLY_API_KEY', None):
+            return res.json({
+                "success": False,
+                "message": "Please provide all required environment variables."
+            })
+        
         api_key = req.env.get('BITLY_API_KEY', None)
+        
         headers = {
             'Authorization': f'Bearer {api_key}',
             'Content-Type': 'application/json',
