@@ -1,14 +1,13 @@
 # 🌐 Translate text from one language to another
 
-A Ruby Cloud Function for translating text from one language to another using [Google Translate](https://translate.google.com/).
+A Ruby Cloud Function that compresses png images.
 
 _Example input:_
 
 ```json
 {
-    "text": "Hello from Open Runtimes 👋",
-    "source": "en",
-    "target": "es"
+    "image": "iVBORw0KGgoA...CYII=", // image encoded in base64
+    "provider": "tinypng", // either "tinypng" or "krakenio"
 }
 ```
 
@@ -16,14 +15,18 @@ _Example output:_
 
 ```json
 {
-    "text": "Hello from Open Runtimes 👋",
-    "translation": "Saludos desde Open Runtime 👋"
+    "success": True,
+    "image": "iVBORw0KGgoA...ggg=="
 }
 ```
 
 ## 📝 Environment Variables
 
-No environment variables needed.
+> only selected provider's api keys are neccessary, ie. kraken's api keys are not neccessary when choosing tinypng as the provider.
+
+- **TINYPNG_API** - API key for tinypng service
+- **KRAKENIO_KEY** - API key for kraken-io service
+- **KRAKENIO_SECRET** - API Secret for kraken-io service
 
 ## 🚀 Deployment
 
@@ -31,7 +34,7 @@ No environment variables needed.
 
 ```
 $ git clone https://github.com/open-runtimes/examples.git && cd examples
-$ cd python/convert_phone_number_to_country_name
+$ cd ruby/compress-image
 ```
 
 2. Enter this function folder and build the code:
@@ -44,8 +47,6 @@ As a result, a `code.tar.gz` file will be generated.
 ```
 docker run -p 3000:3000 -e INTERNAL_RUNTIME_KEY=secret-key -e INTERNAL_RUNTIME_ENTRYPOINT=index.rb --rm --interactive --tty --volume $PWD/code.tar.gz:/tmp/code.tar.gz:ro openruntimes/ruby:3.1 sh /usr/local/src/start.sh
 ```
-
-> Make sure to replace `YOUR_API_KEY` without your key.
 
 Your function is now listening on port `3000`, and you can execute it by sending `POST` request with appropriate authorization headers. To learn more about runtime, you can visit Python runtime [README](https://github.com/open-runtimes/open-runtimes/tree/main/runtimes/ruby-3.1).
 

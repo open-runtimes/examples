@@ -8,16 +8,13 @@ class NotImageException < StandardError; end
 class ApiError < StandardError; end
 
 invalidPayload = {
-  success: false,
-  message: "Invalid Payload"
+  success: false, message: "Invalid Payload"
 }
 notImage = {
-  success: false,
-  message: "Input file is not an image."
+  success: false, message: "Input file is not an image."
 }
 invalidApi = {
-  success: false,
-  message: "Invalid API."
+  success: false, message: "Invalid API."
 }
 
 def tinypng(req, image) 
@@ -105,7 +102,6 @@ def main(req, res)
     end
 
     res.json({
-        success: false,
-        message: "Unsupported Providers."
+        success: false, message: "Unsupported Providers."
     })
 end
