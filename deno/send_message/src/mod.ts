@@ -14,19 +14,19 @@ export default async function (req: any, res: any) {
 
   switch (type) {
     case "EMAIL":
-      response = await send_email_mailgun(req.env, receiver, message, subject);
+      response = await send_email_mailgun(req.variables, receiver, message, subject);
       break;
 
     case "SMS":
-      response = await send_sms_twilio(req.env, receiver, message);
+      response = await send_sms_twilio(req.variables, receiver, message);
       break;
 
     case "DISCORD":
-      response = await send_message_discord_webhook(req.env, message);
+      response = await send_message_discord_webhook(req.variables, message);
       break;
 
     case "TWITTER":
-      response = await send_tweet(req.env, message);
+      response = await send_tweet(req.variables, message);
       break;
 
     default:
