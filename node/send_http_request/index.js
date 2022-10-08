@@ -9,8 +9,8 @@ module.exports = async (req, res) => {
     headers = payload.headers || undefined;
     body = payload.body || undefined;
   } catch (err) {
-    console.log(err);
-    throw new Error("Payload is invalid.");
+  
+    res.json({ success: false, message: "URL could not be reached." });
   }
 
   const config = {

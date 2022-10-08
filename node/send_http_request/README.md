@@ -1,4 +1,4 @@
-# 📱Send Http Request
+# 📱 Send Http Request
 
 A Node Cloud Function that figures out country in which a phone number is registered.
 
@@ -17,7 +17,8 @@ _Successful function response:_
 
 ```json
 {
-    "success":true,"response":{"headers":{},"code":200,"body":"{\"total\":27,\"countries\":[]}"}
+    "success":true,
+    "response":{"headers":{},"code":200,"body":"{\"total\":27,\"countries\":[]}"}
 }
 ```
 
