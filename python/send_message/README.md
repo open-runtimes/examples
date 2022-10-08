@@ -68,12 +68,11 @@ Twitter
 
 * **TWITTER_API_KEY** - API Key for Twitter
 
-
 * **TWITTER_API_KEY_SECRET** - API Key Secret for Twitter
 
 * **TWITTER_ACCESS_TOKEN** - Access Token from Twitter
 
-* **TWITTER_API_KEY_SECRET** - Access Token Secret from Twitter
+* **TWITTER_ACCESS_TOKEN_SECRET** - Access Token Secret from Twitter
 
 ## 🚀 Deployment
 
