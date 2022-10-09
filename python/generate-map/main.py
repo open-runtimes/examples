@@ -2,18 +2,15 @@ from PIL import Image
 import requests
 from io import BytesIO
 from base64 import b64encode
-access_token = "pk.eyJ1IjoicGFydGlrIiwiYSI6ImNsMjJ2MnNiZjB6aXMzb2pyMnZud3g2M2QifQ.lAIENJPfnGNpN2kG_w7kmQ"
-token=""
-data ={"lng":106.742650,"lat":30.730150 }
 def error(res,message):
     return res.json({"success":False,"error":message})
-def function(req,res):
-     lng = data["lng"]
-     lat = data["lat"]
+def main(req,res):
+     
      try:
-        payload = json.loads(req.payload)
+        payload = req.payload
         lng = payload["lng"]
         lat = payload["lat"]
+        access_token = req.env["token"]
      except Exception:
         return error(res,"The payload must contain lng and lat")
      if(lng == None or lat == None):
@@ -25,10 +22,11 @@ def function(req,res):
      elif(lat >90  or lat < -90 ):
         return error(res,"The latitude must be between -90 and 90")
      url ="https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/{0},{1},15,0,0/1000x1000?access_token={2}".format(lng,lat,access_token)
-     response = requests.get(url,json=body,timeout=30)
+     response = requests.get(url,timeout=30)
      if(response.status_code ==requests.codes.ok):
         with Image.open(BytesIO(response.content)) as img:
-            str = b64encode(img.tobytes())
+            byt = b64encode(img.tobytes())
+            str = byt.decode() 
         return res.json({"success":True,"image":str})
      else:
         return error(res,"Nothing to retrieve please check the url")
