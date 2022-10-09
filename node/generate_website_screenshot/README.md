@@ -1,6 +1,6 @@
 # 📸 Generate Website Screenshot
 
-A Node Cloud Function for generating Giphy GIF from the [Giphy API](https://developers.giphy.com/docs/api#quick-start-guide).
+A Node Cloud Function for generating website screenshot.
 
 _Example input:_
 
