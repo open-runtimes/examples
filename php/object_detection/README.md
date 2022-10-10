@@ -15,12 +15,12 @@ _Example output:_
 
 ```json
 {
-    "name": "cake",
-    "confidence": 0.7977721691131592,
-    "x": 21,
-    "y": 5,
-    "width": 494,
-    "height": 333
+    "ObjectClassName": "cake",
+    "Score": 0.7977721691131592,
+    "X": 21,
+    "Y": 5,
+    "Width": 494,
+    "Height": 333
 }
 ```
 
