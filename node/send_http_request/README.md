@@ -1,6 +1,6 @@
 # 📱 Send Http Request
 
-A Node Cloud Function that figures out country in which a phone number is registered.
+A Node Cloud Function that send http request.
 
 _Example input function payload:_
 
