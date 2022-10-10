@@ -1,4 +1,4 @@
-# 📱 Generate Map
+# 🗺️ Generate Map
 
 A Dart Cloud Function that generates a static map base64 encoded image at given latitude and longitute.
 
