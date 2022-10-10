@@ -2,7 +2,7 @@
 
 A Node Cloud Function for generating website screenshot.
 
-_Example input:_
+_Example Valid input:_
 
 ```json
 {
@@ -10,13 +10,30 @@ _Example input:_
 }
 ```
 
-_Example output:_
+_Successful Response:_
 
 
 ```json
 {
     "success": true,
     "screenshot": "iVBORw0KGgoAAAANSUhEUgAAAaQAAALiCAY...QoH9hbkTPQAAAABJRU5ErkJggg=="
+}
+```
+_Example Invalid input:_
+
+```json
+{
+    "url": "https://googlegoogle.com/"
+}
+```
+
+_Error Response:_
+
+
+```json
+{
+    "success": false,
+    "message": "Website could not be reached."
 }
 ```
 
