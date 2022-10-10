@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
     body = payload.body || undefined;
   } catch (err) {
   
-    res.json({ success: false, message: "URL could not be reached." });
+    res.json({ success: false, message: "Payload does not have a proper structure." });
   }
 
   const config = {
