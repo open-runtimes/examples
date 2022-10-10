@@ -47,16 +47,6 @@ return function ($req, $res) {
     $response = \json_decode(\curl_exec($ch), true);
     \curl_close($ch);
 
-    // cloudmersive didn't recognize any objects.
-    if (
-        $response['ObjectCount'] === 0
-    ) {
-        $res->json([
-            'message' => 'No objects were found, try another URL.'
-        ]);
-        return;
-    }
-
     // Return phone number prefix
     $res->json($response['Objects']);
 };

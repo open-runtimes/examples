@@ -10,7 +10,7 @@ _Example input:_
 }
 ```
 
-_Example output: (Objects found)_
+_Example output:_
 
 
 ```json
@@ -21,16 +21,6 @@ _Example output: (Objects found)_
     "y": 5,
     "width": 494,
     "height": 333
-}
-```
-
-
-_Example output: (Objects not found)_
-
-
-```json
-{
-    "message": "No objects were found, try another URL.",
 }
 ```
 
