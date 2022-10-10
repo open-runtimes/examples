@@ -15,22 +15,22 @@ return function ($req, $res) {
         throw new \Exception('Invalid Search Query.');
     }
 
-    // Make sure we have envirnment variables required to execute
+    // Make sure we have environment variables required to execute
     if(
-        empty($req['env']['GIPHY_API_KEY'])
+        empty($req['variables']['GIPHY_API_KEY'])
     ) {
         throw new \Exception('Please provide all required environment variables.');
     }
 
-    // Download image to buffer
-    $ch = \curl_init("https://api.giphy.com/v1/gifs/search?api_key={$req['env']['GIPHY_API_KEY']}&q={$search}&limit=1");
+    // Make GET request to api.giphy.com
+    $ch = \curl_init(\sprintf('https://api.giphy.com/v1/gifs/search?api_key=%s&q=%s&limit=1', $req['variables']['GIPHY_API_KEY'], \rawurlencode($search)));
     \curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     \curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 
     $response = \json_decode(\curl_exec($ch), true);
     \curl_close($ch);
 
-    // Return phone number prefix
+    // Return the search query and the first GIF
     $res->json([
         'search' => $search,
         'gif' => $response["data"][0]['url'],
