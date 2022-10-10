@@ -17,7 +17,7 @@ return function ($req, $res) {
 
     // Make sure we have envirnment variables required to execute
     if(
-        empty($req['env']['CLOUDMERSIVE_API_KEY'])
+        empty($req['variables']['CLOUDMERSIVE_API_KEY'])
     ) {
         throw new \Exception('Please provide all required environment variables.');
     }
@@ -26,6 +26,9 @@ return function ($req, $res) {
     $ch = \curl_init($url);
     \curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     \curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+
+    // Mimick a Chrome User-Agent incase the URL is behind a proxy
+    \curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Chrome/22.0.1216.0 Safari/537.2');
 
     $image = \curl_exec($ch);
     \curl_close($ch);
@@ -38,11 +41,21 @@ return function ($req, $res) {
         'imageFile' => $image,
     ]);
     \curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'Apikey: ' . $req['env']['CLOUDMERSIVE_API_KEY'],
+        'Apikey: ' . $req['variables']['CLOUDMERSIVE_API_KEY'],
     ]);
 
     $response = \json_decode(\curl_exec($ch), true);
     \curl_close($ch);
+
+    // cloudmersive didn't recognize any objects.
+    if (
+        $response['ObjectCount'] === 0
+    ) {
+        $res->json([
+            'message' => 'No objects were found, try another URL.'
+        ]);
+        return;
+    }
 
     // Return phone number prefix
     $res->json($response['Objects']);
