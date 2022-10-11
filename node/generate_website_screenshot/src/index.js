@@ -8,7 +8,7 @@ const fetch = (...args) =>
 
 
 module.exports = async function (req, res) {
-    const url = req.body.url;
+    const url = JSON.parse(req.payload ?? "{}").url;
 
     // check if the url exists
     async function checkLink(url) {
