@@ -12,12 +12,12 @@ def main(req, res):
 
     # Make sure we have envirnment variables required to execute
     if not req.variables.get('APPWRITE_FUNCTION_ENDPOINT', None) or not req.variables.get('APPWRITE_FUNCTION_API_KEY', None):
-        raise Exception('Please provide all required environment variables.')
+        return res.json({"success":False,"message":"Required environment variables not found"})
     
     payload = json.loads(req.payload)
 
     if 'bucketId' not in payload:
-        raise Exception('Missing bucketId')
+        return res.json({"success":False,"message":"Missing bucketId"})
 
     bucket_id = payload['bucketId']
 
@@ -29,7 +29,10 @@ def main(req, res):
     storage = Storage(client)
 
     # Get all files in the bucket
-    files = storage.list_files(bucket_id)
+    try:
+        files = storage.list_files(bucket_id)
+    except:
+        return res.json({"success":False,"message":"Bucket not found."})
 
     # Delete all files in the bucket
     for file in files['files']:
