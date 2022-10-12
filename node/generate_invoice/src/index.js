@@ -1,6 +1,6 @@
 const PDFDOC = require("pdfkit")
 const doc = new PDFDOC();
-export default function generateInvoice(req,res){
+module.exports  =(req,res)=>{
     const {currency,items,issuer,customer,vat} = req.payload;
     console.log(issuer);
     if(!issuer || issuer ==="") return {status:false,message:"Please provide Issuer"}
