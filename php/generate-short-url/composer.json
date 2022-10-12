@@ -5,7 +5,6 @@
     "license": "ISC",
     "authors": [],
     "require": {
-        "php": ">=8.0.0",
-        "appwrite/appwrite": "7.0.*"
+        "php": ">=8.0.0"
     }
 }

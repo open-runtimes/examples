@@ -3,7 +3,7 @@
 require_once 'vendor/autoload.php';
 
 return function ($req, $res) {
-  $payload = json_decode($req['payload'], true);
+  $payload = json_decode($req['payload'] ?? '{}', true);
 
   $chosenProvider = $payload['provider'] ?? null;
   $longUrl = $payload['url'] ?? null;
@@ -56,7 +56,7 @@ return function ($req, $res) {
   curl_close($curl);
 
   // Extract request result
-  switch ($chosenProvider){
+  switch ($chosenProvider) {
     case 'bitly':
       $shortenUrl = $apiResponse['link'] ?? null;
       $errorMessage = $apiResponse['message'] ?? null;

@@ -16,12 +16,33 @@ _Example input:_
 }
 ```
 
+```json
+{
+  "provider": "tinyurl",
+  "url": "https://facebook.com/"
+}
+```
+
 _Example output:_
 
 ```json
 {
   "success": true,
   "url": "https://bit.ly/3SDBqnK"
+}
+```
+
+```json
+{
+  "success": true,
+  "url": "https://tinyurl.com/47ksc2ud"
+}
+```
+
+```json
+{
+  "success": false,
+  "message": "Provided unsupported provider name. [bitly, tinyurl]"
 }
 ```
 
