@@ -1,8 +1,5 @@
 # 🔗 Get Short Url
 
-A sample Swift Cloud Function for sending emails using the Mailgun API.
-
-
 A sample Swift Cloud Function for generating a Short URL using [tinyurl](https://tinyurl.com/app) and [bitly](https://bitly.com/) APIs
 
 
