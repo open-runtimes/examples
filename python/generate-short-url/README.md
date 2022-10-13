@@ -6,8 +6,10 @@ _Example input:_
 
 ```json
 {
-	"provider": "tinyurl", 
-	"url": "https://github.com/open-runtimes/examples",
+    "variables": {
+        "TINYURL_API_KEY": <API_KEY>
+    },
+    "payload": "{\"provider\": \"tinyurl\", \"url\": \"https://github.com/appwrite/appwrite\"}"
 }
 ```
 
@@ -26,8 +28,10 @@ _Example input:_
 
 ```json
 {
-	"provider": "bitly", 
-	"url": "https://github.com/open-runtimes/examples",
+    "variables": {
+        "BITLY_API_KEY": <API_KEY>
+    },
+    "payload": "{\"provider\": \"bitly\", \"url\": \"https://github.com/appwrite/appwrite\"}"
 }
 ```
 
@@ -45,8 +49,10 @@ _Example input:_
 
 ```json
 {
-	"provider": "owly", 
-	"url": "https://github.com/open-runtimes/examples",
+    "variables": {
+        "OWLY_API_KEY": <API_KEY>
+    },
+    "payload": "{\"provider\": \"owly\", \"url\": \"https://github.com/appwrite/appwrite\"}"
 }
 ```
 
