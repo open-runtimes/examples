@@ -31,7 +31,7 @@ export default async function (req: any, res: any) {
     .setKey(req.variables["APPWRITE_FUNCTION_API_KEY"]);
 
   try {
-    const limit = 1;
+    const limit = 25;
     const totalFiles = (await storage.listFiles(bucketId, [sdk.Query.limit(limit)])).total;
     for (let i = 0; i < totalFiles; i += limit) {
       const files = (await storage.listFiles(bucketId, [sdk.Query.limit(limit)])).files;
