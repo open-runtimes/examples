@@ -1,7 +1,7 @@
 const axios = require('axios').default;
 
 module.exports = async function (req, res) {
-  const APIkey = req.env["GIPHY_API_KEY"]
+  const APIkey = req.variables["GIPHY_API_KEY"]
 
   const {
     search

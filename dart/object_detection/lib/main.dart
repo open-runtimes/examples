@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 Future<void> start(final req, final res) async {
-  final APIKey = req.env["CLOUDMERSIVE_API_KEY"];
+  final APIKey = req.variables["CLOUDMERSIVE_API_KEY"];
 
   Map<String, dynamic> data = jsonDecode(req.payload);
 
@@ -11,7 +11,7 @@ Future<void> start(final req, final res) async {
     throw new Exception("Missing url");
   }
 
-  if (req.env['CLOUDMERSIVE_API_KEY'] == null) {
+  if (req.variables['CLOUDMERSIVE_API_KEY'] == null) {
     throw new Exception("Missing Cloudmersive API Key in environment variables");
   }
 

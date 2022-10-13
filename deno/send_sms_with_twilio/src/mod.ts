@@ -1,7 +1,7 @@
 export default async function test(req: any, res: any) {
-  const accountSID = req.env["TWILIO_ACCOUNT_SID"];
-  const authToken = req.env["TWILIO_AUTH_TOKEN"];
-  const sender = req.env["TWILIO_SENDER"];
+  const accountSID = req.variables["TWILIO_ACCOUNT_SID"];
+  const authToken = req.variables["TWILIO_AUTH_TOKEN"];
+  const sender = req.variables["TWILIO_SENDER"];
 
   const {
     phoneNumber,
