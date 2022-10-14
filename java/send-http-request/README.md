@@ -2,12 +2,28 @@
 
 A Java Cloud Function for sending http requests.
 
-_Example input:_
+*Form urlencoded example input:*
+
+```json
+{
+ "url": "https://google-translate1.p.rapidapi.com/language/translate/v2",
+ "method": "POST",
+ "content_type": "application/x-www-form-urlencoded",
+ "headers": {
+ "X-RapidAPI-Key": "026259a175mshc802421faa96cc8p120315jsn4ac1c72bdfe5",
+ "X-RapidAPI-Host": "google-translate1.p.rapidapi.com"
+ },
+ "body": "q=Ahoj světe!&target=en&source=cs"
+}
+```
+
+*JSON example input*
 
 ```json
 {
   "url": "https://google-translate1.p.rapidapi.com/language/translate/v2",
   "method": "POST",
+  "content_type": "application/json",
   "headers": {
     "X-RapidAPI-Key": "KEY",
     "X-RapidAPI-Host": "HOST"
@@ -20,7 +36,7 @@ _Example input:_
 }
 ```
 
-_Example output:_
+*Success example output:*
 
 ```json
 {
@@ -29,14 +45,17 @@ _Example output:_
 }
 ```
 
+
+
 ## 📝 Input Description
 
 List of input used by this cloud function:
 
 * **url** - URL where request should be sent to 
 * **method** - Which method should be sent
+* **content_type** [optional] - string value. Needed if body is inserted
 * **headers** [optional] - should be string string key value pairs
-* **body** [optional] - should be string string key value pairs
+* **body** [optional] - string body in specific content type. For example: while using JSON it should be JSON object or while using form url encoded, it should be string.
 
 ## 🚀 Deployment
 
