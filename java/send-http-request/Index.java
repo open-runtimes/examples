@@ -1,6 +1,12 @@
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
-import okhttp3.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,69 +22,53 @@ public RuntimeResponse main(RuntimeRequest req, RuntimeResponse res) throws Exce
 
     String url = null;
     String method = null;
-    LinkedTreeMap<String,String> body = null;
+    String body = null;
+    String content_type = null;
     LinkedTreeMap<String,String> headers = null;
     url = payload.containsKey("url") ? (String)payload.get("url") : null;
     method = payload.containsKey("method") ? (String)payload.get("method") : null;
-    body = payload.containsKey("body") ? (LinkedTreeMap<String, String>) payload.get("body") : null;
+    body = payload.containsKey("body") ? (String)payload.get("body") : null;
+    content_type = payload.containsKey("content_type") ? (String)payload.get("content_type") : null;
     headers = payload.containsKey("headers") ? (LinkedTreeMap<String, String>) payload.get("headers") : null;
 
     if(url == null || method == null){
         out.put("success", false);
         out.put("message", "Custom data is in incorrect format or don't exist");
-        return res.json(out);
+        //return res.json(out);
+        System.out.println("Custom data is in incorrect format or don't exist");
+    }
+
+    if(!method.equals("GET") && !method.equals("POST") && !method.equals("PUT") &&
+            !method.equals("PATCH") && !method.equals("DELETE") && !method.equals("HEAD")){
+        out.put("success", false);
+        out.put("message", "Method is in incorrect type");
+        //return res.json(out);
+        System.out.println("Method is in incorrect type");
     }
 
     try{
 
-        OkHttpClient client = new OkHttpClient();
+        URL urll = new URL(url);
+        HttpURLConnection http = (HttpURLConnection)urll.openConnection();
+        http.setRequestMethod(method);
 
-        FormBody.Builder builder = new FormBody.Builder();
+        for(String key : headers.keySet()){
+            http.setRequestProperty(key, headers.get(key));
+        }
+
         if(body != null){
-            for(String key : body.keySet()){
-                builder = builder.add(key, body.get(key));
-            }
+            http.setRequestProperty("Content-Type", content_type);
+            http.setDoOutput(true);
+            byte[] out = body.getBytes(StandardCharsets.UTF_8);
+            OutputStream stream = http.getOutputStream();
+            stream.write(out);
         }
-        RequestBody rbody = builder.build();
 
-        Request.Builder rbuilder = new Request.Builder()
-                .url(url);
-        if(headers != null){
-            for(String key : headers.keySet()){
-                rbuilder = rbuilder.addHeader(key, headers.get(key));
-            }
-        }
-        switch (method){
-            case "GET":
-                rbuilder = rbuilder.get();
-                break;
-            case "POST":
-                rbuilder = rbuilder.post(rbody);
-                break;
-            case "PUT":
-                rbuilder = rbuilder.put(rbody);
-                break;
-            case "PATCH":
-                rbuilder = rbuilder.patch(rbody);
-                break;
-            case "DELETE":
-                rbuilder = rbuilder.delete(rbody);
-                break;
-            case "HEAD":
-                rbuilder = rbuilder.head();
-                break;
-            default:
-                out.put("success", false);
-                out.put("message", "HTTP method is in inccorect format");
-                return res.json(out);
-        }
-        Request request = rbuilder.build();
-
-        Response response = client.newCall(request).execute();
+        String response = formatResponse(http);
 
         out.put("success", true);
-        out.put("response", response.body().string());
-        response.close();
+        out.put("response", response);
+        http.disconnect();
         return res.json(out);
     }
     catch (Exception exception){
@@ -86,4 +76,14 @@ public RuntimeResponse main(RuntimeRequest req, RuntimeResponse res) throws Exce
         out.put("message", exception.getMessage());
         return res.json(out);
     }
+}
+
+private static String formatResponse(HttpURLConnection http) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader((http.getInputStream())));
+    StringBuilder sb = new StringBuilder();
+    String output;
+    while ((output = br.readLine()) != null) {
+        sb.append(output);
+    }
+    return sb.toString();
 }
