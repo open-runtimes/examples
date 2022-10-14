@@ -1,8 +1,10 @@
 using Newtonsoft.Json;
-using System.Threading.Tasks;
-using System.Net.Http;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 static readonly HttpClient http = new HttpClient();
 
@@ -10,17 +12,20 @@ public async Task<RuntimeResponse> Main(RuntimeRequest req, RuntimeResponse res)
 {
     string url = null;
     string method = null;
-    Dictionary<string,string> body = null;
+    string body = null;
+    string contentType = null;
     Dictionary<string,string> headers = null;
     if (!string.IsNullOrEmpty(req.Payload))
     {
         var payload = JsonConvert.DeserializeObject<Dictionary<string, object>>(req.Payload, settings: null);
-        url = payload["url"] == null ? null : (string)payload["url"];
-        method = payload["method"] == null ? null : (string)payload["method"];
-        body = JsonConvert.DeserializeObject<Dictionary<string, string>>(payload.ContainsKey("body") ? payload["body"].ToString() : "" );
+        url = !payload.ContainsKey("url") ? null : (string)payload["url"];
+        method = !payload.ContainsKey("method") ? null : (string)payload["method"];
+        contentType = !payload.ContainsKey("content_type") ? null : (string)payload["content_type"];
+        body = !payload.ContainsKey("body") ? null : payload["body"].ToString();
         headers = JsonConvert.DeserializeObject<Dictionary<string, string>>(payload.ContainsKey("headers") ? payload["headers"].ToString() : "");
     }
 
+    // Check for input variable correction
     if (url == null || method == null)
     {
         return res.Json(new()
@@ -30,44 +35,21 @@ public async Task<RuntimeResponse> Main(RuntimeRequest req, RuntimeResponse res)
         });
     }
 
-    var request = new HttpRequestMessage
+    if (!method.Equals("GET") && !method.Equals("POST") && !method.Equals("PUT") &&
+        !method.Equals("DELETE") && !method.Equals("HEAD") && !method.Equals("OPTIONS") &&
+        !method.Equals("TRACE"))
     {
-        Method = HttpMethod.Get,
-        RequestUri = new Uri(url)
-    };
-
-    switch (method)
-    {
-        case "GET":
-            request.Method = HttpMethod.Get;
-            break;
-        case "POST":
-            request.Method = HttpMethod.Post;
-            break;
-        case "PUT":
-            request.Method = HttpMethod.Put;
-            break;
-        case "DELETE":
-            request.Method = HttpMethod.Delete;
-            break;
-        case "HEAD":
-            request.Method = HttpMethod.Head;
-            break;
-        case "OPTIONS":
-            request.Method = HttpMethod.Options;
-            break;
-        case "TRACE":
-            request.Method = HttpMethod.Trace;
-            break;
-        default:
-            return res.Json(new()
+        return res.Json(new()
             {
                 { "success", false },
                 { "message", "HTTP method is in inccorect format" }
             });
     }
 
-    if(headers != null)
+    var request = (HttpWebRequest)WebRequest.Create(url);
+    request.Method = method;
+
+    if (headers != null)
     {
         foreach(string key in headers.Keys)
         {
@@ -77,22 +59,28 @@ public async Task<RuntimeResponse> Main(RuntimeRequest req, RuntimeResponse res)
 
     if(body != null)
     {
-        request.Content = new FormUrlEncodedContent(body);
+        request.ContentType = contentType;
+        var streamWriter = new StreamWriter(request.GetRequestStream());
+        streamWriter.Write(body);
     }
 
-    var response = await http.SendAsync(request);
-    if (response.IsSuccessStatusCode)
+    try
     {
-        string responseString = await response.Content.ReadAsStringAsync();
+        var httpResponse = (HttpWebResponse)request.GetResponse();
+        var streamReader = new StreamReader(httpResponse.GetResponseStream());
+        var result = streamReader.ReadToEnd();
         return res.Json(new()
-        {
-            { "success", true },
-            { "response", responseString}
-        });
+            {
+                { "success", true },
+                { "response", result}
+            });
     }
-    return res.Json(new()
+    catch (Exception ex)
     {
-        { "success", false },
-        { "message", response.ReasonPhrase }
-    });
+        return res.Json(new()
+            {
+                { "success", false },
+                { "response", ex.Message }
+            });
+    }
 }
