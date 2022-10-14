@@ -17,7 +17,7 @@ return function ($req, $res) {
 
     // Make sure we have envirnment variables required to execute
     if(
-        empty($req['env']['CLOUDMERSIVE_API_KEY'])
+        empty($req['variables']['CLOUDMERSIVE_API_KEY'])
     ) {
         throw new \Exception('Please provide all required environment variables.');
     }
@@ -38,7 +38,7 @@ return function ($req, $res) {
         'imageFile' => $image,
     ]);
     \curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'Apikey: ' . $req['env']['CLOUDMERSIVE_API_KEY'],
+        'Apikey: ' . $req['variables']['CLOUDMERSIVE_API_KEY'],
     ]);
 
     $response = \json_decode(\curl_exec($ch), true);

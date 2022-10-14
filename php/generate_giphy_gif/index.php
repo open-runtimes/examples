@@ -17,13 +17,13 @@ return function ($req, $res) {
 
     // Make sure we have envirnment variables required to execute
     if(
-        empty($req['env']['GIPHY_API_KEY'])
+        empty($req['variables']['GIPHY_API_KEY'])
     ) {
         throw new \Exception('Please provide all required environment variables.');
     }
 
     // Download image to buffer
-    $ch = \curl_init("https://api.giphy.com/v1/gifs/search?api_key={$req['env']['GIPHY_API_KEY']}&q={$search}&limit=1");
+    $ch = \curl_init("https://api.giphy.com/v1/gifs/search?api_key={$req['variables']['GIPHY_API_KEY']}&q={$search}&limit=1");
     \curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     \curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 
