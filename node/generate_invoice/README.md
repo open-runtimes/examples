@@ -1,6 +1,6 @@
-# 🧾 Get Giphy GIF
+# 🧾 Generate Invoice
 
-A Node Cloud Function for generating Giphy GIF from the [Giphy API](https://developers.giphy.com/docs/api#quick-start-guide).
+A Node Cloud Function for generating invoice.
 
 _Example input:_
 
@@ -31,7 +31,6 @@ _Example output:_
 
 List of environment variables used by this cloud function:
 
-**GIPHY_API_KEY** - Your Giphy API key.
 
 ## 🚀 Deployment
 
