@@ -1,6 +1,6 @@
 # 🔗 Compressing an image
 
-A NodeJS Cloud Function for compressing an image with two providers: 
+A Deno Cloud Function for compressing an image with two providers: 
 - [Tinypng](https://tinypng.com/)
 - [Kraken.io](https://kraken.io/)
 

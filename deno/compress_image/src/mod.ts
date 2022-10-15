@@ -32,7 +32,7 @@ export default async function (req: any, res: any) {
           success: false,
           message: error
         });
-      };
+      }
     case "krakenio":
       if(!req.variables.KRAKEN_API_KEY || req.variables.KRAKEN_API_SECRET) {
         return res.json({
@@ -67,11 +67,11 @@ export default async function (req: any, res: any) {
           success: false,
           message: error
         });
-      };
+      }
     default:
       res.json({
         success: false,
         message: "The provider is invalid."
      });
-  };
-};
+  }
+}
