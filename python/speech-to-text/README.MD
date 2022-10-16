@@ -38,7 +38,8 @@ I am using (LINEAR16) encoding to write audio(bas64) data to wav file, which is 
 ### Limitations
 
 #### Amazon
-At the moment Python SDK for Amazon Transcibe comes with partial-transcript, for which I used simple stack logic in `amazon_recognize()` to remove repeating translations.
+At the moment Amazon Transcibe requires the audio file to be in s3 and over [HTTP](https://docs.aws.amazon.com/transcribe/latest/dg/batch-med-transcription.html), which required handling of event stream encoding no direct API for batches.
+So I used streaming method which comes with partial-transcript, for which I used simple stack logic in `amazon_recognize()` to remove repeating translations.
 
 #### Azure
 Azure speech to text works on small sample efforlessly but with big samples it might need some conditional model tuning.
