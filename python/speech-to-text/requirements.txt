@@ -1,0 +1,5 @@
+aiofile==3.8.1
+amazon-transcribe==0.6.1
+asyncio==3.4.3
+azure-cognitiveservices-speech==1.24.0
+google-cloud-speech==2.16.2
