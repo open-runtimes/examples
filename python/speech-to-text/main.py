@@ -49,14 +49,14 @@ def main(req, res, key):
             text_result = google_speech_recognition(language, sample_rate, channels, filePath, google_cred_key)
         
         elif provider == 'aws':
-            region = payload['region']
+            region = key['region']
             acces_key_id = key['aws_access_key_id']
             aws_secret_access_key = key['aws_secret_access_key']
             text_result = amazon_recognize(sample_rate, channels, language, filePath, region, acces_key_id, aws_secret_access_key)
         
         elif provider == 'azure':
             azure_speech_key = key["azure_speech_key"]
-            region = payload['region']
+            region = key['region']
             text_result = azure_recognize(language, WAVE_ENCODING,  filePath, azure_speech_key, region)
         os.remove(filePath) #cleaning the audio file.
 
