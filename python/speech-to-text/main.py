@@ -70,7 +70,7 @@ def main(req, res, key):
             errMsg = "Target language does not exist in iso639-2 format."
         response =  {
         'success': False,
-        'messagge': errMsg
+        'message': errMsg
         }
         return response
 
