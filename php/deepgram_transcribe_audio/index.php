@@ -57,11 +57,11 @@ return function($req, $res) {
             'success' => true,
             'deepgramData' => json_encode($transcript)
         ]);
+    } else {
+        $res->json([
+            'success' => false,
+            'message' => $response->getBody()->getContents()
+        ]);
     }
-
-    $res->json([
-        'success' => false,
-        'message' => $response->getBody()->getContents()
-    ]);
 }
 ?>
