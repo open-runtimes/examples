@@ -39,7 +39,7 @@ module.exports = async function (req, res) {
     });
   }
 
-  const { lat, lng } = payload;
+  const { lat, lng, provider } = payload;
 
   const z = 16; // zoom level
   const x = Math.floor(((lng + 180) / 360) * Math.pow(2, z));
@@ -53,18 +53,28 @@ module.exports = async function (req, res) {
       Math.pow(2, z)
   );
 
-  const result = await fetch(
-    `https://tile.openstreetmap.org/${z}/${x}/${y}.png`
-  );
+  switch (provider) {
+    case "openstreets": {
+      const result = await fetch(
+        `https://tile.openstreetmap.org/${z}/${x}/${y}.png`
+      );
 
-  if (result.status != 200) {
-    return res.json({ success: false, message: "Openstreetmap server error" });
+      if (result.status != 200) {
+        return res.json({
+          success: false,
+          message: "Openstreetmap server error",
+        });
+      }
+
+      const image = await result.arrayBuffer();
+
+      res.json({
+        success: true,
+        image: Buffer.from(image).toString("base64"),
+      });
+    }
+    
+    default:
+      return;
   }
-
-  const image = await result.arrayBuffer();
-
-  res.json({
-    success: true,
-    image: Buffer.from(image).toString("base64"),
-  });
 };
