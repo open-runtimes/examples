@@ -32,13 +32,13 @@ key =
 ### Breif of functions
 
 Every provider has uncommon set of input requirements and some limitations.
-Audio metadata such as `sample_rate`, `channels` and, specific`encoding` etc. is required which is accessible through `wave_write()` function in main.py. 
-I am using (LINEAR16) encoding to write audio(bas64) data to wav file, which is recommended.
+Audio metadata such as `sample_rate`, `channels` and, specific`encoding` etc., is required which is accessible through `wave_write()` function in main.py. 
+I am using (LINEAR16) encoding to write audio(bas64) data to wav file, which is [recommended](https://cloud.google.com/speech-to-text/docs/encoding).
 
 ### Limitations
 
 #### Amazon
-At the moment Python SDK for Amazon Transcibe comes with partial-translation-result, for which I used simple stack logic in `amazon_recognize()` to remove repeating translations.
+At the moment Python SDK for Amazon Transcibe comes with partial-transcript, for which I used simple stack logic in `amazon_recognize()` to remove repeating translations.
 
 #### Azure
 Azure speech to text works on small sample efforlessly but with big samples it might need some conditional model tuning.
