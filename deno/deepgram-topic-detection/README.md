@@ -1,4 +1,4 @@
-# 📷 Transcribing Video using [Deepgram](https://deepgram.com/)
+# 📷 Detecting Language from audio using [Deepgram](https://deepgram.com/)
 
 A Deno Cloud Function for transcribing video using [Deepgram](https://deepgram.com/)
 
