@@ -1,4 +1,4 @@
-# 📷 Transcribing Video using [Deepgram](https://deepgram.com/)
+# ⚡ deepgramTranscribeVideo()
 
 A Python Cloud Function for transcribing video using [Deepgram](https://deepgram.com/)
 
