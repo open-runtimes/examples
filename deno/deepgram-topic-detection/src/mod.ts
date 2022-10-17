@@ -15,9 +15,17 @@ export default async function (req: any, res: any) {
   );
 
   if (response.status !== 200) {
-    res.json({
+    if (response.status === 401) {
+      return res.json({
+        success: false,
+        message: `Status code: ${response.status}, Data: ${response.statusText} - Please check your Deepgram API key`,
+      });
+    }
+
+    const error = await response.json();
+    return res.json({
       success: false,
-      message: `Status code: ${response.status}, Data: ${response.statusText}`,
+      message: error.reason,
     });
   }
 
