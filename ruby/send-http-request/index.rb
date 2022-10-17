@@ -32,7 +32,10 @@ def main(req, res)
         else
             res.json({
                 "success": false,
-                "message": response.message
+                "message": {
+                    "code": response.code,
+                    "body": response.message
+                }
             })
         end
     rescue Exception => err
