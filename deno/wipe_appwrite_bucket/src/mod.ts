@@ -31,17 +31,16 @@ export default async function (req: any, res: any) {
     .setKey(req.variables["APPWRITE_FUNCTION_API_KEY"]);
 
   try {
-    const limit = 25;
-    const totalFiles = (await storage.listFiles(bucketId, [sdk.Query.limit(limit)])).total;
-    for (let i = 0; i < totalFiles; i += limit) {
-      const files = (await storage.listFiles(bucketId, [sdk.Query.limit(limit)])).files;
-      for (const file of files) {
-        await storage.deleteFile(bucketId, file.$id);
+    while (true) {
+      const listFiles = await storage.listFiles(bucketId);
+      if (listFiles.total === 0) {
+        return res.json({
+          success: true,
+        });
       }
+      const promises = listFiles.files.map((file) => storage.deleteFile(bucketId, file.$id));
+      await Promise.all(promises);
     }
-    return res.json({
-      success: true,
-    });
   } catch (_err) {
     return res.json({
       success: false,
