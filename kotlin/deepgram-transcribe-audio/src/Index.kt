@@ -79,7 +79,7 @@ suspend fun main(req: RuntimeRequest, res: RuntimeResponse): RuntimeResponse {
     return res.json(
         data = mapOf(
             "success" to true,
-            "message" to deepgramResponse
+            "deepgramData" to deepgramResponse
         ),
         statusCode = 200
     )

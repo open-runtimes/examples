@@ -6,7 +6,7 @@ _Example input:_
 
 ```json
 {
-    "fileUrl": "https://static.deepgram.com/examples/Bueller-Life-moves-pretty-fast.wav"
+    "url": "https://static.deepgram.com/examples/Bueller-Life-moves-pretty-fast.wav"
 }
 ```
 
