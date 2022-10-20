@@ -1,4 +1,4 @@
-# 🖼️ Transcribe Video
+# 📹 Transcribe Video
 
 A Dart Cloud Function for transcribing video from the Deepgram API.
 
