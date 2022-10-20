@@ -10,7 +10,7 @@ _Example input:_
 }
 ```
 
-_Successful Example output:_
+_Successful Output Example:_
 
 
 ```json
@@ -20,7 +20,7 @@ _Successful Example output:_
 }
 ```
 
-_Error Example output:_
+_Error Output Example:_
 
 
 ```json
