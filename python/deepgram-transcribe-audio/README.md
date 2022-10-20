@@ -18,9 +18,26 @@ _Example output 1:_
 ```json
 {
     "response": {
-        "deepgramData": "another big problem ... company succeed using this product",
+        "deepgramData": {
+            "confidence": 0.9926758,
+            "transcript": "another big problem in the ... company succeed using this product",
+            "words": [
+                {
+                    "confidence": 0.9995117,
+                    "end": 0.839599,
+                    "start": 0.33959904,
+                    "word": "another"
+                },
+				...
+                {
+                    "confidence": 0.99365234,
+                    "end": 95.770004,
+                    "start": 95.41,
+                    "word": "product"
+                }
+            ]
+        },
         "success": true
-    }
 }
 ```
 
