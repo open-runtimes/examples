@@ -15,7 +15,7 @@ _Example output 1:_
 ```json
 {
     "success": true,
-    "deepgramData": { A long object }
+    "deepgramData": { "A big": "Object" }
 }
 ```
 
