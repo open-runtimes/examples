@@ -20,6 +20,7 @@ Example functions to show off what you can achieve with Open Runtimes.
 | Get COVID-19 Stats |      |      | [✅](/node/get_covid_stats) |     |        |      | [✅](/swift/get-covid-stats) |      |
 | Wipe Appwrite Bucket |      |      | [✅](/node/wipe_appwrite_bucket) |      |      |      |      |      |
 | Send HTTP Request|      |      | [✅](/node/send_http_request/) |      |      |      |      |      |
+| Generate Short URL | [✅](/dart/generate_short_url) |      |      |      |      |      |      | [✅](/java/short_url_generator/) |
 ## Contributing
 
 All code contributions - including those of people having commit access - must go through a pull request and be approved by a core developer before being merged. This is to ensure a proper review of all the code.
