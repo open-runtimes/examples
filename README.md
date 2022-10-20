@@ -9,16 +9,16 @@ Example functions to show off what you can achieve with Open Runtimes.
 
 ## List of Examples
 
-| Example                     | Dart                        | Deno | Node | PHP | Python | Ruby | Swift |
-|-----------------------------|-----------------------------|------|------|-----|--------|------|-------|
-| Send email with Mailgun | [✅](/dart/send_email_with_mailgun) | [✅](/deno/send_email_with_mailgun) | [✅](/node/send_email_with_mailgun) |     |        |      | [✅](/swift/send-email-with-mailgun) |
-| Convert phone number to country name | [✅](/dart/convert-phone-number-to-country-name) | [✅](/deno/convert-phone-number-to-country-name) | [✅](/node/convert-phone-number-to-country-name) | [✅](/php/convert-phone-number-to-country-name) | [✅](/python/convert-phone-number-to-country-name) | [✅](/ruby/convert-phone-number-to-country-name) | [✅](/swift/convert-phone-number-to-country-name) |
-| Send SMS with Twilio |      | [✅](/deno/send_sms_with_twilio) | [✅](/node/send_sms_with_twilio) |     |        | [✅](/ruby/send-sms-with-twilio) |      |
-| Translate text with Google |       | [✅](/deno/translate_text_with_google) | [✅](/node/translate_text_with_google) |     |        | [✅](/ruby/translate-text-with-google) |      |
-| Object Detection |[✅](/dart/object_detection) |  [✅](/deno/object_detection) | [✅](/node/object_detection) | [✅](/php/object_detection) |   [✅](/python/object-detection)     |      |      |
-| Generate Giphy GIF | [✅](/dart/generate_giphy_gif) | [✅](/deno/generate-giphy-gif) | [✅](/node/generate_giphy_gif) |     |  [✅](/python/generate-giphy-gif)  |      |      |
-| Get COVID-19 Stats |      |      | [✅](/node/get_covid_stats) |     |        |      | [✅](/swift/get-covid-stats) |
-| Wipe Appwrite Bucket |      |      | [✅](/node/wipe_appwrite_bucket) |      |      |      |      |
+| Example                     | Dart                        | Deno | Node | PHP | Python | Ruby | Swift | Java |
+|-----------------------------|-----------------------------|------|------|-----|--------|------|-------|---|
+| Send email with Mailgun | [✅](/dart/send_email_with_mailgun) | [✅](/deno/send_email_with_mailgun) | [✅](/node/send_email_with_mailgun) |     |        |      | [✅](/swift/send-email-with-mailgun) |      |
+| Convert phone number to country name | [✅](/dart/convert-phone-number-to-country-name) | [✅](/deno/convert-phone-number-to-country-name) | [✅](/node/convert-phone-number-to-country-name) | [✅](/php/convert-phone-number-to-country-name) | [✅](/python/convert-phone-number-to-country-name) | [✅](/ruby/convert-phone-number-to-country-name) | [✅](/swift/convert-phone-number-to-country-name) |      |
+| Send SMS with Twilio |      | [✅](/deno/send_sms_with_twilio) | [✅](/node/send_sms_with_twilio) |     |        | [✅](/ruby/send-sms-with-twilio) |      |      |
+| Translate text with Google |       | [✅](/deno/translate_text_with_google) | [✅](/node/translate_text_with_google) |     |        | [✅](/ruby/translate-text-with-google) |      |      |
+| Object Detection |[✅](/dart/object_detection) |  [✅](/deno/object_detection) | [✅](/node/object_detection) | [✅](/php/object_detection) |   [✅](/python/object-detection)     |      |      |      |
+| Generate Giphy GIF | [✅](/dart/generate_giphy_gif) | [✅](/deno/generate-giphy-gif) | [✅](/node/generate_giphy_gif) |     |  [✅](/python/generate-giphy-gif)  |      |      |      |
+| Get COVID-19 Stats |      |      | [✅](/node/get_covid_stats) |     |        |      | [✅](/swift/get-covid-stats) |      |
+| Wipe Appwrite Bucket |      |      | [✅](/node/wipe_appwrite_bucket) |      |      |      |      |      |
 
 ## Contributing
 
