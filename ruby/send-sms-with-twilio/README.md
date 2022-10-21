@@ -1,6 +1,6 @@
 # 📱 Send SMS with Twilio
 
-A Ruby Cloud Function for sending message to a phone number using [Twilio API](https://www.twilio.com/docs/usage/api).
+A Ruby Cloud Function for sending messages to a phone number using [Twilio API](https://www.twilio.com/docs/usage/api).
 
 _Example input:_
 
@@ -36,7 +36,7 @@ List of environment variables used by this cloud function:
 
 ```
 $ git clone https://github.com/open-runtimes/examples.git && cd examples
-$ cd python/convert_phone_number_to_country_name
+$ cd ruby/send-sms-with-twillio
 ```
 
 2. Enter this function folder and build the code:
@@ -50,9 +50,9 @@ As a result, a `code.tar.gz` file will be generated.
 docker run -p 3000:3000 -e INTERNAL_RUNTIME_KEY=secret-key -e INTERNAL_RUNTIME_ENTRYPOINT=index.rb --rm --interactive --tty --volume $PWD/code.tar.gz:/tmp/code.tar.gz:ro openruntimes/ruby:3.1 sh /usr/local/src/start.sh
 ```
 
-> Make sure to replace `YOUR_API_KEY` without your key.
+> Make sure to replace `secret-key` with your key.
 
-Your function is now listening on port `3000`, and you can execute it by sending `POST` request with appropriate authorization headers. To learn more about runtime, you can visit Python runtime [README](https://github.com/open-runtimes/open-runtimes/tree/main/runtimes/ruby-3.1).
+Your function is now listening on port `3000`, and you can execute it by sending `POST` request with appropriate authorization headers. To learn more about runtime, you can visit Ruby runtime [README](https://github.com/open-runtimes/open-runtimes/tree/main/runtimes/ruby-3.1).
 
 ## 📝 Notes
  - This function is designed for use with Appwrite Cloud Functions. You can learn more about it in [Appwrite docs](https://appwrite.io/docs/functions).
