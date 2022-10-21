@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+//custom success message
 void returnSuccess(final res, final data) {
   res.json({
     'success': true,
@@ -8,6 +9,7 @@ void returnSuccess(final res, final data) {
   });
 }
 
+//custom failure message
 void returnFailure(final res, final message) {
   res.json({
     'success': false,
