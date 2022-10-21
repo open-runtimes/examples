@@ -1,6 +1,6 @@
 # 📹 Transcribe Video
 
-A Dart Cloud Function that transcribes pre-recorded audio using [Deepgram](https://developers.deepgram.com/).
+A Dart Cloud Function that transcribes pre-recorded video using [Deepgram](https://developers.deepgram.com/).
 
  _Example input 1:_
 
@@ -72,7 +72,7 @@ A Dart Cloud Function that transcribes pre-recorded audio using [Deepgram](https
 
  ```
  $ git clone https://github.com/open-runtimes/examples.git && cd examples
- $ cd dart/deepgram-Transcribe-Audio
+ $ cd dart/deepgram_transcribe_video
  ```
 
  2. Enter this function folder and build the code:
