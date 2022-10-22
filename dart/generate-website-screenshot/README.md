@@ -6,10 +6,7 @@ _Example input:_
 
 ```json
 {
-    "variables": {
-        "SCREENLY_API_KEY": <API_KEY>
-    },
-    "payload": "{\"url\": \"https://github.com/appwrite/appwrite\"}"
+    "url": "https://github.com/appwrite/appwrite"
 }
 ```
 
@@ -27,10 +24,7 @@ _Example input:_
 
 ```json
 {
-    "variables": {
-        "SCREENLY_API_KEY": <API_KEY>
-    },
-    "payload": "{\"url\": \"Not A URL\"}"
+    "url": "Not A URL"
 }
 ```
 
