@@ -6,7 +6,8 @@ _Example input:_
 
 ```json
 {
-    "payload": "{\"provider\": \"tinyurl\", \"url\": \"https://github.com/appwrite/appwrite\"}"
+    "provider": "tinyurl", 
+    "url": "https://github.com/appwrite/appwrite"
 }
 ```
 
@@ -25,7 +26,8 @@ _Example input:_
 
 ```json
 {
-    "payload": "{\"provider\": \"bitly\", \"url\": \"https://github.com/appwrite/appwrite\"}"
+    "provider": "bitly", 
+    "url": "https://github.com/appwrite/appwrite"
 }
 ```
 
@@ -43,7 +45,8 @@ _Example input:_
 
 ```json
 {
-    "payload": "{\"provider\": \"owly\", \"url\": \"https://github.com/appwrite/appwrite\"}"
+    "provider": "owly",
+    "url": "https://github.com/appwrite/appwrite"
 }
 ```
 
