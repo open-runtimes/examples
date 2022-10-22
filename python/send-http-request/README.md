@@ -16,7 +16,7 @@ _Example input:_
 }
 ```
 
-_Example output:_
+_Example success output:_
 
 
 ```json
@@ -31,6 +31,19 @@ _Example output:_
 }
 ```
 
+_Example failure output:_
+
+
+```json
+{
+    "success":false,
+    "message":"URL could not be reached"
+}
+```
+
+## 📝 Environment Variables
+
+No environment variables are required to run this function.
 
 ## 🚀 Deployment
 
