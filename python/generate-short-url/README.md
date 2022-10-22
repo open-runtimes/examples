@@ -6,9 +6,6 @@ _Example input:_
 
 ```json
 {
-    "variables": {
-        "TINYURL_API_KEY": <API_KEY>
-    },
     "payload": "{\"provider\": \"tinyurl\", \"url\": \"https://github.com/appwrite/appwrite\"}"
 }
 ```
@@ -28,9 +25,6 @@ _Example input:_
 
 ```json
 {
-    "variables": {
-        "BITLY_API_KEY": <API_KEY>
-    },
     "payload": "{\"provider\": \"bitly\", \"url\": \"https://github.com/appwrite/appwrite\"}"
 }
 ```
@@ -49,9 +43,6 @@ _Example input:_
 
 ```json
 {
-    "variables": {
-        "OWLY_API_KEY": <API_KEY>
-    },
     "payload": "{\"provider\": \"owly\", \"url\": \"https://github.com/appwrite/appwrite\"}"
 }
 ```
