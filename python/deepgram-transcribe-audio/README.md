@@ -6,10 +6,7 @@ _Example input 1:_
 
 ```json
 {
-    "variables": {
-        "DEEPGRAM_API_KEY": "<DEEPGRAM_API_KEY>"
-    },
-    "payload": "{\"fileUrl\": \"https://static.deepgram.com/examples/interview_speech-analytics.wav\"}"
+    "fileUrl": "https://static.deepgram.com/examples/interview_speech-analytics.wav"
 }
 ```
 
@@ -45,10 +42,8 @@ _Example input 2:_
 
 ```json
 {
-    "variables": {
-        "DEEPGRAM_API_KEY": "<DEEPGRAM_API_KEY>"
-    },
-    "payload": "{\"fileUrl\": \"WRONG_URL\"}"
+
+    "fileUrl": "WRONG_URL"
 }
 ```
 
