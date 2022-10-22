@@ -2,7 +2,7 @@
 
 A .NET Cloud Function that wipes all documents from an Appwrite collection.
 
-_Example input:_
+_Example payload:_
 
 ```json
 {
