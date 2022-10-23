@@ -1,4 +1,4 @@
-# 🔉📃 Transcribe Audio with Deepgram
+# 🔉📃 Transcribe Video with Deepgram
 
 A Ruby Cloud Function for transcribing video using [Deepgram API](https://deepgram.com/).
 
