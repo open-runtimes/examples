@@ -2,7 +2,7 @@ import tweepy
 
 
 def send_tweet(env, message):
-    """Send email using Mailgun"""
+    """Send tweet to Twitter"""
 
     if not message:
         raise Exception("Missing message")
