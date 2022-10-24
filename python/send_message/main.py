@@ -12,7 +12,7 @@ def main(req, res):
     try:
         payload = req.payload
 
-        Type = payload["type"]
+        payload_type = payload["type"]
         message = payload["message"]
 
         if Type == "SMS":
