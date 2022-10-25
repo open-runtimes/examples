@@ -34,6 +34,7 @@ export default async function(req: any, res: any) {
   // Check status code
   if (response.status !== 200) {
       res.json({"success":false,"message":"Website could not be reached."})
+      return;
   }
 
   // Parse the response  
