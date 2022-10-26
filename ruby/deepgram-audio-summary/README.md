@@ -1,6 +1,6 @@
 # 🔉📃 Summarize Audio with Deepgram
 
-A Ruby Cloud Function for transcribing audio number using [Deepgram API](https://deepgram.com/).
+A Ruby Cloud Function for summarizing audio number using [Deepgram API](https://deepgram.com/).
 
 _Example input:_
 
