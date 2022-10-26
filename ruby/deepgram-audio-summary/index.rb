@@ -39,7 +39,7 @@ def main(req, res)
   parsed_response = JSON.parse(response.read_body)
   res.json({
     success: true,
-    deepgramData: parsed_response
+    deepgramData: parsed_response["results"]
   })
  else
   res.json({
