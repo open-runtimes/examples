@@ -1,4 +1,4 @@
-# 🔉📃 Transcribe Audio with Deepgram
+# 🔉📃 Summarize Audio with Deepgram
 
 A Ruby Cloud Function for transcribing audio number using [Deepgram API](https://deepgram.com/).
 
