@@ -63,5 +63,5 @@ Your function is now listening on port `3000`, and you can execute it by sending
 ```
 
 ## 📝 Notes
- - This function is designed for use with Appwrite Cloud Functions. You can learn more about it in [Appwrite docs](https://appwrite.io/docs/functions).
- - This example is compatible with Ruby 3.1. Other versions may work but are not guaranteed to work as they haven't been tested.
+- This function is designed for use with Appwrite Cloud Functions. You can learn more about it in [Appwrite docs](https://appwrite.io/docs/functions).
+- This example is compatible with Ruby 3.1. Other versions may work but are not guaranteed to work as they haven't been tested.
