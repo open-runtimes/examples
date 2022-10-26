@@ -45,7 +45,7 @@ cd ruby/deepgram-audio-summary
 
 2. Enter this function folder and build the code:
 ```bash
-docker run --rm --interactive --tty --volume $PWD:/usr/code openruntimes/ruby:3.1 sh /usr/local/src/build.sh
+docker run --rm --interactive --tty --volume $PWD:/usr/code openruntimes/ruby:v2-3.1 sh /usr/local/src/build.sh
 ```
 As a result, a `code.tar.gz` file will be generated.
 
