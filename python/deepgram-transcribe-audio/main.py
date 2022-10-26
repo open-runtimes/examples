@@ -45,7 +45,7 @@ def main(req, res):
         response = response.json()
         return res.json({
             "success": True,
-            "deepgramData": response["results"]["channels"][0]["alternatives"][0]
+            "deepgramData": response
         })
 
     elif response.status_code == 401:
