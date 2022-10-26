@@ -58,7 +58,7 @@ _Example output 2:_
 
 List of environment variables used by this cloud function:
 
-- **APPWRITE_FUNCTION_API_KEY** - Deepgram API Key
+- **DEEPGRAM_API_KEY** - Deepgram API Key
 
 ## 🚀 Deployment
 
