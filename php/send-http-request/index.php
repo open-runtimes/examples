@@ -36,7 +36,7 @@ return function($req, $res) {
             'success' => true,
             'response' => [
                 'headers' => $response->getHeaders(),
-                'code' => 200,
+                'code' => $response->getStatusCode(),
                 'body' => $response->getBody()->getContents()
             ]
         ]);
