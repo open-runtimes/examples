@@ -10,8 +10,10 @@ def main(req, res)
     payload = JSON.parse(req.payload)
     fileUrl = payload["fileUrl"]
   rescue Exception => err
-      puts err
-      raise "Payload is invalid."
+    res.json({
+      success: false,
+      message: "Payload is invalid."
+    })
   end
   
   url = URI("https://api.deepgram.com/v1/listen?summarize=true&punctuate=true")
