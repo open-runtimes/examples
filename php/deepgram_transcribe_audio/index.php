@@ -4,20 +4,6 @@ require 'vendor/autoload.php';
 
 use GuzzleHttp\Client;
 
-function buildTranscriptFromResponse(array $response) {
-    $channels = $response['results']['channels'];
-    $transcript = '';
-
-    foreach($channels as $channel) {
-        $alternatives = $channel['alternatives'];
-        foreach($alternatives as $alternative) {
-            $transcript.= $alternative['transcript'];
-        }
-    }
-
-    return $transcript;
-}
-
 return function($req, $res) {
     try {
         $payload = \json_decode($req['payload'], true);
@@ -68,11 +54,10 @@ return function($req, $res) {
     }
 
     if ($response->getStatusCode() === 200) {
-        $decodedResponse = (\json_decode($response->getBody()->getContents(), true));
-        $transcript = buildTranscriptFromResponse($decodedResponse);
+        $deepgramData = $response->getBody()->getContents();
         $res->json([
             'success' => true,
-            'deepgramData' => json_encode($transcript)
+            'deepgramData' => \json_decode($deepgramData)
         ]);
     } else {
         $res->json([

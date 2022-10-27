@@ -19,7 +19,7 @@ _Example output:_
 ```json
 {
     "success": true,
-    "deepgramData": "AUDIO_INTO_TEXT"
+    "deepgramData": "DEEPGRAM_DATA"
 }
 ```
 
