@@ -13,7 +13,7 @@ export default async function (req: any, res: any) {
   let response: any;
 
   switch (type) {
-    case "EMAIL":
+    case "Email":
       response = await send_email_mailgun(req.variables, receiver, message, subject);
       break;
 
@@ -21,11 +21,11 @@ export default async function (req: any, res: any) {
       response = await send_sms_twilio(req.variables, receiver, message);
       break;
 
-    case "DISCORD":
+    case "Discord":
       response = await send_message_discord_webhook(req.variables, message);
       break;
 
-    case "TWITTER":
+    case "Twitter":
       response = await send_tweet(req.variables, message);
       break;
 
