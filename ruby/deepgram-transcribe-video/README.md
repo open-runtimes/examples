@@ -39,13 +39,13 @@ $ cd ruby/deepgram-transcribe-video
 
 2. Enter this function folder and build the code:
 ```
-docker run --rm --interactive --tty --volume $PWD:/usr/code openruntimes/ruby:3.1 sh /usr/local/src/build.sh
+docker run --rm --interactive --tty --volume $PWD:/usr/code openruntimes/ruby:v2-3.1 sh /usr/local/src/build.sh
 ```
 As a result, a `code.tar.gz` file will be generated.
 
 3. Start the Open Runtime:
 ```
-docker run -p 3000:3000 -e INTERNAL_RUNTIME_KEY=secret-key -e INTERNAL_RUNTIME_ENTRYPOINT=index.rb --rm --interactive --tty --volume $PWD/code.tar.gz:/tmp/code.tar.gz:ro openruntimes/ruby:3.1 sh /usr/local/src/start.sh
+docker run -p 3000:3000 -e INTERNAL_RUNTIME_KEY=secret-key -e INTERNAL_RUNTIME_ENTRYPOINT=index.rb --rm --interactive --tty --volume $PWD/code.tar.gz:/tmp/code.tar.gz:ro openruntimes/ruby:v2-3.1 sh /usr/local/src/start.sh
 ```
 
 
@@ -56,7 +56,7 @@ Your function is now listening on port `3000`, and you can execute it by sending
 
 4. Run the curl function to send request.
 ```
- curl http://localhost:3000/ -d '{"payload": "{\"fileUrl\": \"https://static.deepgram.com/examples/interview_speech-analytics.wav\"}", "env": {"DEEPGRAM_API_KEY": "<YOUR_API_KEY>"}}' -H "X-Internal-Challenge: secret-key"
+curl http://localhost:3000/ -d '{"payload": {"fileUrl": "https://static.deepgram.com/examples/interview_speech-analytics.wav"}, "variables": {"DEEPGRAM_API_KEY": "<YOUR_API_KEY>"}}' -H "X-Internal-Challenge: secret-key"
 ```
 
 
