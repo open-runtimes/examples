@@ -131,4 +131,4 @@ Your function is now listening on port `3000`, and you can execute it by sending
 ## 📝 Notes
 
 - This function is designed for use with Appwrite Cloud Functions. You can learn more about it in [Appwrite docs](https://appwrite.io/docs/functions).
-- This example is compatible with Deno 1.13 and 1.14. Other versions may work but are not guarenteed to work as they haven't been tested.
+- This example is compatible with Deno 1.21. Other versions may work but are not guarenteed to work as they haven't been tested.
