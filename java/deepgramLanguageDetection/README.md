@@ -1,6 +1,6 @@
-# 🧹Deepgram Topic Detection
+# 🧹Deepgram Language Detection
 
-A Cloud Function for topic detection using [Deepgram](https://deepgram.com/)
+A Cloud Function for Language detection using [Deepgram](https://deepgram.com/)
 
 _Example input:_
 
@@ -39,7 +39,7 @@ Details are under link: [Deepgram_getting_started](https://developers.deepgram.c
 
 ```bash
 $ git clone https://github.com/open-runtimes/examples.git && cd examples
-$ cd java/deepgramTopicDetection
+$ cd java/deepgramLanguageDetection
 ```
 
 2. Build the code:
