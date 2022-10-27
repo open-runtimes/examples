@@ -18,6 +18,13 @@ return function($req, $res) {
         ]);
     };
 
+    if (!array_key_exists('type', $payload)) {
+        return $res->json([
+            'status' => false,
+            'message' => "Invalid payload, object 'type' is required."
+        ]);
+    }
+
     $notificator = match (strtolower($payload['type'])) {
         'sms' => new SMSChannel($req['variables']),
         'email' => new EmailChannel($req['variables']),
