@@ -25,8 +25,7 @@ export default async function (req: any, res: any) {
       url: fileUrl
     }, {
       punctuate: true,
-      diarize: true,
-      utterances: true
+      detect_topics: true
     });
 
     res.json({
