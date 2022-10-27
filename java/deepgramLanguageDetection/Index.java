@@ -46,7 +46,7 @@ public RuntimeResponse main(RuntimeRequest req,RuntimeResponse res)throws Except
         Map<String, Object> responseData=new HashMap<>();
 
         try{
-            deepgramData=generateSummary(fileurl,apiKey);
+            deepgramData=detectLanguage(fileurl,apiKey);
         }catch(Exception e){
             responseData.put("success",false);
             responseData.put("message","Something went wrong while generating the summary, please check with the developers. Error: "+e.getMessage());//TODO
@@ -67,7 +67,7 @@ public RuntimeResponse main(RuntimeRequest req,RuntimeResponse res)throws Except
  * @return the Deepgram's response to the POST request
  * @throws Exception in case of malformed URL, I/O exception, etc.
  */
-private String generateSummary(String requestBody,String apiKey)throws Exception{
+private String detectLanguage(String requestBody,String apiKey)throws Exception{
   
         String endpointUrl="https://api.deepgram.com/v1/listen?detect_language=true&punctuate=true";
         URL url=new URL(endpointUrl);
