@@ -1,6 +1,6 @@
 # Get Price!
 
-A Deno Cloud Function for Get the price of crypto, stocks, and commodities. Supported goods include (at least) Bitcoin, Ethereum, Google, Amazon, gold, and silver.
+A Deno Appwrite Function to get the price of crypto, stocks, and commodities. Supported types include Bitcoin, Ethereum, Google, Amazon, gold, and silver.
 
 _Example input:_
 
