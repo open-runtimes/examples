@@ -2,7 +2,7 @@
 
 A sample Deno Cloud Function sending a message using a specific channel to a receiver
 
-Supported channels are `SMS`, `EMAIL` ,`DISCORD` and `TWITTER`.
+Supported channels are `SMS`, `Email` ,`Discord` and `Twitter`.
 
 _SMS Example payload_
 
