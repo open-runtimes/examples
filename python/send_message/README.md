@@ -2,7 +2,7 @@
 
 A Python Cloud Function for sending a message using a specific channel to a receiver
 
-Supported channels are `SMS`, `EMAIL` ,`DISCORD` and `TWITTER`.
+Supported channels are `SMS`, `Email` ,`Disocrd` and `Twitter`.
 
 _SMS Example payload_
 
@@ -14,7 +14,7 @@ _Email Example payload_
 
 ```json
 {
-  "type": "EMAIL",
+  "type": "Email",
   "receiver": "hello@example.com",
   "message": "Programming is fun!",
   "subject": "Programming is funny!"
@@ -24,13 +24,13 @@ _Email Example payload_
 _Discord Example payload_
 
 ```json
-{ "type": "DISCORD", "message": "Hi" }
+{ "type": "Disocrd", "message": "Hi" }
 ```
 
 _Twitter Example payload_
 
 ```json
-{ "type": "TWITTER", "receiver": "", "message": "Programming is fun!" }
+{ "type": "Twitter", "receiver": "", "message": "Programming is fun!" }
 ```
 
 _Successful function response:_
