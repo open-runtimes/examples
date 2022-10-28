@@ -14,7 +14,7 @@ _Email Example payload_
 
 ```json
 {
-  "type": "EMAIL",
+  "type": "Email",
   "receiver": "hello@example.com",
   "message": "Programming is fun!",
   "subject": "Programming is funny!"
@@ -24,13 +24,13 @@ _Email Example payload_
 _Discord Example payload_
 
 ```json
-{ "type": "DISCORD", "message": "Hi" }
+{ "type": "Discord", "message": "Hi" }
 ```
 
 _Twitter Example payload_
 
 ```json
-{ "type": "TWITTER", "receiver": "", "message": "Programming is fun!" }
+{ "type": "Twitter", "receiver": "", "message": "Programming is fun!" }
 ```
 
 _Successful function response:_
@@ -48,7 +48,7 @@ _Error function response:_
 }
 ```
 
-## 📝 Environment Variables
+## 📝 Variables
 
 List of environment variables used by this cloud function:
 
@@ -72,36 +72,6 @@ Twilio
 - **TWITTER_ACCESS_TOKEN** - Access Token from Twitter
 - **TWITTER_ACCESS_TOKEN_SECRET** - Access Token Secret from Twitter
 
-## 📝 Environment Variables
-
-List of environment variables used by this cloud function:
-
-Mailgun
-
-- **MAILGUN_API_KEY** - API Key for Mailgun
-- **MAILGUN_DOMAIN** - Domain Name from Mailgun
-
-Discord
-
-- **DISCORD_WEBHOOK_URL** - Webhook URL for Discord
-
-Twilio
-
-- **TWILIO_ACCOUNT_SID** - Acount SID from Twilio
-
-- **TWILIO_AUTH_TOKEN** - Auth Token from Twilio
-
-- **TWILIO_SENDER** - Sender Phone Number from Twilio
-
-Twitter
-
-- **TWITTER_API_KEY** - API Key for Twitter
-
-- **TWITTER_API_KEY_SECRET** - API Key Secret for Twitter
-
-- **TWITTER_ACCESS_TOKEN** - Access Token from Twitter
-
-- **TWITTER_ACCESS_TOKEN_SECRET** - Access Token Secret from Twitter
 
 ## 🚀 Deployment
 
