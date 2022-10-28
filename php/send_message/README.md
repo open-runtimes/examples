@@ -60,9 +60,9 @@ This example includes the following channels, `SMS`, `Email`, `Twitter`, and `Di
 }
 ```
 
-## 📝 Environment Variables
+## 📝 Variables
 
-List of environment variables used by this cloud function:
+List of variables used by this cloud function:
 
 #### Mailgun
 
