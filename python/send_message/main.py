@@ -18,13 +18,13 @@ def main(req, res):
         if payload_type == "SMS":
             reciever = payload["receiver"]
             result = send_sms_twilio(req.variables, reciever, message)
-        elif payload_type == "EMAIL":
+        elif payload_type == "Email":
             reciever = payload["receiver"]
             subject = payload["subject"]
             result = send_email_mailgun(req.variables, reciever, message, subject)
-        elif payload_type == "TWITTER":
+        elif payload_type == "Twitter":
             result = send_tweet(req.variables, message)
-        elif payload_type == "DISCORD":
+        elif payload_type == "Discord":
             result = send_message_discord_webhook(req.variables, message)
         else:
             result = {"success": False, "error": "Invalid Type"}
