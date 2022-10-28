@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace WipeAppWriteBucket.Models
+namespace WipeAppwriteBucket.Models
 {
-    class AppWriteFile
+    class AppwriteFile
     {
         [JsonProperty(PropertyName = "id")]
         public string id { get; set; }

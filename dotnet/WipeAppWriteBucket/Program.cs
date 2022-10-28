@@ -1,9 +1,8 @@
 ﻿using System.Net;
-using Appwrite;
 using Newtonsoft.Json;
-using WipeAppWriteBucket.Models;
+using WipeAppwriteBucket.Models;
 
-namespace WipeAppWriteBucket
+namespace WipeAppwriteBucket
 {
     class Program
     {
@@ -40,18 +39,16 @@ namespace WipeAppWriteBucket
 
         public static async Task<HttpResponseMessage> WipeAppWriteBucket(ApiResponse payload)
         {
-            var appWriteClient = new Client();
-            appWriteClient.SetEndPoint(baseUrl) // Make sure your endpoint is accessible
-            .SetProject(APPWRITE_FUNCTION_PROJECT_ID) // Your project ID
-            .SetKey(APPWRITE_FUNCTION_API_KEY);
 
-            var storage = new Storage(appWriteClient);
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.Add("X-Appwrite-Project", APPWRITE_FUNCTION_PROJECT_ID);
+            client.DefaultRequestHeaders.Add("X-Appwrite-key", APPWRITE_FUNCTION_API_KEY);
 
             if (payload != null && payload.Files != null && payload?.Files.Count > 0)
             {
                 foreach (var file in payload.Files)
                 {
-                    await storage.DeleteFile(file.id);
+                    await client.DeleteAsync($"{baseUrl}/storage/buckets/{bucketId}/files/{file.id}");
                 }
                 return new HttpResponseMessage(HttpStatusCode.OK);
             }

@@ -1,10 +1,10 @@
 ﻿using System;
-namespace WipeAppWriteBucket.Models
+namespace WipeAppwriteBucket.Models
 {
     class ApiResponse
     {
         public int Total { get; set; }
-        public List<AppWriteFile>? Files { get; set; }
+        public List<AppwriteFile>? Files { get; set; }
     }
 }
 
