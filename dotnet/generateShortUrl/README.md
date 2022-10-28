@@ -24,7 +24,7 @@ _Example successful response:_
 }
 ```
 
-_Example successful response:_
+_Example failure response:_
 
 ```json
 {
