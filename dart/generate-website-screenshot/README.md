@@ -39,7 +39,7 @@ _Example output:_
 
 ## 📝 Environment Variables
 
-List of environment variables used by this cloud function:
+List of variables used by this cloud function:
 
 **SCREENLY_API_KEY** - Your Screenly API key.
 
