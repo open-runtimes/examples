@@ -24,7 +24,7 @@ _Error function response:_
 
 ## 📝 Variables
 
-List of environment variables used by this cloud function:
+List of variables used by this cloud function:
 
 **DEEPGRAM_API_KEY** - Your Deepgram API key.
 
