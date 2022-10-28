@@ -6,9 +6,7 @@ _Example function payload:_
 
 ```json
 {
-    {
-        "fileUrl":"https://static.deepgram.com/examples/interview_speech-analytics.wav"
-    }
+  "fileUrl": "https://static.deepgram.com/examples/interview_speech-analytics.wav"
 }
 ```
 
@@ -24,7 +22,7 @@ _Error function response:_
 { "message": "error message", "success": false }
 ```
 
-## 📝 Environment Variables
+## 📝 Variables
 
 List of environment variables used by this cloud function:
 
@@ -53,9 +51,9 @@ As a result, a `code.tar.gz` file will be generated.
 docker run -p 3000:3000 -e INTERNAL_RUNTIME_ENTRYPOINT=src/mod.ts -e INTERNAL_RUNTIME_KEY=secret-key --rm --interactive --tty --volume $PWD/code.tar.gz:/tmp/code.tar.gz:ro openruntimes/deno:v2-1.21 sh /usr/local/src/start.sh
 ```
 
-Your function is now listening on port `3000`, and you can execute it by sending `POST` request with appropriate authorization headers. To learn more about runtime, you can visit Deno runtime [README](https://github.com/open-runtimes/open-runtimes/tree/main/runtimes/deno-1.14).
+Your function is now listening on port `3000`, and you can execute it by sending `POST` request with appropriate authorization headers. To learn more about runtime, you can visit Deno runtime [README](https://github.com/open-runtimes/open-runtimes/tree/main/runtimes/deno-v2-1.21).
 
 ## 📝 Notes
 
 - This function is designed for use with Appwrite Cloud Functions. You can learn more about it in [Appwrite docs](https://appwrite.io/docs/functions).
-- This example is compatible with Deno 1.13 and 1.14. Other versions may work but are not guarenteed to work as they haven't been tested.
+- This example is compatible with Deno 1.21. Other versions may work but are not guarenteed to work as they haven't been tested.
