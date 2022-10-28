@@ -48,7 +48,7 @@ _Error function response:_
 }
 ```
 
-## 📝 Environment Variables
+## 📝 Variables
 
 List of environment variables used by this cloud function:
 
