@@ -47,6 +47,14 @@ public async Task<RuntimeResponse> Main(RuntimeRequest req, RuntimeResponse res)
 
     if(payload["provider"].Equals("bitly"))
     {
+      if(!req.Variables.ContainsKey("BITLY_API_KEY"))
+      {
+        return res.Json(new()
+        {
+          { "success", false },
+          { "message", "Bitly API Access Token is missing. Please add it as an environment variable \"BITLY_API_KEY\"" }
+        });
+      }
       apiKey = req.Variables["BITLY_API_KEY"];
       uri = "https://api-ssl.bitly.com/v4/shorten";
       body.Add("long_url", url);
@@ -55,6 +63,14 @@ public async Task<RuntimeResponse> Main(RuntimeRequest req, RuntimeResponse res)
 
     else if(payload["provider"].Equals("tinyurl"))
     {
+      if(!req.Variables.ContainsKey("TINYURL_API_KEY"))
+      {
+        return res.Json(new()
+        {
+          { "success", false },
+          { "message", "Tinyurl API Key is missing. Please add it as an environment variable \"TINYURL_API_KEY\"" }
+        });
+      }
       apiKey = req.Variables["TINYURL_API_KEY"];
       uri = "https://api.tinyurl.com/create";
       body.Add("url", url);
