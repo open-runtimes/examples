@@ -2,18 +2,21 @@ export default async function (req: any, res: any) {
   const { provider, url } = JSON.parse(req.payload);
 
   if (!provider) {
-    throw new Error("provider is required");
+    res.json({ success: false, message: "provider is required" });
+    return;
   }
 
   if (!url) {
-    throw new Error("url is required");
+    res.json({ success: false, message: "url is required" });
+    return;
   }
 
   if (provider === "bitly") {
     const BITLY_TOKEN = req.variables["BITLY_TOKEN"];
 
     if (!BITLY_TOKEN) {
-      throw new Error("BITLY_TOKEN is required");
+      res.json({ success: false, message: "BITLY_TOKEN is required"});
+      return;
     }
 
     const response = await fetch(`https://api-ssl.bitly.com/v4/shorten`, {
@@ -40,7 +43,8 @@ export default async function (req: any, res: any) {
     const TINYURL_TOKEN = req.variables["TINYURL_TOKEN"];
 
     if (!TINYURL_TOKEN) {
-      throw new Error("TINYURL_TOKEN is required");
+      res.json({ success: false, message: "TINYURL_TOKEN is required"});
+      return;
     }
 
     const response = await fetch(`https://api.tinyurl.com/create`, {
