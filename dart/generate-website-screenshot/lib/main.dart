@@ -13,9 +13,11 @@ Future<void> start(final req, final res) async {
 
   // Checking if SCREENLY_API_KEY is provided in Enviornment.
   if (req.variables['SCREENLY_API_KEY'] == null) {
-    throw Exception(
-      "Missing Screenly API Key in environment variables"
-    );
+    res.json({
+      "success": false,
+      "message": "Missing Screenly API Key in environment variables",
+    });
+    return;
   }
 
   final api_key = req.variables['SCREENLY_API_KEY'];
