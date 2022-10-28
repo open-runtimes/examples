@@ -6,9 +6,7 @@ _Example function payload:_
 
 ```json
 {
-    {
-        "fileUrl":"https://rawcdn.githack.com/deepgram-devs/transcribe-videos/62fc7769d6e2bf38e420ee5224060922af4546f7/deepgram.mp4"
-    }
+  "fileUrl":"https://rawcdn.githack.com/deepgram-devs/transcribe-videos/62fc7769d6e2bf38e420ee5224060922af4546f7/deepgram.mp4"
 }
 ```
 
@@ -24,7 +22,7 @@ _Error function response:_
 { "message": "error message", "success": false }
 ```
 
-## 📝 Environment Variables
+## 📝 Variables
 
 List of environment variables used by this cloud function:
 
