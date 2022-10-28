@@ -34,7 +34,7 @@ List of variables used by this cloud function:
 
 ```
 $ git clone https://github.com/open-runtimes/examples.git && cd examples
-$ cd deno/send_message
+$ cd deno/deepgram-transcribe-video
 ```
 
 2. Enter this function folder and build the code:
