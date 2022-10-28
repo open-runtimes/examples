@@ -1,6 +1,6 @@
-# 📷 Detecting Language from audio using [Deepgram](https://deepgram.com/)
+# ⚡ deepgramLanguageDetection()
 
-A Deno Cloud Function for transcribing video using [Deepgram](https://deepgram.com/)
+A Deno Cloud Function for detecting language from audio using [Deepgram](https://deepgram.com/)
 
 _Example function payload:_
 
