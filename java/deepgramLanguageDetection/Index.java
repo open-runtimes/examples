@@ -80,7 +80,7 @@ private String detectLanguage(String requestBody,String apiKey)throws Exception{
         con.setDoOutput(true);
 
         //prepare request body
-        requestBody="{"url":"requestBody"}";
+        requestBody="{\"url\":\"requestBody\"}";
 
         OutputStream os=con.getOutputStream();
         byte[] input=requestBody.getBytes("utf-8");
