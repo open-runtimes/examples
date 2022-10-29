@@ -90,7 +90,6 @@ private String detectLanguage(String requestBody,String apiKey)throws Exception{
 
         BufferedReader br=new BufferedReader(new InputStreamReader(con.getInputStream(),"utf-8"));
         String responseLine=null;
-        responseData.put("success",false);
         while((responseLine=br.readLine())!=null){
             response.append(responseLine.trim());
         }
