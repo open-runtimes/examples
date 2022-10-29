@@ -7,7 +7,7 @@ from .functions.send_message_discord_webhook import send_message_discord_webhook
 def main(req, res):
     """Main Function"""
 
-    global result
+   result = {}
 
     try:
         payload = req.payload
