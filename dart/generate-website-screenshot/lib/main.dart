@@ -6,12 +6,16 @@ Future<void> start(final req, final res) async {
 
   // Checking if url Parameter is present in the payload
   if (!data.containsKey("url")) {
-    throw Exception("Missing parameter url.");
+    res.json({
+        "success": false,
+        "message": "Missing parameter url.",
+      });
+      return;
   }
 
   final url = data["url"];
 
-  // Checking if SCREENLY_API_KEY is provided in Enviornment.
+  // Checking if SCREENLY_API_KEY is provided in Varibles.
   if (req.variables['SCREENLY_API_KEY'] == null) {
     res.json({
       "success": false,
