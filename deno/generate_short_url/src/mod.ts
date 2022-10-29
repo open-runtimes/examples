@@ -15,7 +15,7 @@ export default async function (req: any, res: any) {
     const BITLY_TOKEN = req.variables["BITLY_TOKEN"];
 
     if (!BITLY_TOKEN) {
-      res.json({ success: false, message: "BITLY_TOKEN is required"});
+      res.json({ success: false, message: "BITLY_TOKEN is required" });
       return;
     }
 
@@ -31,10 +31,8 @@ export default async function (req: any, res: any) {
     });
 
     if (response.status !== 200) {
-      res.json({ success: false, message: "Entered URL is not a valid URL." });
-      throw new Error(
-        `Status code: ${response.status}, Data: ${await response.text()}`
-      );
+      res.json({ success: false, message: `${await response.text()}` });
+      return;
     }
 
     const data = await response.json();
@@ -43,7 +41,7 @@ export default async function (req: any, res: any) {
     const TINYURL_TOKEN = req.variables["TINYURL_TOKEN"];
 
     if (!TINYURL_TOKEN) {
-      res.json({ success: false, message: "TINYURL_TOKEN is required"});
+      res.json({ success: false, message: "TINYURL_TOKEN is required" });
       return;
     }
 
@@ -59,10 +57,8 @@ export default async function (req: any, res: any) {
     });
 
     if (response.status !== 200) {
-      res.json({ success: false, message: "Entered URL is not a valid URL." });
-      throw new Error(
-        `Status code: ${response.status}, Data: ${await response.text()}`
-      );
+      res.json({ success: false, message: `${await response.text()}` });
+      return;
     }
 
     const data = await response.json();
