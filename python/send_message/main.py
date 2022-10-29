@@ -31,6 +31,6 @@ def main(req, res):
 
     except Exception as e:
 
-        return res.json({"success": False, "error": e})
+        return res.json({"success": False, "error": str(e)})
 
     return res.json(result)
