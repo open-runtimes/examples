@@ -1,4 +1,4 @@
-import { statusUpdate } from "https://kamekyame.github.io/twitter_api_client/api_v1/tweets/update.ts";
+import { statusUpdate } from "https://deno.land/x/twitter_api_client/api_v1/tweets/update.ts";
 
 export default async function (env: any, text: string) {
   const consumerKey = env["TWITTER_API_KEY"];
