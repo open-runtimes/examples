@@ -38,5 +38,5 @@ export default async function (req: any, res: any) {
       break;
   }
 
-  res.send(response);
+  res.json(response);
 }
