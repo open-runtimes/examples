@@ -43,7 +43,9 @@ _Twitter Example payload_
 _Successful function response:_
 
 ```json
-{ "success": true }
+{
+  "success": true 
+}
 ```
 
 _Error function response:_
