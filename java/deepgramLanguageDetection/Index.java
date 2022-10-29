@@ -110,7 +110,7 @@ private String detectLanguage(String requestBody,String apiKey)throws Exception{
 private RuntimeResponse checkEmptyAPIKey(RuntimeRequest req,RuntimeResponse res,String apiKeyVariable){
         Map<String, String> variables=req.getVariables();
 
-        if(!variables.containsKey(apiKeyVariable) ||variables.get(apiKeyVariable)==null||variables.get(apiKeyVariable).trim().isEmpty()){
+        if(!variables.containsKey(apiKeyVariable)){
             Map<String, Object> responseData=new HashMap<>();
             responseData.put("success",false);
             responseData.put("message","Please pass a non-empty API Key "+apiKeyVariable+" for Deepgram");
