@@ -63,7 +63,7 @@ curl --location --request POST 'http://localhost:3000/' \
 --header 'X-Internal-Challenge: secret-key' \
 --header 'Content-Type: application/json' \
 --data-raw '{"payload": "{\"fileUrl\": \"https://static.deepgram.com/examples/interview_speech-analytics.wav\"}", 
-"variables": {"DEEPGRAM_SECRET_KEY":"<>YOUR_API_KEY"}}
+"variables": {"DEEPGRAM_SECRET_KEY":"<YOUR_API_KEY>"}}
 '
 ```
 
