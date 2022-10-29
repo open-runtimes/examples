@@ -19,12 +19,12 @@ Future<void> start(final req, final res) async {
   if (req.variables['SCREENLY_API_KEY'] == null) {
     res.json({
       "success": false,
-      "message": "Missing Screenly API Key in variables",
+      "message": "Missing Screeenly API Key in variables",
     });
     return;
   }
 
-  final api_key = req.variables['SCREENLY_API_KEY'];
+  final api_key = req.variables['SCREEENLY_API_KEY'];
 
   var parsedUrl = Uri.parse("http://screeenly.com/api/v1/fullsize?key=${api_key}&url=${url}");
 
