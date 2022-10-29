@@ -56,7 +56,7 @@ _Example output 2:_
 
 ## 📝 Variables
 
-List of environment variables used by this cloud function:
+List of variables used by this cloud function:
 
 - **DEEPGRAM_API_KEY** - Deepgram API Key
 
