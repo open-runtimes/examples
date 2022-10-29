@@ -1,6 +1,6 @@
 # 🖼️ Get Website Screenshot
 
-A Dart Cloud Function for getting website screenshot from the ScreenlyAPI.
+A Dart Cloud Function for getting website screenshot from the ScreeenlyAPI.
 
 _Example input:_
 
@@ -33,7 +33,7 @@ _Example output:_
 ```json
 {
     "success": "false",
-    "screenshot": "Invalid URL"
+    "screenshot": "An internal error occured"
 }
 ```
 
@@ -41,7 +41,7 @@ _Example output:_
 
 List of variables used by this cloud function:
 
-**SCREENLY_API_KEY** - Your Screenly API key.
+**SCREEENLY_API_KEY** - Your Screeenly API key.
 
 ## 🚀 Deployment
 
