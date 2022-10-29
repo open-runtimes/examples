@@ -157,7 +157,7 @@ private RuntimeResponse validatePayload(Map<String, Object> payload,RuntimeRespo
 private RuntimeResponse checkEmptyPayloadAndVariables(RuntimeRequest req,RuntimeResponse res){
         Map<String, Object> responseData=new HashMap<>();
 
-        if(req.getPayload()==null||req.getPayload().trim().isEmpty()||req.getPayload().trim().equals("{}")){
+        if(req.getPayload().isEmpty()||req.getPayload().trim().equals("{}")){
         responseData.put("success",false);
         responseData.put("message","Payload is empty, expected a payload with provider and URL");
             return res.json(responseData);
