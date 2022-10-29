@@ -22,7 +22,7 @@ def main(req, res):
     if not req.variables.get('DEEPGRAM_API_KEY', None):
         return res.json({
             "success": False,
-            "message": "Please provide DEEPGRAM_API_KEY in enviornment variables"
+            "message": "Please provide DEEPGRAM_API_KEY in variables"
         })
 
     api_key = req.variables.get('DEEPGRAM_API_KEY')
