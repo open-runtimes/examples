@@ -38,8 +38,8 @@ Details are under link: [Deepgram_getting_started](https://developers.deepgram.c
 1. Clone this repository, and enter this function folder:
 
 ```bash
-$ git clone https://github.com/open-runtimes/examples.git && cd examples
-$ cd java/deepgramLanguageDetection
+git clone https://github.com/open-runtimes/examples.git && cd examples
+cd java/deepgramLanguageDetection
 ```
 
 2. Build the code:
