@@ -66,7 +66,7 @@ List of variables used by this cloud function:
 
     ```shell
     git clone https://github.com/open-runtimes/examples.git && cd examples
-    cd python/convert_phone_number_to_country_name
+    cd python/deepgram-transcribe-audio
     ```
 
 2. Enter this function folder and build the code:
