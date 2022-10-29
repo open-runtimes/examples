@@ -54,7 +54,7 @@ _Example output 2:_
 }
 ```
 
-## 📝 Environment Variables
+## 📝 Variables
 
 List of environment variables used by this cloud function:
 
