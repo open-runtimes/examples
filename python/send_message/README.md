@@ -24,7 +24,7 @@ _Email Example payload_
 _Discord Example payload_
 
 ```json
-{ "type": "Disocrd", "message": "Hi" }
+{ "type": "Discord", "message": "Hi" }
 ```
 
 _Twitter Example payload_
