@@ -40,6 +40,8 @@ Future<void> start(final req, final res) async {
   // Response otherwise
   else {
     Map<String, dynamic> parsedBody = jsonDecode(response.body);
-    res.json({"success": false, "message": "Some error occured"});
+    final title = parsedBody['title'];
+    final message = parsedBody['message'];
+    res.json({"success": false, "message": '$title: $message'});
   }
 }
