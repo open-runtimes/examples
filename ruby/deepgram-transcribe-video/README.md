@@ -33,7 +33,7 @@ List of environment variables used by this cloud function:
 1. Clone this repository, and enter this function folder:
 
 ```
-$ git clone https://github.com/open-runtimes/examples.git && cd examples
+git clone https://github.com/open-runtimes/examples.git && cd examples
 $ cd ruby/deepgram-transcribe-video
 ```
 
