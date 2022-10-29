@@ -15,8 +15,8 @@ Future<void> start(final req, final res) async {
 
   final url = data["url"];
 
-  // Checking if SCREENLY_API_KEY is provided in Varibles.
-  if (req.variables['SCREENLY_API_KEY'] == null) {
+  // Checking if SCREEENLY_API_KEY is provided in Variables.
+  if (req.variables['SCREEENLY_API_KEY'] == null) {
     res.json({
       "success": false,
       "message": "Missing Screeenly API Key in variables",
