@@ -99,6 +99,12 @@ docker run -p 3000:3000 -e INTERNAL_RUNTIME_ENTRYPOINT=src/mod.ts -e INTERNAL_RU
 
 Your function is now listening on port `3000`, and you can execute it by sending `POST` request with appropriate authorization headers. To learn more about runtime, you can visit Deno runtime [README](https://github.com/open-runtimes/open-runtimes/tree/main/runtimes/deno-1.14).
 
+4. Curl Command ( Email )
+
+```bash
+curl http://localhost:3000/ -d '{"variables": {"MAILGUN_API_KEY":"YOUR_MAILGUN_API_KEY","MAILGUN_DOMAIN":"YOUR_MAILGUN_DOMAIN"},"payload": {"type": "EMAIL","receiver": "hello@example.com","message": "Programming is fun!","subject": "Programming is funny!"}}' -H "X-Internal-Challenge: secret-key"
+```
+
 ## 📝 Notes
 - This function is designed for use with Appwrite Cloud Functions. You can learn more about it in [Appwrite docs](https://appwrite.io/docs/functions).
 - This example is compatible with Deno 1.21. Other versions may work but are not guarenteed to work as they haven't been tested.
