@@ -1,4 +1,4 @@
-# 🌐 Write a generateWebsiteScreenshot() Function using Ruby
+# 🌐 generateWebsiteScreenshot() Function using Ruby
 
 Generate a PNG screenshot of a website and return in base64 format.
 
@@ -6,7 +6,7 @@ _Example input:_
 
 ```json
 {
-    "variables": {"SCREENSHOT_API_KEY": SCREENSHOT_API_KEY},
+    "variables": {"SCREENSHOT_API_KEY": "SCREENSHOT_API_KEY"},
     "payload": "{\"url\":\"https://google.com\"}"
 }
 ```
