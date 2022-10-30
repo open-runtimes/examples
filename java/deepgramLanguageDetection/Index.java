@@ -80,7 +80,7 @@ private String detectLanguage(String requestBody,String apiKey)throws Exception{
         con.setDoOutput(true);
 
         //prepare request body
-        requestBody="{\"url\":\"requestBody\"}";
+        requestBody="{\"url\":\""+requestBody+"\"}";
 
         OutputStream os=con.getOutputStream();
         byte[] input=requestBody.getBytes("utf-8");
@@ -157,14 +157,13 @@ private RuntimeResponse checkEmptyPayloadAndVariables(RuntimeRequest req,Runtime
         Map<String, Object> responseData=new HashMap<>();
 
         if(req.getPayload().isEmpty()||req.getPayload().trim().equals("{}")){
-        responseData.put("success",false);
-        responseData.put("message","Payload is empty, expected a payload with provider and URL");
+            responseData.put("message","Payload is empty, expected a payload with provider and URL");
             return res.json(responseData);
         }
 
         if(req.getVariables()==null){
-        responseData.put("success",false);
-        responseData.put("message","Empty function variables found. You need to pass an API key for the provider");
+            responseData.put("success",false);
+            responseData.put("message","Empty function variables found. You need to pass an API key for the provider");
             return res.json(responseData);
         }
         return null;
