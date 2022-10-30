@@ -1,4 +1,4 @@
 dependencies {
     implementation 'com.google.code.gson:gson:2.9.0'
-	implementation 'com.itextpdf:itextpdf:5.5.13.3'
+    implementation 'com.itextpdf:itextpdf:5.5.13.3'
 }
