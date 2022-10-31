@@ -102,7 +102,7 @@ Your function is now listening on port `3000`, and you can execute it by sending
 4. Curl Command ( Email )
 
 ```bash
-curl http://localhost:3000/ -d '{"variables": {"MAILGUN_API_KEY":"YOUR_MAILGUN_API_KEY","MAILGUN_DOMAIN":"YOUR_MAILGUN_DOMAIN"},"payload": {"type": "EMAIL","receiver": "hello@example.com","message": "Programming is fun!","subject": "Programming is funny!"}}' -H "X-Internal-Challenge: secret-key"
+curl http://localhost:3000/ -d '{"variables": {"MAILGUN_API_KEY":"YOUR_MAILGUN_API_KEY","MAILGUN_DOMAIN":"YOUR_MAILGUN_DOMAIN"},"payload": {"type": "Email","receiver": "hello@example.com","message": "Programming is fun!","subject": "Programming is funny!"}}' -H "X-Internal-Challenge: secret-key"
 ```
 
 ## 📝 Notes
