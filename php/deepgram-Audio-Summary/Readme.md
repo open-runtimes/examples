@@ -1,7 +1,7 @@
 
 # ⚡ deepgramAudioSummary()
 
-A Php Cloud Function for transcribing video using [Deepgram](https://deepgram.com/)
+A Php Cloud Function for audio summary using [Deepgram](https://deepgram.com/)
 
 _Example function payload:_
 
