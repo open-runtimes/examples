@@ -1,6 +1,6 @@
 # 📱 Send SMS with Twilio
 
-A Ruby Cloud Function for sending messages to a phone number using [Twilio API](https://www.twilio.com/docs/usage/api).
+A Ruby Cloud Function for sending a message to a phone number using [Twilio API](https://www.twilio.com/docs/usage/api).
 
 _Example input:_
 
