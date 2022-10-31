@@ -1,5 +1,4 @@
 require 'net/http'
-require 'net/https'
 require 'addressable/uri'
 require 'json'
 require 'base64'
@@ -8,10 +7,10 @@ require 'open-uri'
 def main(request, response)
     website_url = nil
     begin
-      payload = JSON.parse(request.payload)
-      website_url = payload["url"]
-    rescue Exception => err
-      raise 'Payload is invalid.'
+        payload = JSON.parse(request.payload)
+        website_url = payload["url"]
+    rescue Exception => e
+        return response.json({"message":"Payload is invalid."})
     end
 
     begin
@@ -27,11 +26,9 @@ def main(request, response)
 
         http = Net::HTTP.new(uri.host, uri.port)
         http.use_ssl = true
-        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-
         req =  Net::HTTP::Get.new(uri)
-
         res = http.request(req)
+
         screenshot_url = JSON.parse(res.body)['screenshot']
         image =  URI.open(screenshot_url)
         result = Base64.strict_encode64(image.read)

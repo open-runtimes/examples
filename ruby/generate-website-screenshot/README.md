@@ -20,10 +20,6 @@ _Example output:_
 }
 ```
 
-## 📝 Environment Variables
-
-List of environment variables used by this cloud function:
-
 - **SCREENSHOT_API_KEY** - Here is an api key you get from https://app.screenshotapi.net/
 
 ## 🚀 Deployment
