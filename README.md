@@ -19,6 +19,7 @@ Example functions to show off what you can achieve with Open Runtimes.
 | Generate Giphy GIF | [✅](/dart/generate_giphy_gif) | [✅](/deno/generate-giphy-gif) | [✅](/node/generate_giphy_gif) |     |  [✅](/python/generate-giphy-gif)  |      |      |
 | Get COVID-19 Stats |      |      |      |     |        |      | [✅](/swift/get-covid-stats) |
 | Wipe Appwrite Bucket |      |      | [✅](/node/wipe_appwrite_bucket) |      |      |      |      |
+| Detect Language with Deepgram  |      |      |      |      | [✅](/python/deepgram-language-detection) |      |      |
 
 ## Contributing
 
