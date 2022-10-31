@@ -58,9 +58,9 @@ docker run -p 3000:3000 -e INTERNAL_RUNTIME_KEY=secret-key -e INTERNAL_RUNTIME_E
 
 > Make sure to replace `YOUR_API_KEY` without your key.
 
-Your function is now listening on port `3000`, and you can execute it by sending `POST` request with appropriate authorization headers. To learn more about runtime, you can visit Python runtime [README](https://github.com/open-runtimes/open-runtimes/tree/main/runtimes/php-8.1).
+Your function is now listening on port `3000`, and you can execute it by sending `POST` request with appropriate authorization headers. To learn more about runtime, you can visit PHP runtime [README](https://github.com/open-runtimes/open-runtimes/tree/main/runtimes/php-8.1).
 
 ## 📝 Notes
 
 - This function is designed for use with Appwrite Cloud Functions. You can learn more about it in [Appwrite docs](https://appwrite.io/docs/functions).
-- This example is compatible with Python 3.10. Other versions may work but are not guaranteed to work as they haven't been tested.
+- This example is compatible with PHP 2.8.1. Other versions may work but are not guaranteed to work as they haven't been tested.
