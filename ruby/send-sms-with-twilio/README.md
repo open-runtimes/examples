@@ -36,7 +36,7 @@ List of environment variables used by this cloud function:
 
 ```
 $ git clone https://github.com/open-runtimes/examples.git && cd examples
-$ cd ruby/send-sms-with-twillio
+$ cd ruby/send-sms-with-twilio
 ```
 
 2. Enter this function folder and build the code:
