@@ -85,6 +85,11 @@ List of variables used by this cloud function:
 
 Your function is now listening on port `3000`, and you can execute it by sending `POST` request with appropriate authorization headers. To learn more about runtime, you can visit Python runtime [README](https://github.com/open-runtimes/open-runtimes/tree/main/runtimes/python-3.10).
 
+4. Run the cURL function to send request.
+```bash
+curl http://localhost:3000/ -H "X-Internal-Challenge: secret-key" -d '{"payload": {"fileUrl": "https://static.deepgram.com/examples/interview_speech-analytics.wav"}, "variables": {"DEEPGRAM_API_KEY": "<YOUR_API_KEY>"}}' 
+```
+
 ## 📝 Notes
 
 - This function is designed for use with Appwrite Cloud Functions. You can learn more about it in [Appwrite docs](https://appwrite.io/docs/functions).
