@@ -1,9 +1,9 @@
 import json
 import requests
+from json import JSONDecodeError
 
 
 def main(req, res):
-
     url = None
 
     # Extracting URL from the payload
@@ -11,7 +11,7 @@ def main(req, res):
         payload = json.loads(req.payload)
         url = payload['fileUrl']
 
-    except Exception:
+    except KeyError:
         err = 'Please provide all the required parameters.'
         return res.json({
             "success": False,
@@ -61,7 +61,15 @@ def main(req, res):
         })
 
     else:
-        return res.json({
-            "success": False,
-            "message": "Some error occured"
-        })
+        try:
+            response = response.json()
+            return res.json({
+                "success": False,
+                "message": f"{response['error']}, {response['reason']}"
+            })
+
+        except JSONDecodeError:
+            return res.json({
+                "success": False,
+                "message": response.text
+            })
