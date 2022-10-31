@@ -58,7 +58,7 @@ docker run -p 3000:3000 -e INTERNAL_RUNTIME_KEY=secret-key -e INTERNAL_RUNTIME_E
 Your function is now listening on port `3000`, and you can execute it by sending `POST` request with appropriate authorization headers. To learn more about runtime, you can visit Python runtime [README](https://github.com/open-runtimes/open-runtimes/tree/main/openruntimes/python:v2-3.10).
 4. Run the cURL function to send request.
 ```bash
-curl http://localhost:3000/ -d '{"payload": {"fileUrl": "https://static.deepgram.com/examples/interview_speech-analytics.wav"}, "variables": {"DEEPGRAM_API_KEY": "<YOUR_API_KEY>"}}' -H "X-Internal-Challenge: secret-key"
+curl http://localhost:3000/ -H "X-Internal-Challenge: secret-key" -H "Content-Type: application/json" -d '{"payload": {"fileUrl": "https://static.deepgram.com/examples/interview_speech-analytics.wav"}, "variables": {"DEEPGRAM_API_KEY": "<YOUR_API_KEY>"}}'
 ```
 
 ## 📝 Notes
