@@ -1,11 +1,11 @@
 require "json"
-require 'open-uri'
 require "base64"
 require "tinify"
 require "kraken-io"
 
 class NotImageException < StandardError; end
 class ApiError < StandardError; end
+class NoApiError < StandardError; end
 
 $invalidPayload = {
   success: false, message: "Invalid Payload"
@@ -39,7 +39,9 @@ def krakenio(req, image)
     end
 
     buffer = Base64.decode64(image)
-    File.open('/file.png', 'wb') do |f|
+    dir = Dir.mktmpdir("kraken_temp")
+
+    File.open("#{dir}/file.png", 'wb') do |f|
       f.write(buffer)
     end
 
@@ -48,12 +50,15 @@ def krakenio(req, image)
         :api_secret => req.env['KRAKENIO_SECRET']
     )
 
-    data = kraken.upload('/file.png')
+    data = kraken.upload("#{dir}/file.png")
 
     if data.success
         img = URI.open(data.kraked_url)
         Base64.encode64(img.read)
     else
+        if data.message.include? 'Unknown API Key'
+          raise ApiError
+        end
         raise NotImageException
     end
 end
@@ -79,7 +84,7 @@ def main(req, res)
             base64 = tinypng(req, image)
             return res.json({
                 success: true,
-                image: base64
+                image: base64.gsub("\n",'')
             })
         rescue Tinify::ClientError
             return res.json($notImage)
@@ -95,8 +100,10 @@ def main(req, res)
             base64 = krakenio(req, image)
             return res.json({
                 success: true,
-                image: base64
+                image: base64.gsub("\n",'')
             })
+        rescue ApiError
+            return res.json($invalidApi)
         rescue NotImageException
             return res.json($notImage)
         rescue NoApiError
