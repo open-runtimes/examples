@@ -1,4 +1,4 @@
-# 🌐 Translate text from one language to another
+# Compress .png Images
 
 A Ruby Cloud Function that compresses png images.
 
@@ -23,7 +23,7 @@ _Example output:_
 }
 ```
 
-## 📝 Environment Variables
+## 📝 Variables
 
 > only selected provider's api keys are neccessary, ie. kraken's api keys are not neccessary when choosing tinypng as the provider.
 

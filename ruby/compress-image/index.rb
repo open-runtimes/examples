@@ -7,20 +7,23 @@ require "kraken-io"
 class NotImageException < StandardError; end
 class ApiError < StandardError; end
 
-invalidPayload = {
+$invalidPayload = {
   success: false, message: "Invalid Payload"
 }
-notImage = {
+$notImage = {
   success: false, message: "Input file is not an image."
 }
-invalidApi = {
+$invalidApi = {
   success: false, message: "Invalid API."
+}
+$noApi = {
+  success: false, message: "no API key was provided."
 }
 
 def tinypng(req, image) 
     # Get api key
     if !req.env['TINYPNG_API']
-      raise ApiError
+      raise NoApiError
     end
 
     Tinify.key = req.env['TINYPNG_API']
@@ -32,7 +35,7 @@ end
 
 def krakenio(req, image) 
     if !req.env['KRAKENIO_KEY'] or !req.env['KRAKENIO_SECRET']
-        raise ApiError
+        raise NoApiError
     end
 
     buffer = Base64.decode64(image)
@@ -64,11 +67,11 @@ def main(req, res)
         provider = payload["provider"]
         image = payload["image"]
     rescue Exception => err
-        return res.json(invalidPayload)
+        return res.json($invalidPayload)
     end
 
     if provider.nil? or provider.empty? or image.nil? or image.empty?
-        return res.json(invalidPayload)
+        return res.json($invalidPayload)
     end
 
     if provider == 'tinypng' 
@@ -79,11 +82,11 @@ def main(req, res)
                 image: base64
             })
         rescue Tinify::ClientError
-            return res.json(notImage)
+            return res.json($notImage)
         rescue Tinify::AccountError
-            return res.json(invalidApi)    
-        rescue ApiError
-            return res.json(invalidApi)    
+            return res.json($invalidApi)    
+        rescue NoApiError
+            return res.json($noApi)    
         end
     end
 
@@ -95,9 +98,9 @@ def main(req, res)
                 image: base64
             })
         rescue NotImageException
-            return res.json(notImage)
-        rescue ApiError
-            return res.json(invalidApi)    
+            return res.json($notImage)
+        rescue NoApiError
+            return res.json($noApi)    
         end
     end
 
