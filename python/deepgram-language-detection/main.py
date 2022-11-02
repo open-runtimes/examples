@@ -16,7 +16,7 @@ def main(req,res):
     api_key = req.variables.get('DEEPGRAM_API_KEY')
 
   except Exception:
-    return errorMessage(res, 'Payload must contain fileUrl and DEEPGRAM_API_KEY.')
+    return errorMessage(res, 'Request must contain the File URL in the payload and the Deepgram API Key as a variable.')
 
   # Setting up headers and body data for the requst
   headers = {
