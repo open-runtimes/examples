@@ -7,7 +7,7 @@ from .functions.send_message_discord_webhook import send_message_discord_webhook
 def main(req, res):
     """Main Function"""
 
-   result = {}
+    result = {}
 
     try:
         payload = req.payload
@@ -21,7 +21,8 @@ def main(req, res):
         elif payload_type == "Email":
             reciever = payload["receiver"]
             subject = payload["subject"]
-            result = send_email_mailgun(req.variables, reciever, message, subject)
+            result = send_email_mailgun(
+                req.variables, reciever, message, subject)
         elif payload_type == "Twitter":
             result = send_tweet(req.variables, message)
         elif payload_type == "Discord":

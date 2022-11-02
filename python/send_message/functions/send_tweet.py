@@ -1,24 +1,25 @@
 import tweepy
 
 
-def send_tweet(env, message):
+def send_tweet(variables, message):
     """Send tweet to Twitter"""
 
     if not message:
         raise Exception("Missing message")
 
-    consumer_key = env.get("TWITTER_API_KEY", None)
-    consumer_secret = env.get("TWITTER_API_KEY_SECRET", None)
-    access_token = env.get("TWITTER_ACCESS_TOKEN", None)
-    access_token_secret = env.get("TWITTER_ACCESS_TOKEN_SECRET", None)
+    consumer_key = variables.get("TWITTER_API_KEY", None)
+    consumer_secret = variables.get("TWITTER_API_KEY_SECRET", None)
+    access_token = variables.get("TWITTER_ACCESS_TOKEN", None)
+    access_token_secret = variables.get("TWITTER_ACCESS_TOKEN_SECRET", None)
 
-    if (
-        not consumer_key
-        or not consumer_secret
-        or not access_token
-        or not access_token_secret
-    ):
-        raise Exception("Missing Twitter credentials")
+    if not consumer_key:
+        raise Exception("Missing Twitter consumer key")
+    if not consumer_secret:
+        raise Exception("Missing Twitter consumer secret")
+    if not access_token:
+        raise Exception("Missing Twitter access token")
+    if not access_token_secret:
+        raise Exception("Missing Twitter access token secret")
 
     try:
         auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
@@ -33,7 +34,7 @@ def send_tweet(env, message):
 
     except Exception as e:
         print(e)
-        return {"success": False, "error": e}
+        return {"success": False, "error": str(e)}
 
     return {
         "success": True,

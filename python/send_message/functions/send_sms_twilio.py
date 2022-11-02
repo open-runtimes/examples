@@ -1,7 +1,7 @@
 import requests
 
 
-def send_sms_twilio(env, phoneNumber, message):
+def send_sms_twilio(variables, phoneNumber, message):
     """Send SMS using Twilio"""
 
     if not phoneNumber:
@@ -10,11 +10,16 @@ def send_sms_twilio(env, phoneNumber, message):
     if not message:
         raise Exception("No message provided")
 
-    accountSID = env.get("TWILIO_ACCOUNT_SID", None)
-    authToken = env.get("TWILIO_AUTH_TOKEN", None)
-    sender = env.get("TWILIO_SENDER", None)
-    if not accountSID or not authToken or not sender:
-        raise Exception("Missing Twilio credentials")
+    accountSID = variables.get("TWILIO_ACCOUNT_SID", None)
+    authToken = variables.get("TWILIO_AUTH_TOKEN", None)
+    sender = variables.get("TWILIO_SENDER", None)
+
+    if not accountSID:
+        raise Exception("Missing Twilio account SID")
+    if not authToken:
+        raise Exception("Missing Twilio auth token")
+    if not sender:
+        raise Exception("Missing Twilio sender")
 
     try:
         response = requests.post(
@@ -29,6 +34,6 @@ def send_sms_twilio(env, phoneNumber, message):
         response.raise_for_status()
     except Exception as e:
         print(e)
-        return {"success": False, "error": e}
+        return {"success": False, "error": str(e)}
 
     return {"success": True}

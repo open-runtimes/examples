@@ -2,17 +2,19 @@ import requests
 import os
 
 
-def send_email_mailgun(env, email, message, subject):
+def send_email_mailgun(variables, email, message, subject):
     """Send email using Mailgun"""
 
     if not email or not message or not subject:
         raise Exception("Missing email, message or subject")
 
-    domain = env.get("MAILGUN_DOMAIN", None)
-    api_key = env.get("MAILGUN_API_KEY", None)
+    domain = variables.get("MAILGUN_DOMAIN", None)
+    api_key = variables.get("MAILGUN_API_KEY", None)
 
-    if not domain or not api_key:
-        raise Exception("Missing Mailgun credentials")
+    if not domain:
+        raise Exception("Missing Mailgun domain")
+    if not api_key:
+        raise Exception("Missing Mailgun API key")
 
     try:
         response = requests.post(
@@ -25,11 +27,11 @@ def send_email_mailgun(env, email, message, subject):
                 "text": message,
             },
         )
-        response.raise_for_status()
+        # response.raise_for_status()
 
     except Exception as e:
         print(e)
-        return {"success": False, "error": e}
+        return {"success": False, "error": str(e)}
 
     return {
         "success": True,

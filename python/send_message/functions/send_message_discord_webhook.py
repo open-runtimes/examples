@@ -2,13 +2,13 @@ import json
 import requests
 
 
-def send_message_discord_webhook(env, message):
+def send_message_discord_webhook(variables, message):
     """Send message to Discord webhook"""
 
     if not message:
         raise Exception("No message provided")
 
-    webhook = env.get("DISCORD_WEBHOOK_URL", None)
+    webhook = variables.get("DISCORD_WEBHOOK_URL", None)
 
     if not webhook:
         raise Exception("No Discord webhook URL provided")
@@ -22,6 +22,6 @@ def send_message_discord_webhook(env, message):
         response.raise_for_status()
     except Exception as e:
         print(e)
-        return {"success": False, "error": e}
+        return {"success": False, "error": str(e)}
 
     return {"success": True}
