@@ -1,7 +1,30 @@
-export default async function (env: any, phoneNumber: string, message: string) {
-  const accountSID = env["TWILIO_ACCOUNT_SID"];
-  const authToken = env["TWILIO_AUTH_TOKEN"];
-  const sender = env["TWILIO_SENDER"];
+export default async function (
+  variables: any,
+  phoneNumber: string,
+  message: string
+) {
+  const accountSID = variables["TWILIO_ACCOUNT_SID"];
+  const authToken = variables["TWILIO_AUTH_TOKEN"];
+  const sender = variables["TWILIO_SENDER"];
+
+  if (!accountSID) {
+    return {
+      success: false,
+      error: "TWILIO_ACCOUNT_SID is not set",
+    };
+  }
+  if (!authToken) {
+    return {
+      success: false,
+      error: "TWILIO_AUTH_TOKEN is not set",
+    };
+  }
+  if (!sender) {
+    return {
+      success: false,
+      error: "TWILIO_SENDER is not set",
+    };
+  }
 
   const res = await fetch(
     `https://api.twilio.com/2010-04-01/Accounts/${accountSID}/Messages.json`,

@@ -1,11 +1,24 @@
 export default async function (
-  env: any,
+  variables: any,
   email: string,
   message: string,
   subject: string
 ) {
-  const domain = env["MAILGUN_DOMAIN"];
-  const apiKey = env["MAILGUN_API_KEY"];
+  const domain = variables["MAILGUN_DOMAIN"];
+  const apiKey = variables["MAILGUN_API_KEY"];
+
+  if (!domain) {
+    return {
+      success: false,
+      error: "MAILGUN_DOMAIN is not set",
+    };
+  }
+  if (!apiKey) {
+    return {
+      success: false,
+      error: "MAILGUN_API_KEY is not set",
+    };
+  }
 
   const form = new FormData();
   form.append("from", "<welcome@my-awesome-app.io>");

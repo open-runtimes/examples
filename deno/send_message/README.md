@@ -68,11 +68,11 @@ Twilio
 - **TWILIO_SENDER** - Sender Phone Number from Twilio
 
 Twitter
+
 - **TWITTER_API_KEY** - API Key for Twitter
 - **TWITTER_API_KEY_SECRET** - API Key Secret for Twitter
 - **TWITTER_ACCESS_TOKEN** - Access Token from Twitter
 - **TWITTER_ACCESS_TOKEN_SECRET** - Access Token Secret from Twitter
-
 
 ## 🚀 Deployment
 
@@ -102,9 +102,10 @@ Your function is now listening on port `3000`, and you can execute it by sending
 4. Curl Command ( Email )
 
 ```bash
-curl http://localhost:3000/ -d '{"variables": {"MAILGUN_API_KEY":"YOUR_MAILGUN_API_KEY","MAILGUN_DOMAIN":"YOUR_MAILGUN_DOMAIN"},"payload": {"type": "Email","receiver": "hello@example.com","message": "Programming is fun!","subject": "Programming is funny!"}}' -H "X-Internal-Challenge: secret-key"
+curl -X POST http://localhost:3000/ -d '{"variables": {"MAILGUN_API_KEY":"YOUR_MAILGUN_API_KEY","MAILGUN_DOMAIN":"YOUR_MAILGUN_DOMAIN"},"payload": {"type": "Email","receiver": "hello@example.com","message": "Programming is fun!","subject": "Programming is funny!"}}' -H "X-Internal-Challenge: secret-key" -H "Content-Type: application/json"
 ```
 
 ## 📝 Notes
+
 - This function is designed for use with Appwrite Cloud Functions. You can learn more about it in [Appwrite docs](https://appwrite.io/docs/functions).
 - This example is compatible with Deno 1.21. Other versions may work but are not guarenteed to work as they haven't been tested.

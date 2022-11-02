@@ -1,6 +1,12 @@
-export default async function (env: any, message: string) {
-  const webhook = env["DISCORD_WEBHOOK_URL"];
-  console.log(webhook);
+export default async function (variables: any, message: string) {
+  const webhook = variables["DISCORD_WEBHOOK_URL"];
+
+  if (!webhook) {
+    return {
+      success: false,
+      error: "DISCORD_WEBHOOK_URL is not set",
+    };
+  }
 
   const res = await fetch(webhook, {
     method: "POST",
@@ -11,11 +17,11 @@ export default async function (env: any, message: string) {
       content: message,
     }),
   });
+  const data = await res.json();
   if (res.status !== 204) {
-    console.log(res);
     return {
       success: false,
-      error: "Failed to send message, check the webhook URL",
+      error: data.message,
     };
   }
 
