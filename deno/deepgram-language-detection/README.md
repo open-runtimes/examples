@@ -57,7 +57,7 @@ Your function is now listening on port `3000`, and you can execute it by sending
 
 ```bash
 curl http://localhost:3000/ -d '{"variables": {"DEEPGRAM_API_KEY":"<YOUR_DEEPGRAM_API_KEY>"},"payload": {"fileUrl":"https://static.deepgram.com/examples/interview_speech-analytics.wav" }
-}' -H "X-Internal-Challenge: secret-key"
+}' -H "X-Internal-Challenge: secret-key" -H "Content-Type: application/json"
 ```
 
 ## 📝 Notes

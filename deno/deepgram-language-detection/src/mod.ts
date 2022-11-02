@@ -2,6 +2,13 @@ export default async function (req: any, res: any) {
   const APIkey = req.variables["DEEPGRAM_API_KEY"];
   const fileUrl = req.payload["fileUrl"];
 
+  if (!APIkey) {
+    return res.json({
+      success: false,
+      message: "DEEPGRAM_API_KEY is not set",
+    });
+  }
+
   const response = await fetch(
     "https://api.deepgram.com/v1/listen?model=general&detect_language=true&punctuate=true",
     {
