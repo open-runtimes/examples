@@ -21,6 +21,9 @@ def main(req, res):
 
     api_key = req.variables['DEEPGRAM_API_KEY']
 
+    if not api_key:
+        res.json({'success': False, 'message': 'DEEPGRAM_API_KEY not set'})
+
     rs = asyncio.run(transribeVideo(api_key, payload))
 
     return res.json(rs)

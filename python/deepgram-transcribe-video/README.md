@@ -5,7 +5,9 @@ A Python Cloud Function for transcribing video using [Deepgram](https://deepgram
 _Example function payload:_
 
 ```json
-{ "fileUrl":"https://rawcdn.githack.com/deepgram-devs/transcribe-videos/62fc7769d6e2bf38e420ee5224060922af4546f7/deepgram.mp4" }
+{
+  "fileUrl": "https://rawcdn.githack.com/deepgram-devs/transcribe-videos/62fc7769d6e2bf38e420ee5224060922af4546f7/deepgram.mp4"
+}
 ```
 
 _Successful function response::_
@@ -55,7 +57,7 @@ Your function is now listening on port `3000`, and you can execute it by sending
 
 ```bash
 curl http://localhost:3000/ -d '{"variables": {"DEEPGRAM_API_KEY":"<YOUR_DEEPGRAM_API_KEY>"},"payload": {"fileUrl":"https://rawcdn.githack.com/deepgram-devs/transcribe-videos/62fc7769d6e2bf38e420ee5224060922af4546f7/deepgram.mp4" }
-}' -H "X-Internal-Challenge: secret-key"
+}' -H "X-Internal-Challenge: secret-key" -H "Content-Type: application/json"
 ```
 
 ## 📝 Notes
