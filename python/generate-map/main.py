@@ -3,7 +3,7 @@ import requests
 from io import BytesIO
 from base64 import b64encode
 def error(res,message):
-    return res.json({"success":False,"error":message})
+    return res.json({"success":False,"message":message})
 def main(req,res):
      
      try:
