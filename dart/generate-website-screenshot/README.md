@@ -33,7 +33,7 @@ _Example output:_
 ```json
 {
     "success": "false",
-    "screenshot": "An internal error occured"
+    "message": "An internal error occured"
 }
 ```
 
