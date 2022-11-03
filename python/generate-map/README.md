@@ -11,7 +11,7 @@ _Example input:_
     "lat": 60
   },
   "env":{
-   "token": "YOUR_MAPBOX_ACCESS_TOKEN"
+   "MAPBOX_ACCESS_TOKEN": "YOUR_MAPBOX_ACCESS_TOKEN"
   }
 }
 ```
