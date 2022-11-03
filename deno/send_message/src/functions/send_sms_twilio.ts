@@ -10,19 +10,19 @@ export default async function (
   if (!accountSID) {
     return {
       success: false,
-      error: "TWILIO_ACCOUNT_SID is not set",
+      message: "TWILIO_ACCOUNT_SID is not set",
     };
   }
   if (!authToken) {
     return {
       success: false,
-      error: "TWILIO_AUTH_TOKEN is not set",
+      message: "TWILIO_AUTH_TOKEN is not set",
     };
   }
   if (!sender) {
     return {
       success: false,
-      error: "TWILIO_SENDER is not set",
+      message: "TWILIO_SENDER is not set",
     };
   }
 
@@ -45,7 +45,7 @@ export default async function (
   if (res.status !== 201) {
     return {
       success: false,
-      error: res.statusText,
+      message: res.statusText,
     };
   }
   return { success: true };

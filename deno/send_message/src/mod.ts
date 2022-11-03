@@ -40,7 +40,7 @@ export default async function (req: any, res: any) {
       console.log("Invalid type");
       response = {
         success: false,
-        error: "Invalid type",
+        message: "Invalid type",
       };
       break;
   }

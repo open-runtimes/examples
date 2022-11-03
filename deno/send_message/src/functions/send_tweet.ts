@@ -9,25 +9,25 @@ export default async function (variables: any, text: string) {
   if (!consumerKey) {
     return {
       success: false,
-      error: "TWITTER_API_KEY is not set",
+      message: "TWITTER_API_KEY is not set",
     };
   }
   if (!consumerSecret) {
     return {
       success: false,
-      error: "TWITTER_API_KEY_SECRET is not set",
+      message: "TWITTER_API_KEY_SECRET is not set",
     };
   }
   if (!accessToken) {
     return {
       success: false,
-      error: "TWITTER_ACCESS_TOKEN is not set",
+      message: "TWITTER_ACCESS_TOKEN is not set",
     };
   }
   if (!accessTokenSecret) {
     return {
       success: false,
-      error: "TWITTER_ACCESS_TOKEN_SECRET is not set",
+      message: "TWITTER_ACCESS_TOKEN_SECRET is not set",
     };
   }
 
@@ -46,7 +46,7 @@ export default async function (variables: any, text: string) {
   if (res.errors) {
     return {
       success: false,
-      error: res.errors[0].message,
+      message: res.messages[0].message,
     };
   }
 

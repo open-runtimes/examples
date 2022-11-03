@@ -4,7 +4,7 @@ export default async function (variables: any, message: string) {
   if (!webhook) {
     return {
       success: false,
-      error: "DISCORD_WEBHOOK_URL is not set",
+      message: "DISCORD_WEBHOOK_URL is not set",
     };
   }
 
@@ -21,7 +21,7 @@ export default async function (variables: any, message: string) {
   if (res.status !== 204) {
     return {
       success: false,
-      error: data.message,
+      message: data.message,
     };
   }
 

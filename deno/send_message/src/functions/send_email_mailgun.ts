@@ -10,13 +10,13 @@ export default async function (
   if (!domain) {
     return {
       success: false,
-      error: "MAILGUN_DOMAIN is not set",
+      message: "MAILGUN_DOMAIN is not set",
     };
   }
   if (!apiKey) {
     return {
       success: false,
-      error: "MAILGUN_API_KEY is not set",
+      message: "MAILGUN_API_KEY is not set",
     };
   }
 
@@ -33,10 +33,12 @@ export default async function (
     },
     body: form,
   });
+  // catch errorr from mailgun
+  const data = await res.json();
   if (res.status !== 200) {
     return {
       success: false,
-      error: res.statusText,
+      message: data.message,
     };
   }
 
