@@ -53,7 +53,7 @@ _Error function response:_
 ```json
 {
   "success": false,
-  "error": "Failed to send message,check webhook URL"
+  "message": "Failed to send message,check webhook URL"
 }
 ```
 

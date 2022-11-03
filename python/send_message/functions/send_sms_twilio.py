@@ -34,6 +34,6 @@ def send_sms_twilio(variables, phoneNumber, message):
         response.raise_for_status()
     except Exception as e:
         print(e)
-        return {"success": False, "error": str(e)}
+        return {"success": False, "message": str(e)}
 
     return {"success": True}

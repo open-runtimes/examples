@@ -28,10 +28,10 @@ def main(req, res):
         elif payload_type == "Discord":
             result = send_message_discord_webhook(req.variables, message)
         else:
-            result = {"success": False, "error": "Invalid Type"}
+            result = {"success": False, "message": "Invalid Type"}
 
     except Exception as e:
 
-        return res.json({"success": False, "error": str(e)})
+        return res.json({"success": False, "message": str(e)})
 
     return res.json(result)

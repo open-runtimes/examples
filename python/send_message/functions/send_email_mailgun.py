@@ -27,11 +27,11 @@ def send_email_mailgun(variables, email, message, subject):
                 "text": message,
             },
         )
-        # response.raise_for_status()
+        response.raise_for_status()
 
     except Exception as e:
         print(e)
-        return {"success": False, "error": str(e)}
+        return {"success": False, "message": str(e)}
 
     return {
         "success": True,
