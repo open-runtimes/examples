@@ -6,8 +6,6 @@ _Example input:_
 
 ```json
 {
-
- 
   "payload": {
     "lng": 50,
     "lat": 60
@@ -17,9 +15,7 @@ _Example input:_
   }
 }
 ```
-
 _Example output:_
-
 
 ```json
 {
@@ -28,10 +24,7 @@ _Example output:_
     
 }
 ```
-
 ## 📝 Environment Variables
-
-
 
 ## 🚀 Deployment
 
