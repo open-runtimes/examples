@@ -31,7 +31,7 @@ Future<void> start(final req, final res) async {
   final lat = data["lat"].toString();
   final lng = data["lng"].toString();
 
-  final mapQuestAPIKey = req.env["MAPQUEST_API_KEY"];
+  final mapQuestAPIKey = req.variables["MAPQUEST_API_KEY"];
   if (mapQuestAPIKey == null) {
     returnFailure(
         res, "MAPQUEST_API_KEY is not provided in the environment variables");
