@@ -9,7 +9,14 @@ void returnFailure(final res, final msg) {
 }
 
 Future<void> start(final req, final res) async {
-  Map<String, dynamic> data = jsonDecode(req.payload);
+  Map<String, dynamic> data;
+
+  try {
+    data = jsonDecode(req.payload);
+  } catch (err) {
+    returnFailure(res, err.toString());
+    return;
+  }
 
   if (!data.containsKey("lat")) {
     returnFailure(res, "The payload must contain latitude!");
