@@ -58,7 +58,7 @@ Future<void> start(final req, final res) async {
   var response = await http.get(parsedUrl);
 
   if (response.statusCode != 200) {
-    returnFailure(res, "Failed to get the map, please check the url!");
+    returnFailure(res, "Failed to get the map: ${response.body}");
     return;
   }
 
