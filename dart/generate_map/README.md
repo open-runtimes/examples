@@ -51,7 +51,7 @@ List of environment variables used by this cloud function:
 
 ```
 $ git clone https://github.com/open-runtimes/examples.git && cd examples
-$ cd dart/generate-map
+$ cd dart/generate_map
 ```
 
 2. Enter this function folder and build the code:
