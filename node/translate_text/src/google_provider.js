@@ -3,13 +3,12 @@ const translate = require('@vitalets/google-translate-api');
 module.exports = async function(payload){
   const {
     text,
-    source,
-    target
+    from,
+    to
   } = JSON.parse(payload);
 
-  let translation = await translate(text, {to: target, from: source}).then((data) => {
-    return data;
-  }).catch((e) => console.error(e));
-  
-  return translation.text;
+  let response = await translate(text, {to: to, from: from}).then((data) => {
+    return {message: data.text, success: true, from: from};
+  }).catch((e) => {console.error(e); return {message: e.message, success: false}});
+  return response;
 }

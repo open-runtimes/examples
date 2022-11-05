@@ -4,8 +4,8 @@ const aws = require('aws-sdk')
 module.exports = async function(payload,variables){
   const {
     text,
-    source,
-    target
+    from,
+    to
   } = JSON.parse(payload);
 
 
@@ -17,16 +17,15 @@ module.exports = async function(payload,variables){
   aws.config.region = 'us-east-1'
   aws.config.credentials = new aws.Credentials(AWS_ACCESS_KEY, AWS_SECRET_KEY)
   const params = {
-    SourceLanguageCode: source,
-    TargetLanguageCode: target,
+    SourceLanguageCode: from,
+    TargetLanguageCode: to,
     Text: text
   };
   const translateService = new aws.Translate()
 
-  const translatedMsg = await translateService.translateText(params, (err, data) => {
-    return data;
-}).promise()
+  const response = await translateService.translateText(params, (err, data) => {
+    return data; 
+}).promise().then(data => {return {success :true , message: data.TranslatedText, from: from};}).catch(e =>{return {success :false , message: e.message};} )
 
-  return translatedMsg.TranslatedText;
-
+  return response;
 }

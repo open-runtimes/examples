@@ -8,22 +8,26 @@ module.exports = async function(req, res) {
       text
     } = JSON.parse(req.payload);
 
-    let translatedText = "";
+    let response ={};
 
     if(provider==='google'){
-      translatedText = await googleProvider(req.payload).catch((e)=>console.log(e));
+      response = await googleProvider(req.payload).catch((e)=>console.log(e));
     }
 
     else if(provider==='azure'){
-      translatedText = await azureProvider(req.payload, req.env).catch((e)=>console.log(e));
+      response = await azureProvider(req.payload, req.variables).catch((e)=>console.log(e));
     }
 
     else if(provider==='aws'){
-      translatedText = await awsProvider(req.payload, req.env).catch((e)=>console.log(e));
-    }    
-  
-    res.json({
-      text: text,
-      translation: translatedText
-    });
+      response = await awsProvider(req.payload, req.variables).catch((e)=>console.log(e));
+    }  
+    
+    else{
+      response = {
+        success : false,
+        message : "The provider does not match the available providers"
+      }
+    }
+    // console.log(response);
+    res.json(response);
 };
