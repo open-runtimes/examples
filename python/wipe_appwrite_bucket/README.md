@@ -38,5 +38,5 @@ Make sure you are in the same folder as your `appwrite.json` file and run `appwr
 Manual deployment has no requirements and uses Appwrite Console to deploy the tag. First, enter the folder of your function. Then, create a tarball of the whole folder and gzip it. After creating `.tar.gz` file, visit Appwrite Console, click on the `Deploy Tag` button and switch to the `Manual` tab. There, set the `entrypoint` to `src/index.js`, and upload the file we just generated.
 
 ## 📝 Notes
- - This function is designed for use with Appwrite Cloud Functions. You can learn more about it in [Appwrite docs](https://appwrite.io/docs/functions).
- - This example is compatible with Python 3.10. Other versions may work but are not guaranteed to work as they haven't been tested.
+- This function is designed for use with Appwrite Cloud Functions. You can learn more about it in [Appwrite docs](https://appwrite.io/docs/functions).
+- This example is compatible with Python 3.10. Other versions may work but are not guaranteed to work as they haven't been tested.
