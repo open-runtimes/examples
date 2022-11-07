@@ -28,14 +28,15 @@ def main(req, res):
     )
     storage = Storage(client)
 
-    # Get all files in the bucket
+    # Getting and deleting  all files in the bucket
     try:
         files = storage.list_files(bucket_id)
     except:
         return res.json({"success":False,"message":"Bucket not found."})
 
-    # Delete all files in the bucket
-    for file in files['files']:
-        storage.delete_file(bucket_id,file['$id'])
+    while len(files)!=0:
+        for file in files['files']:
+            storage.delete_file(bucket_id,file['$id'])
+        files = storage.list_files(bucket_id)
 
     return res.json({"success":True})
