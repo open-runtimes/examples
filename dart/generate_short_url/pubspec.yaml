@@ -1,0 +1,8 @@
+name: generate_short_url
+description: ""
+version: 1.0.0
+
+environment:
+  sdk: '>=2.14.0 <3.0.0'
+dependencies:
+  http: ^0.13.5
