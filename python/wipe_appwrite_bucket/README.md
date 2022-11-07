@@ -16,9 +16,9 @@ _Example output:_
 {"success":true}
 ```
 
-## 📝 Environment Variables
+## 📝 Variables
 
-List of environment variables used by this cloud function:
+List of variables used by this cloud function:
 
 - **APPWRITE_FUNCTION_ENDPOINT** - Endpoint of Appwrite project
 - **APPWRITE_FUNCTION_API_KEY** - Appwrite API Key
