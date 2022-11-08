@@ -1,9 +1,6 @@
 # 🗺️ Generate Map Image 
-
 A Python Cloud Function that generate static map image from longitude and latitude.
-
 _Example input:_
-
 ```json
 {
   "payload": {
@@ -21,15 +18,11 @@ _Example output:_
 {
     "success":true,
     "image":"iVBORw0KGgoAAAANSUhEUgAAAaQAAALiCAY...QoH9hbkTPQAAAABJRU5ErkJggg=="
-    
 }
 ```
 ## 📝 Environment Variables
-
 ## 🚀 Deployment
-
 1. Clone this repository, and enter this function folder:
-
 ```
 $ git clone https://github.com/open-runtimes/examples.git && cd examples
 $ cd python/generate-map
