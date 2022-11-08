@@ -7,9 +7,10 @@ _Example input:_
 ```json
 {
     "payload": {
-        "fileUrl": "https://static.deepgram.com/examples/interview_speech-analytics.wav",
-        "variables": {
-        "deepgramApiSecretKey": "YOUR_PERSONAL_DEEPGRAM_API_SECRET_KEY"
+        "fileUrl": "https://static.deepgram.com/examples/interview_speech-analytics.wav"
+    },
+    "variables": {
+        "DEEPGRAM_API_SECRET_KEY": "YOUR_PERSONAL_DEEPGRAM_API_SECRET_KEY"
     }
 }
 ```
@@ -23,11 +24,11 @@ _Example output:_
 }
 ```
 
-## 📝 Environment Variables
+## 📝 Variables
 
-List of environment variables used by this cloud function:
+List of variables used by this cloud function:
 
-**DEEPGRAM_API_SECRET_KEEY** - Your Deepgram secret API key.
+**DEEPGRAM_API_SECRET_KEY** - Your Deepgram secret API key.
 Details are under link: [Deepgram_getting_started](https://developers.deepgram.com/documentation/getting-started/)
 
 ## 🚀 Deployment
@@ -41,13 +42,13 @@ $ cd php/deepgram_transcribe_audio
 
 2. Enter this function folder and build the code:
 ```
-docker run --rm --interactive --tty --volume $PWD:/usr/code openruntimes/php:8.1 sh /usr/local/src/build.sh
+docker run --rm --interactive --tty --volume $PWD:/usr/code openruntimes/php:v2-8.1 sh /usr/local/src/build.sh
 ```
 As a result, a `code.tar.gz` file will be generated.
 
 3. Start the Open Runtime:
 ```
-docker run -p 3000:3000 -e INTERNAL_RUNTIME_KEY=secret-key -e INTERNAL_RUNTIME_ENTRYPOINT=index.php --rm --interactive --tty --volume $PWD/code.tar.gz:/tmp/code.tar.gz:ro openruntimes/php:8.1 sh /usr/local/src/start.sh
+docker run -p 3000:3000 -e INTERNAL_RUNTIME_KEY=secret-key -e INTERNAL_RUNTIME_ENTRYPOINT=index.php --rm --interactive --tty --volume $PWD/code.tar.gz:/tmp/code.tar.gz:ro openruntimes/php:v2-8.1 sh /usr/local/src/start.sh
 ```
 
 Your function is now listening on port `3000`, and you can execute it by sending `POST` request with appropriate authorization headers. To learn more about runtime, you can visit PHP runtime [README](https://github.com/open-runtimes/open-runtimes/tree/main/runtimes/php-8.1).
