@@ -1,6 +1,6 @@
-# 🧹 Deepgram Transcribe Audio
+# 🧹 Deepgram Topic Detection
 
-A Cloud Function for transcribing audio using [Deepgram](https://deepgram.com/)
+A Cloud Function for topic detection using [Deepgram](https://deepgram.com/)
 
 _Example input:_
 
@@ -30,7 +30,7 @@ _Example error output:_
 }
 ```
 
-## 📝 Environment Variables
+## 📝 Variables
 
 **DEEPGRAM_API_KEY** - Your Deepgram secret API key.
 Details are under link: [Deepgram_getting_started](https://developers.deepgram.com/documentation/getting-started/)

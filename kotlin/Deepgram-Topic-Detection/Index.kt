@@ -8,7 +8,7 @@ import java.io.OutputStream
 import java.net.HttpURLConnection
 import java.net.URL
 
-const val API_ENDPOINT = "https://api.deepgram.com/v1/listen?detect_topics=true&punctuate=true"
+val API_ENDPOINT = "https://api.deepgram.com/v1/listen?detect_topics=true&punctuate=true"
 
 @Throws(Exception::class)
 suspend fun main(req: RuntimeRequest, res: RuntimeResponse): RuntimeResponse {
@@ -54,21 +54,14 @@ suspend fun main(req: RuntimeRequest, res: RuntimeResponse): RuntimeResponse {
         br.close()
         conn.disconnect()
 
-        return res.json(
-            data = mapOf(
+        return mapOf(
                 "success" to true,
                 "deepgramData" to response.toString()
-            ),
-            statusCode = 200
         )
-
     } catch (e: Exception) {
-        return res.json(
-            data = mapOf(
+        return mapOf(
                 "success" to false,
                 "message" to e.message
-            ),
-            statusCode = 500
-        )
+            )
     }
 }
