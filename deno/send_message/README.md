@@ -30,7 +30,7 @@ _Discord Example payload_
 _Twitter Example payload_
 
 ```json
-{ "type": "Twitter", "receiver": "", "message": "Programming is fun!" }
+{ "type": "Twitter", "message": "Programming is fun!" }
 ```
 
 _Successful function response:_
