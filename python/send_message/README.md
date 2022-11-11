@@ -97,6 +97,12 @@ docker run -p 3000:3000 -e INTERNAL_RUNTIME_KEY=secret-key -e INTERNAL_RUNTIME_E
 
 Your function is now listening on port `3000`, and you can execute it by sending `POST` request with appropriate authorization headers. To learn more about runtime, you can visit Python runtime [README](https://github.com/open-runtimes/open-runtimes/tree/main/runtimes/python-3.10/example).
 
+4. Curl Command
+
+```bash
+curl http://localhost:3000/ -d '{"variables": {"Add":"Required Variables"},"payload": {"type": "EMAIL","receiver": "hello@example.com","message": "Programming is fun!","subject": "Programming is funny!"}}' -H "X-Internal-Challenge: secret-key"
+```
+
 ## 📝 Notes
 
 - This function is designed for use with Appwrite Cloud Functions. You can learn more about it in [Appwrite docs](https://appwrite.io/docs/functions).
