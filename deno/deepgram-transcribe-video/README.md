@@ -6,7 +6,7 @@ _Example function payload:_
 
 ```json
 {
-  "fileUrl":"https://rawcdn.githack.com/deepgram-devs/transcribe-videos/62fc7769d6e2bf38e420ee5224060922af4546f7/deepgram.mp4"
+  "fileUrl": "https://rawcdn.githack.com/deepgram-devs/transcribe-videos/62fc7769d6e2bf38e420ee5224060922af4546f7/deepgram.mp4"
 }
 ```
 
@@ -52,6 +52,12 @@ docker run -p 3000:3000 -e INTERNAL_RUNTIME_ENTRYPOINT=src/mod.ts -e INTERNAL_RU
 ```
 
 Your function is now listening on port `3000`, and you can execute it by sending `POST` request with appropriate authorization headers. To learn more about runtime, you can visit Deno runtime [README](https://github.com/open-runtimes/open-runtimes/tree/main/runtimes/deno-1.21).
+
+4. Curl Command
+
+```bash
+curl http://localhost:3000/ -d '{"variables": {"DEEPGRAM_API_KEY":"<YOUR_DEEPGRAM_API_KEY>"},"payload": "{\"fileUrl\":\"https://static.deepgram.com/examples/interview_speech-analytics.wav\"}"}' -H "X-Internal-Challenge: secret-key" -H "Content-Type: application/json"
+```
 
 ## 📝 Notes
 
