@@ -10,6 +10,13 @@ export default async function (req: any, res: any) {
     });
   }
 
+  if (!fileUrl) {
+    res.json({
+      success: false,
+      message: "Missing fileUrl",
+    });
+  }
+
   const response = await fetch(
     "https://api.deepgram.com/v1/listen?model=video",
     {
