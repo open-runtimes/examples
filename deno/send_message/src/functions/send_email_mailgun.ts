@@ -26,21 +26,28 @@ export default async function (
   form.append("subject", subject);
   form.append("text", message);
 
-  const res = await fetch(`https://api.mailgun.net/v3/${domain}/messages`, {
-    method: "POST",
-    headers: {
-      Authorization: `Basic ${btoa("api:" + apiKey)}`,
-    },
-    body: form,
-  });
-  // catch errorr from mailgun
-  const data = await res.json();
-  if (res.status !== 200) {
+  try {
+    const res = await fetch(`https://api.mailgun.net/v3/${domain}/messages`, {
+      method: "POST",
+      headers: {
+        Authorization: `Basic ${btoa("api:" + apiKey)}`,
+      },
+      body: form,
+    });
+
+    // catch errors
+    if (!res.ok) {
+      // const error = await res.json();
+      return {
+        success: false,
+        message: `Error ${res.status}: ${res.statusText}`,
+      };
+    }
+  } catch (error) {
     return {
       success: false,
-      message: data.message,
+      message: error.message,
     };
   }
-
   return { success: true };
 }

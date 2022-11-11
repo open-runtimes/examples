@@ -26,7 +26,7 @@ export default async function (
     };
   }
 
-  const res = await fetch(
+  fetch(
     `https://api.twilio.com/2010-04-01/Accounts/${accountSID}/Messages.json`,
     {
       method: "POST",
@@ -40,13 +40,14 @@ export default async function (
         Body: message,
       }),
     }
-  );
+  )
+    .then((res) => res.json())
+    .catch((err) => {
+      return {
+        success: false,
+        message: err.message,
+      };
+    });
 
-  if (res.status !== 201) {
-    return {
-      success: false,
-      message: res.statusText,
-    };
-  }
   return { success: true };
 }
