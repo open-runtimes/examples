@@ -19,7 +19,7 @@ void returnFailure(final res, final message) {
 
 Future<void> start(final req, final res) async {
   var fileUrl;
-  var APIkey;
+  var apiKey;
 
   //getting data from payload
   try {
@@ -37,8 +37,8 @@ Future<void> start(final req, final res) async {
     returnFailure(res, "Provide a valid file URL in payload");
     return;
   }
-  
-  if (APIkey == null) {
+
+  if (apiKey == null) {
     returnFailure(res, "Provide the API key as an environment variable");
     return;
   }
@@ -48,7 +48,7 @@ Future<void> start(final req, final res) async {
     final endPoint =
         Uri.parse("https://api.deepgram.com/v1/listen?model=video");
     final headers = {
-      "Authorization": "Token $APIkey",
+      "Authorization": "Token $apiKey",
       'content-type': 'application/json',
     };
     final body = {"url": fileUrl};
