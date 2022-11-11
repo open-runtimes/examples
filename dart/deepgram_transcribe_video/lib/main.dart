@@ -32,11 +32,14 @@ Future<void> start(final req, final res) async {
   }
 
   //checks
-  if (fileUrl == null || APIkey == null) {
-    if (fileUrl == null)
-      returnFailure(res, "Provide a valid file URL in payload");
-    else
-      returnFailure(res, "Provide the API key as an environment variable");
+
+  if (fileUrl == null) {
+    returnFailure(res, "Provide a valid file URL in payload");
+    return;
+  }
+  
+  if (APIkey == null) {
+    returnFailure(res, "Provide the API key as an environment variable");
     return;
   }
 
