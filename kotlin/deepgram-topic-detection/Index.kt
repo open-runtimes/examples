@@ -56,7 +56,7 @@ suspend fun main(req: RuntimeRequest, res: RuntimeResponse): RuntimeResponse {
 
         return mapOf(
                 "success" to true,
-                "deepgramData" to response.toString()
+                "deepgramData" to response
         )
     } catch (e: Exception) {
         return mapOf(

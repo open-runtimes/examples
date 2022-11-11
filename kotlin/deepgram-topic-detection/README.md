@@ -41,7 +41,7 @@ Details are under link: [Deepgram_getting_started](https://developers.deepgram.c
 
 ```bash
 $ git clone https://github.com/open-runtimes/examples.git && cd examples
-$ cd kotlin/Deepgram-Topic-Detection
+$ cd kotlin/deepgram-topic-detection
 ```
 
 2. Build the code:
