@@ -34,7 +34,7 @@ List of variables used by this cloud function:
 
 ```
 $ git clone https://github.com/open-runtimes/examples.git && cd examples
-$ cd deno/deepgram-transcribe-video
+$ cd deno/deepgram-language-detection
 ```
 
 2. Enter this function folder and build the code:
@@ -56,8 +56,7 @@ Your function is now listening on port `3000`, and you can execute it by sending
 4. Curl Command
 
 ```bash
-curl http://localhost:3000/ -d '{"variables": {"DEEPGRAM_API_KEY":"<YOUR_DEEPGRAM_API_KEY>"},"payload": {"fileUrl":"https://static.deepgram.com/examples/interview_speech-analytics.wav" }
-}' -H "X-Internal-Challenge: secret-key" -H "Content-Type: application/json"
+curl http://localhost:3000/ -d '{"variables": {"DEEPGRAM_API_KEY":"<YOUR_DEEPGRAM_API_KEY>"},"payload": "{\"fileUrl\":\"https://static.deepgram.com/examples/interview_speech-analytics.wav\"}"}' -H "X-Internal-Challenge: secret-key" -H "Content-Type: application/json"
 ```
 
 ## 📝 Notes

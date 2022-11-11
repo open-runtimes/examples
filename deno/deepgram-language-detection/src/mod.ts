@@ -9,6 +9,13 @@ export default async function (req: any, res: any) {
     });
   }
 
+  if (!fileUrl){
+    return res.json({
+      success: false,
+      message: "fileUrl is not provided",
+    });
+  }
+
   const response = await fetch(
     "https://api.deepgram.com/v1/listen?model=general&detect_language=true&punctuate=true",
     {
