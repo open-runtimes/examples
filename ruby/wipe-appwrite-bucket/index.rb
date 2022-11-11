@@ -35,18 +35,25 @@ def main(req, res)
     .set_key(req.variables['APPWRITE_FUNCTION_API_KEY'])
     .set_self_signed(true)
 
-  file_list = nil
-  begin
-    file_list = storage.list_files(bucket_id: bucket_id)
-  rescue Exception => err
-    return res.json({
-      :success => false,
-      :message => 'Failed to get file list.',
-    })
-  end
+  done = false
+  while !done do
+    file_list = nil
+    begin
+      file_list = storage.list_files(bucket_id: bucket_id)
+    rescue Exception => err
+      return res.json({
+        :success => false,
+        :message => 'Failed to get file list.',
+      })
+    end
 
-  file_list.files.each do |file|
-    storage.delete_file(bucket_id: bucket_id, file_id: file.id)
+    file_list.files.each do |file|
+      storage.delete_file(bucket_id: bucket_id, file_id: file.id)
+    end
+
+    if file_list.files.count <= 0
+      done = true
+    end
   end
 
   return res.json({
