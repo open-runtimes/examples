@@ -5,10 +5,7 @@ A Node Cloud Function that detect list of topic from spoken audio using [Deepgra
 _Example input function payload:_
 
 ```json
-{
-  "payload": { "fileUrl": "url_of_the_wav_file" },
-  "variables": { "DEEPGRAM_API_KEY": "your_deepgram_api_key" }
-}
+{ "fileUrl": "url_of_the_wav_file" }
 ```
 
 _Successful function response:_
@@ -29,9 +26,9 @@ _Error function response:_
 }
 ```
 
-## 📝 Environment Variables
+## 📝 Variables
 
-List of environment variables used by this cloud function:
+List of variables used by this cloud function:
 
 - **DEEPGRAM_API_KEY** - Your Deepgram API key.
 
@@ -65,7 +62,7 @@ Your function is now listening on port `3000`, and you can execute it by sending
 In new terminal window, execute function to send request:
 
 ```bash
-curl -H "X-Internal-Challenge: secret-key" -H "Content-Type: application/json" -X POST http://localhost:3000/ -d '{"payload": {"fileUrl": "url_of_the_wav_file"}, "variables": {"DEEPGRAM_API_KEY": "your_deepgram_api_key"} }'
+curl -H "X-Internal-Challenge: secret-key" -H "Content-Type: application/json" -X POST http://localhost:3000/ -d '{"payload": "{\"fileUrl\":\"url_of_the_wav_file\"}", "variables": {"DEEPGRAM_API_KEY": "your_deepgram_api_key"} }'
 ```
 
 - Make sure to use bash terminal, if you are using other terminal then modify the `payload` accordingly

@@ -1,15 +1,21 @@
 const { Deepgram } = require("@deepgram/sdk");
 
 module.exports = async (req, res) => {
+  const { fileUrl } = JSON.parse(req.payload);
   const apiKey = req.variables["DEEPGRAM_API_KEY"];
-  const fileUrl = req.payload["fileUrl"];
 
   if (!apiKey) {
-    throw new Error("API key is required");
+    res.json({
+      success: false,
+      message: "API key is required.",
+    });
   }
 
   if (!fileUrl) {
-    throw new Error("wav file url is required");
+    res.json({
+      success: false,
+      message: "wav file url is required.",
+    });
   }
 
   const deepgram = new Deepgram(apiKey);
@@ -27,7 +33,8 @@ module.exports = async (req, res) => {
   } catch (error) {
     res.json({
       success: false,
-      message: "Please provide a valid file URL.",
+      message: "Please check file URL and API key.",
+      error: error,
     });
   }
 };
