@@ -19,24 +19,26 @@ void returnFailure(final res, final message) {
 
 Future<void> start(final req, final res) async {
   var fileUrl;
-  var APIkey;
+  var apiKey;
 
   //getting data from payload
   try {
     final data = jsonDecode(req.payload);
     fileUrl = data["fileUrl"];
-    APIkey = req.env["DEEPGRAM_API_KEY"];
+    apiKey = req.variables["DEEPGRAM_API_KEY"];
   } catch (err) {
     returnFailure(res, err.toString());
     return;
   }
 
   //checks
-  if (fileUrl == null || APIkey == null) {
-    if (fileUrl == null)
-      returnFailure(res, "Provide a valid file URL in payload");
-    else
-      returnFailure(res, "Provide the API key as an environment variable");
+  if (fileUrl == null) {
+    returnFailure(res, "Provide a valid file URL in payload");
+    return;
+  }
+
+  if (apiKey == null) {
+    returnFailure(res, "Provide the API key as an environment variable");
     return;
   }
 
@@ -45,7 +47,7 @@ Future<void> start(final req, final res) async {
     final endPoint = Uri.parse(
         "https://api.deepgram.com/v1/listen?summarize=true&punctuate=true");
     final headers = {
-      "Authorization": "Token $APIkey",
+      "Authorization": "Token $apiKey",
       'content-type': 'application/json',
     };
     final body = {"url": fileUrl};
