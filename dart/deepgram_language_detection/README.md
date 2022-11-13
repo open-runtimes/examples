@@ -48,9 +48,9 @@ A Dart Cloud Function that detects a language from spoken audio using [Deepgram]
      "message": "Provide the API key in environment variables"
  }
  ```
- ## 📝 Environment Variables
+ ## 📝 Variables
 
- List of environment variables used by this cloud function:
+ List of variables used by this cloud function:
 
  * **DEEPGRAM_API_KEY** - API Key for Deepgram
 
