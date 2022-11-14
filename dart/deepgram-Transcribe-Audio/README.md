@@ -60,9 +60,9 @@ If the API Key is not provided, you would get:
 }
 ```
 
-## 📝 Environment Variables
+## 📝 Variables
 
-List of environment variables used by this cloud function:
+List of variables used by this cloud function:
 
 * **DEEPGRAM_API_KEY** - API Key for Deepgram
 

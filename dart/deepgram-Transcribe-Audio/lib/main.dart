@@ -23,7 +23,7 @@ Future<void> start(final req, final res) async {
   try {
     final data = jsonDecode(req.payload);
     fileUrl = data["fileUrl"];
-    deepgramApiKey = req.env["DEEPGRAM_API_KEY"];
+    deepgramApiKey = req.variables["DEEPGRAM_API_KEY"];
   } catch (err) {
     returnFailure(res, err.toString());
     return;
