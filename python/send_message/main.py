@@ -2,6 +2,7 @@ from .functions.send_sms_twilio import send_sms_twilio
 from .functions.send_email_mailgun import send_email_mailgun
 from .functions.send_tweet import send_tweet
 from .functions.send_message_discord_webhook import send_message_discord_webhook
+import json
 
 
 def main(req, res):
@@ -10,7 +11,7 @@ def main(req, res):
     result = {}
 
     try:
-        payload = req.payload
+        payload = json.loads(req.payload)
 
         payload_type = payload["type"]
         message = payload["message"]
