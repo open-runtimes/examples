@@ -4,11 +4,12 @@ import send_message_discord_webhook from "./functions/send_message_discord_webho
 import send_tweet from "./functions/send_tweet.ts";
 
 export default async function (req: any, res: any) {
-  const type: string = JSON.parse(req.payload)["type"];
+  const payload = JSON.parse(req.payload);
+  const type: string = payload["type"];
 
-  const receiver = req.payload?.["receiver"];
-  const message = req.payload["message"];
-  const subject = req.payload?.["subject"];
+  const receiver = payload?.["receiver"];
+  const message = payload["message"];
+  const subject = payload?.["subject"];
 
   let response: any;
 
