@@ -1,5 +1,6 @@
 from deepgram import Deepgram
 import asyncio
+import json
 
 
 async def transribeVideo(api_key, payload):
@@ -17,7 +18,7 @@ async def transribeVideo(api_key, payload):
 
 def main(req, res):
 
-    payload = req.payload
+    payload = json.loads(req.payload)
 
     api_key = req.variables['DEEPGRAM_API_KEY']
 
