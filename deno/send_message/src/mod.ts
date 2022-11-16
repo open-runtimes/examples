@@ -4,7 +4,7 @@ import send_message_discord_webhook from "./functions/send_message_discord_webho
 import send_tweet from "./functions/send_tweet.ts";
 
 export default async function (req: any, res: any) {
-  const type: string = req.payload["type"];
+  const type: string = JSON.parse(req.payload)["type"];
 
   const receiver = req.payload?.["receiver"];
   const message = req.payload["message"];
