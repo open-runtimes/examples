@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
     });
     return;
   }
-  let deepgramApiKey = req.env["DEEPGRAM_API_KEY"];
+  let deepgramApiKey = req.variables["DEEPGRAM_API_KEY"];
 
   //checks
   if (!deepgramApiKey) {
