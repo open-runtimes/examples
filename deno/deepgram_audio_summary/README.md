@@ -61,7 +61,7 @@ curl -H "X-Internal-Challenge: secret-key" -H "Content-Type: application/json" -
     },
 	
     "variables": {
-        "DEEPGRAM_API_KEY": Your APIKey
+        "DEEPGRAM_API_KEY": "Your APIKey"
     }
 }'
 ```
