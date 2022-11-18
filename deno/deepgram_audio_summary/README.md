@@ -6,9 +6,7 @@ _Example function payload:_
 
 ```json
 {
-    {
-        "fileUrl":"https://static.deepgram.com/examples/interview_speech-analytics.wav"
-    }
+    "fileUrl":"https://static.deepgram.com/examples/interview_speech-analytics.wav"
 }
 ```
 
