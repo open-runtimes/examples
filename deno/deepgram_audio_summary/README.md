@@ -56,9 +56,7 @@ docker run -p 3000:3000 -e INTERNAL_RUNTIME_ENTRYPOINT=src/mod.ts -e INTERNAL_RU
 4. In the new terminal execute the following function:
 ```
 curl -H "X-Internal-Challenge: secret-key" -H "Content-Type: application/json" -X POST http://localhost:3000/ -d ' {
-   "payload": {
-       "fileUrl": "https://static.deepgram.com/examples/interview_speech-analytics.wav"
-    },
+   "payload": "{\"fileUrl\": \"https://static.deepgram.com/examples/interview_speech-analytics.wav\"}",
 	
     "variables": {
         "DEEPGRAM_API_KEY": "Your APIKey"
