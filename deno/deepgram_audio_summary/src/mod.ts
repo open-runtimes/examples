@@ -1,6 +1,6 @@
 export default async function (req: any, res: any) {
     const APIkey = req.variables["DEEPGRAM_API_KEY"];
-    const fileUrl = req.payload["fileUrl"];
+    const { fileUrl } = JSON.parse(req.payload);
 
     const response = await fetch(
         "https://api.deepgram.com/v1/listen",
