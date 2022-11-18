@@ -18,16 +18,15 @@ export default async function (req: any, res: any) {
         return res.json('Please provide valid APIkey and fileUrl');
     }
 
-    else {
+    else if(response.status !== 200) {
         const error = await response.json();
         return res.json({
             success: false,
-            message: error.reason,
+            message: error,
         });
     }
 
     const data = await response.json();
-
     res.json({
         success: true,
         deepgramData: data,
