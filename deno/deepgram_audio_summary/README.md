@@ -24,9 +24,9 @@ _Error function response:_
 {"success":false,"message":"Please provide a valid file URL."}
 ```
 
-## 📝 Environment Variables
+## 📝 Variables
 
-List of environment variables used by this cloud function:
+List of variables used by this cloud function:
 
 **DEEPGRAM_API_KEY** - Your Deepgram API key.## 🚀 Deployment
 
