@@ -47,9 +47,16 @@ return function ($req, $res) {
         ->setProject($req['variables']['APPWRITE_FUNCTION_PROJECT_ID'])
         ->setKey($req['variables']['APPWRITE_FUNCTION_API_KEY']);
 
-    $files = $storage->listFiles($bucketId)['files'];
-    foreach ($files as $file) {
-        $storage->deleteFile($bucketId, $file['$id']);
+    $done = false;
+    while (!$done) {
+        $files = $storage->listFiles($bucketId)['files'];
+        foreach ($files as $file) {
+            $storage->deleteFile($bucketId, $file['$id']);
+        }
+
+        if (count($files) == 0) {
+            $done = true;
+        }
     }
 
     // Return success result
