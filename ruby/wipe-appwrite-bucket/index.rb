@@ -4,7 +4,7 @@ def main(req, res)
   client = Appwrite::Client.new
   storage = Appwrite::Storage.new(client)
 
-  if !req.variables['APPWRITE_FUNCTION_ENDPOINT'] or !req.variables['APPWRITE_FUNCTION_API_KEY']
+  if !req.variables['APPWRITE_FUNCTION_ENDPOINT'] or !req.variables['APPWRITE_FUNCTION_API_KEY'] or !req.variables['APPWRITE_FUNCTION_PROJECT_ID']
     return res.json({
       :success => false,
       :message => 'Environment variables are not set. Function cannot use Appwrite SDK.',
@@ -31,7 +31,7 @@ def main(req, res)
 
   client
     .set_endpoint(req.variables['APPWRITE_FUNCTION_ENDPOINT'])
-    .set_project(req.variables['APPWRITE_FUNCTION_PROJECTID'])
+    .set_project(req.variables['APPWRITE_FUNCTION_PROJECT_ID'])
     .set_key(req.variables['APPWRITE_FUNCTION_API_KEY'])
     .set_self_signed(true)
 
