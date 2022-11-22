@@ -43,9 +43,9 @@ _Example Error output from Bitly:_
 }
 ```
 
-## 📝 Environment Variables
+## 📝 Variables
 
-List of environment variables used by this cloud function:
+List of variables used by this cloud function:
 
 - **BITLY_ACCESS_TOKEN** - bit.ly access token
 - **TINYURL_ACCESS_TOKEN** - tiny.url access token
@@ -62,7 +62,7 @@ $ cd ruby/generate-short-url
 2. Enter this function folder and build the code:
 
 ```
-docker run --rm --interactive --tty --volume $PWD:/usr/code openruntimes/ruby:3.1 sh /usr/local/src/build.sh
+docker run --rm --interactive --tty --volume $PWD:/usr/code openruntimes/ruby:v2-3.1 sh /usr/local/src/build.sh
 ```
 
 As a result, a `code.tar.gz` file will be generated.

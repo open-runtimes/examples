@@ -10,10 +10,10 @@ API_URLS = {
 
 def main(req, res)
   payload = req.payload
-  env = req.env
+  env = req.variables
   # Input validation
   validate_params(payload)
-  # Make sure we have envirnment variables required to execute
+  # Make sure we have environment variables required to execute
   validate_environment_variables(env)
   # Build request params
   params = make_request_params(payload)
