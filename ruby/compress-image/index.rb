@@ -22,11 +22,11 @@ $noApi = {
 
 def tinypng(req, image) 
     # Get api key
-    if !req.env['TINYPNG_API']
+    if !req.variables['TINYPNG_API']
       raise NoApiError
     end
 
-    Tinify.key = req.env['TINYPNG_API']
+    Tinify.key = req.variables['TINYPNG_API']
     buffer = Base64.decode64(image)
     result = Tinify.from_buffer(buffer).to_buffer
     
@@ -34,7 +34,7 @@ def tinypng(req, image)
 end
 
 def krakenio(req, image) 
-    if !req.env['KRAKENIO_KEY'] or !req.env['KRAKENIO_SECRET']
+    if !req.variables['KRAKENIO_KEY'] or !req.variables['KRAKENIO_SECRET']
         raise NoApiError
     end
 
@@ -46,11 +46,13 @@ def krakenio(req, image)
     end
 
     kraken = Kraken::API.new(
-        :api_key => req.env['KRAKENIO_KEY'],
-        :api_secret => req.env['KRAKENIO_SECRET']
+        :api_key => req.variables['KRAKENIO_KEY'],
+        :api_secret => req.variables['KRAKENIO_SECRET']
     )
 
     data = kraken.upload("#{dir}/file.png")
+
+    File.delete("#{dir}/file.png") if File.exist?("#{dir}/file.png")
 
     if data.success
         img = URI.open(data.kraked_url)
