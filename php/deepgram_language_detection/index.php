@@ -2,11 +2,14 @@
 
 return function ($req, $res) {
 
-    // Make sure we have envirnment variables required to execute
+    // Make sure we have variables required to execute
     if(
-        empty($req['env']['DEEPGRAM_API_KEY'])
+        empty($req['variables']['DEEPGRAM_API_KEY'])
     ) {
-        throw new \Exception('Please provide all required environment variables.');
+        $res->json([
+            'success' => false, 
+            'message' => 'Please provide all required environment variables.',
+        ]);
     }
 
     // Make sure the payload is populated
@@ -14,17 +17,22 @@ return function ($req, $res) {
         $payload = \json_decode($req['payload'], true);
         $file_url = \trim($payload['fileUrl']);
     } catch(\Exception $err) {
-        \var_dump($err);
-        throw new \Exception('Payload is invalid.');
+        $res->json([
+            'success' => false, 
+            'message' => 'Payload is invalid with error ' . $err->getMessage(),
+        ]);
     }
 
     if(empty($file_url)) {
-        throw new \Exception('Invalid url.');
+        $res->json([
+            'success' => false, 
+            'message' => 'Invalid url. ' . $file_url,
+        ]);
     }
     
     $ch = \curl_init("https://api.deepgram.com/v1/listen?detect_language=true&punctuate=true");
     // Authorization: Token <YOUR_SECRET>
-    \curl_setopt($ch, CURLOPT_HTTPHEADER, array("Authorization: Token " . $req['env']['DEEPGRAM_API_KEY'], "Content-Type: application/json"));
+    \curl_setopt($ch, CURLOPT_HTTPHEADER, array("Authorization: Token " . $req['variables']['DEEPGRAM_API_KEY'], "Content-Type: application/json"));
     \curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     \curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(array("url" => $file_url)));
 
