@@ -1,6 +1,12 @@
 export default async function (req: any, res: any) {
     const APIkey = req.variables["DEEPGRAM_API_KEY"];
-    const { fileUrl } = JSON.parse(req.payload);
+    let fileUrl = "";
+
+    try {
+        fileUrl = JSON.parse(req.payload);
+    } catch (error) {
+        return res.json("Invalid JSON string");
+    }
 
     const response = await fetch(
         "https://api.deepgram.com/v1/listen",
@@ -15,14 +21,14 @@ export default async function (req: any, res: any) {
     );
 
     if (!APIkey || !fileUrl) {
-        return res.json('Please provide valid APIkey and fileUrl');
+        return res.json("Please provide valid APIkey and fileUrl");
     }
 
-    else if(response.status !== 200) {
+    else if(response.status !== 201) {
         const error = await response.json();
         return res.json({
             success: false,
-            message: error,
+            message: `Encountered an error trying to make a request: ${error.reason}`,
         });
     }
 
