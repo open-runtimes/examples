@@ -26,28 +26,28 @@ export default async function (
     };
   }
 
-  fetch(
-    `https://api.twilio.com/2010-04-01/Accounts/${accountSID}/Messages.json`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: `Basic ${btoa(`${accountSID}:${authToken}`)}`,
-      },
-      body: new URLSearchParams({
-        To: phoneNumber,
-        From: sender,
-        Body: message,
-      }),
-    }
-  )
-    .then((res) => res.json())
-    .catch((err) => {
-      return {
-        success: false,
-        message: err.message,
-      };
-    });
+  try {
+    fetch(
+      `https://api.twilio.com/2010-04-01/Accounts/${accountSID}/Messages.json`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Basic ${btoa(`${accountSID}:${authToken}`)}`,
+        },
+        body: new URLSearchParams({
+          To: phoneNumber,
+          From: sender,
+          Body: message,
+        }),
+      }
+    );
+  } catch (err) {
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
 
   return { success: true };
 }
