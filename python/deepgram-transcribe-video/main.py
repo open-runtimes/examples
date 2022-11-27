@@ -18,13 +18,17 @@ async def transribeVideo(api_key, payload):
 
 def main(req, res):
 
-    payload = json.loads(req.payload)
+    rs = {}
 
-    api_key = req.variables['DEEPGRAM_API_KEY']
+    try:
 
-    if not api_key:
-        res.json({'success': False, 'message': 'DEEPGRAM_API_KEY not set'})
+        payload = json.loads(req.payload)
 
-    rs = asyncio.run(transribeVideo(api_key, payload))
+        api_key = req.variables['DEEPGRAM_API_KEY']
 
-    return res.json(rs)
+        rs = asyncio.run(transribeVideo(api_key, payload))
+
+        return res.json(rs)
+
+    except Exception as e:
+        return res.json({'success': False, 'message': str(e)})
