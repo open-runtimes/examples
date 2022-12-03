@@ -1,4 +1,4 @@
-import { sdk } from "./deps.ts";
+import { sdk } from "./deps.ts"
 
 export default async function (req: any, res: any) {
   if (!req.variables.DEEPGRAM_API_KEY) {
@@ -8,10 +8,7 @@ export default async function (req: any, res: any) {
     })
   }
 
-  const {
-    fileUrl
-  } = JSON.parse(req.payload);
-
+  const { fileUrl } = req.payload
   if (!fileUrl) {
     return res.json({
       success: false,
@@ -20,21 +17,21 @@ export default async function (req: any, res: any) {
   }
 
   try {
-    const deepgram = await sdk.default(req.variables.DEEPGRAM_API_KEY);
+    const deepgram = await sdk.default(req.variables.DEEPGRAM_API_KEY)
     const transcription = await deepgram.transcription.preRecorded({
       url: fileUrl
     }, {
       punctuate: true
-    });
+    })
 
     res.json({
       success: true,
       deepgramData: transcription.results
-    });
-  } catch(e: any) {
+    })
+  } catch(e) {
     res.json({
       success: false,
-      message: e
-   });
+      message: e.toString()
+   })
   }
 }
