@@ -72,7 +72,7 @@ export default async function (req: any, res: any) {
 
       const file = new File([
         new Blob([base64Decode(image)])
-      ], "Nameless");
+      ], "Nameless")
       formData.append("file", file)
 
       const jsonResponse = await fetch("https://api.kraken.io/v1/upload", {
