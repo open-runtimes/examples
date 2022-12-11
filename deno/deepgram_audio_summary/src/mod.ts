@@ -24,13 +24,13 @@ export default async function (req: any, res: any) {
         return res.json("Please provide valid APIkey and fileUrl");
     }
 
-    else if(response.status !== 200) {
-        const error = await response.json();
-        return res.json({
-            success: false,
-            message: `Encountered an error trying to make a request: ${error.reason}`,
-        });
-    }
+    // else if(response.status !== 201) {
+    //     const error = await response.json();
+    //     return res.json({
+    //         success: false,
+    //         message: `Encountered an error trying to make a request: ${error.reason}`,
+    //     });
+    // }
 
     const data = await response.json();
     res.json({
