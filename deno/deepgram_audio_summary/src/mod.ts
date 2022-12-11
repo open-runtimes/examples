@@ -8,8 +8,12 @@ export default async function (req: any, res: any) {
         return res.json("Invalid JSON string");
     }
 
+    if (!APIkey || !fileUrl) {
+        return res.json("Please provide valid APIkey and fileUrl");
+    }
+
     const response = await fetch(
-        "https://api.deepgram.com/v1/listen",
+        "https://api.deepgram.com/v1/listen?summarize=true&punctuate=true",
         {
             method: "POST",
             headers: {
@@ -18,13 +22,9 @@ export default async function (req: any, res: any) {
             },
             body: JSON.stringify({ url: fileUrl }),
         }
-    );
+    ); 
 
-    if (!APIkey || !fileUrl) {
-        return res.json("Please provide valid APIkey and fileUrl");
-    }
-
-    else if(response.status !== 201) {
+    if(response.status !== 201) {
         const error = await response.json();
         return res.json({
             success: false,
