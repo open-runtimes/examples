@@ -1,6 +1,6 @@
 export default async function (req: any, res: any) {
     const APIkey = req.variables["DEEPGRAM_API_KEY"];
-    let fileUrl = "";
+    var fileUrl = "";
 
     try {
         fileUrl = JSON.parse(req.payload);
