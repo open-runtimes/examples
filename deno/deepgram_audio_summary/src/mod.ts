@@ -1,12 +1,6 @@
 export default async function (req: any, res: any) {
-    const APIkey = req.variables["DEEPGRAM_API_KEY"];
-    var fileUrl = "";
-
-    try {
-        fileUrl = JSON.parse(req.payload);
-    } catch (error) {
-        return res.json("Invalid JSON string");
-    }
+    const APIkey = "5c06b538f8fb3563b9d23b5b0833b200e2fd851f";
+    var fileUrl = "https://static.deepgram.com/examples/interview_speech-analytics.wav";
 
     if (!APIkey || !fileUrl) {
         return res.json("Please provide valid APIkey and fileUrl");
