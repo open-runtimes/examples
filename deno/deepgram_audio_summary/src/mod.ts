@@ -24,7 +24,7 @@ export default async function (req: any, res: any) {
         return res.json("Please provide valid APIkey and fileUrl");
     }
 
-    else if(response.status !== 201) {
+    else if(response.status !== 200) {
         const error = await response.json();
         return res.json({
             success: false,
