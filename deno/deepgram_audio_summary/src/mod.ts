@@ -3,7 +3,7 @@ export default async function (req: any, res: any) {
     let fileUrl = "";
 
     try {
-        fileUrl = JSON.parse(req.payload);
+        fileUrl = JSON.parse(req.payload["fileUrl"]);
     } catch (error) {
         return res.json("Invalid JSON string");
     }
