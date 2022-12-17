@@ -40,7 +40,7 @@ Future<void> start(final req, final res) async {
   try {
     final payload = jsonDecode(req.payload);
     fileUrl = payload['fileUrl'];
-    deepgramApiKey = payload['DEEPGRAM_API_KEY'];
+    deepgramApiKey = req.variables["DEEPGRAM_API_KEY"];
   } catch (err) {
     print(err);
     returnFailure(res, err.toString());
