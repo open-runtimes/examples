@@ -6,7 +6,7 @@ _Example input 1:_
 
 ```json
 {
-  "payload": "{\"fileUrl\": \"phtts://static.deepgram.com/examples/Bueller-Life-moves-pretty-fast.wav\"}"
+  "payload": "{\"fileUrl\": \"https://static.deepgram.com/examples/interview_speech-analytics.wav"}"
 }
 ```
 
@@ -23,7 +23,7 @@ _Example input 2:_
 
 ```json
 {
-  "payload": "{\"fileUrl\": \"Bueller-Life-moves-pretty-fast.wav\"}"
+  "payload": "{\"fileUrl\": \"interview_speech-analytics.wav\"}"
 }
 ```
 
