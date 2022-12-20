@@ -16,8 +16,8 @@ Example functions to show off what you can achieve with Open Runtimes.
 | Send SMS with Twilio |      | [✅](/deno/send_sms_with_twilio) | [✅](/node/send_sms_with_twilio) |     |        | [✅](/ruby/send-sms-with-twilio) |      |
 | Translate text with Google |       | [✅](/deno/translate_text_with_google) | [✅](/node/translate_text_with_google) |     |        | [✅](/ruby/translate-text-with-google) |      |
 | Object Detection |[✅](/dart/object_detection) |  [✅](/deno/object_detection) | [✅](/node/object_detection) | [✅](/php/object_detection) |   [✅](/python/object-detection)     |      |      |
-| Generate Giphy GIF | [✅](/dart/generate_giphy_gif) | [✅](/deno/generate-giphy-gif) | [✅](/node/generate_giphy_gif) |     |  [✅](/python/generate-giphy-gif)  |      |      |
-| Get COVID-19 Stats |      |      |      |     |        |      | [✅](/swift/get-covid-stats) |
+| Generate Giphy GIF | [✅](/dart/generate_giphy_gif) | [✅](/deno/generate-giphy-gif) | [✅](/node/generate_giphy_gif) | [✅](/php/generate_giphy_gif) |  [✅](/python/generate-giphy-gif)  |      |      |
+| Get COVID-19 Stats |      |      | [✅](/node/get_covid_stats) |     |        |      | [✅](/swift/get-covid-stats) |
 | Wipe Appwrite Bucket |      |      | [✅](/node/wipe_appwrite_bucket) |      |      |      |      |
 
 ## Contributing
