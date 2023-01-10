@@ -4,14 +4,11 @@ A Java Cloud Function for generating invoice.
 
 ```json
 {
- 
-  "payload": {
-    "currency":"EUR",
-    "items":[{"name":"Web development","price":15}],
-    "issuer":"Some\nIssuer",
-    "customer":"Some\nCustomer",
-    "vat":21
-    }
+  "currency":"EUR",
+  "items":[{"name":"Web development","price":15}],
+  "issuer":"Some\nIssuer",
+  "customer":"Some\nCustomer",
+  "vat":21
 }
 ```
 
