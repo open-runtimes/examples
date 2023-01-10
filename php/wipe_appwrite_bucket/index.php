@@ -48,15 +48,23 @@ return function ($req, $res) {
         ->setKey($req['variables']['APPWRITE_FUNCTION_API_KEY']);
 
     $done = false;
-    while (!$done) {
-        $files = $storage->listFiles($bucketId)['files'];
-        foreach ($files as $file) {
-            $storage->deleteFile($bucketId, $file['$id']);
-        }
+    try {
+        while (!$done) {
+            $files = $storage->listFiles($bucketId)['files'];
+            foreach ($files as $file) {
+                $storage->deleteFile($bucketId, $file['$id']);
+            }
 
-        if (count($files) == 0) {
-            $done = true;
+            if (count($files) == 0) {
+                $done = true;
+            }
         }
+    } catch(\Exception $err) {
+        $res->json([
+            'success' => false,
+            'message' => $err->getMessage()
+        ]);
+        return;
     }
 
     // Return success result
