@@ -1,0 +1,1 @@
+export * as sdk from "https://raw.githubusercontent.com/MoskalykA/deepgram-deno-sdk/main/mod.ts"
