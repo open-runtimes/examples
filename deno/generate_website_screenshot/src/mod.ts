@@ -6,15 +6,22 @@ const getBase64FromUrl = async (url: string) => {
     const blob = await data.blob();
     const arr = await blob.arrayBuffer();
     const base64String = base64Encode(arr);
-    return { success: true, screenshot: base64String, error: "" };
+    return base64String;
   } else {
-    return { success: false, screenshot: "", error: data.statusText };
+    throw new Error(await data.text());
   }
 };
 
 export default async function (req: any, res: any) {
   const APIkey = req.variables["SCREEN_SHOT_API_KEY"];
-  const { url } = JSON.parse(req.payload);
+  try{
+    const { url } = JSON.parse(req.payload);
+
+
+  }catch(error){
+    res.json({ success: false, message: "Invalid JSON body" });
+    return;
+  }
   if (!url) {
     res.json({ success: false, message: "URL is required" });
     return;
@@ -24,11 +31,16 @@ export default async function (req: any, res: any) {
     return;
   }
   const fetchURL = `https://shot.screenshotapi.net/screenshot?token=${APIkey}&url=${url}&output=image&file_type=png&wait_for_event=load`;
-  const response: { success: boolean; screenshot: string; error: string } =
+  try{
+    const response: { success: boolean; screenshot: string; error: string } =
     await getBase64FromUrl(fetchURL);
-  if (response.success) {
-    res.json({ success: true, screenshot: response.screenshot });
+      res.json({ success: true, screenshot: response.screenshot });
+      return;
+  }catch(error){
+    res.json({ success: false, message: error });
     return;
+
   }
-  res.json({ success: false, message: response.error });
+
+ 
 }
