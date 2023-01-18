@@ -23,7 +23,7 @@ const uniqueExamples = [...new Set(examples)];
 
 const rows = uniqueExamples.map((example) => {
     const languagesSupport = runtimes.map((runtime) => {
-        return fs.existsSync(path.join('.', `../../../${runtime}/${example}`)) ? '✅' : '';
+        return fs.existsSync(path.join('.', `../../../${runtime}/${example}`)) ? `[✅](/${runtime}/${example})` : '';
     })
 
     return [example, ...languagesSupport];
@@ -32,8 +32,8 @@ const rows = uniqueExamples.map((example) => {
 const table = markdownTable([
     ['Example', ...runtimes],
     ...rows.sort((a, b) => {
-        const aCount = a.filter((column) => column === '✅');
-        const bCount = b.filter((column) => column === '✅');
+        const aCount = a.filter((column) => column !== '');
+        const bCount = b.filter((column) => column !== '');
 
         return aCount > bCount ? -1 : 1;
     })
