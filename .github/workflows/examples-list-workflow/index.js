@@ -7,7 +7,8 @@ const folderDenylist = [ '.github', '.git' ];
 const runtimes = fs.readdirSync(path.join('.', '../../../'), { withFileTypes: true })
     .filter(dirent => dirent.isDirectory())
     .map(dirent => dirent.name)
-    .filter((folder) => !folderDenylist.includes(folder));
+    .filter((folder) => !folderDenylist.includes(folder))
+    .sort();
 
 const examples = [];
 
