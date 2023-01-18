@@ -2,7 +2,6 @@ import * as fs from "fs";
 import * as path from "path";
 import {markdownTable} from 'markdown-table'
 
-
 const folderDenylist = [ '.github', '.git' ];
 
 const runtimes = fs.readdirSync(path.join('.', '../../../'), { withFileTypes: true })
