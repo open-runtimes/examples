@@ -10,6 +10,50 @@ Example functions to show off what you can achieve with Open Runtimes.
 ## List of Examples
 
 <!-- EXAMPLES-LIST:START -->
+| Example                              | dart | deno | dotnet | java | kotlin | node | php | python | ruby | swift |
+| ------------------------------------ | ---- | ---- | ------ | ---- | ------ | ---- | --- | ------ | ---- | ----- |
+| convert-phone-number-to-country-name | ✅    | ✅    |        |      |        | ✅    | ✅   | ✅      | ✅    | ✅     |
+| generate_giphy_gif                   | ✅    | ✅    |        |      |        | ✅    | ✅   |        |      |       |
+| object_detection                     | ✅    | ✅    |        |      |        | ✅    | ✅   |        |      |       |
+| deepgram-transcribe-video            |      | ✅    |        |      |        | ✅    |     | ✅      | ✅    |       |
+| send-http-request                    |      |      |        |      |        |      | ✅   | ✅      | ✅    |       |
+| deepgram_audio_summary               | ✅    | ✅    |        |      |        |      |     |        |      |       |
+| deepgram_transcribe_audio            | ✅    |      |        |      |        |      | ✅   |        |      |       |
+| generate_map                         | ✅    |      |        |      |        | ✅    |     |        |      |       |
+| send-email-with-mailgun              | ✅    |      |        |      |        |      |     |        |      | ✅     |
+| deepgram-transcribe-audio            |      | ✅    |        |      | ✅      |      |     |        |      |       |
+| send_email_with_mailgun              |      | ✅    |        |      |        | ✅    |     |        |      |       |
+| send_sms_with_twilio                 |      | ✅    |        |      |        | ✅    |     |        |      |       |
+| translate_text_with_google           |      | ✅    |        |      |        | ✅    |     |        |      |       |
+| wipe_appwrite_bucket                 |      | ✅    |        |      |        | ✅    |     |        |      |       |
+| send_message                         |      |      |        |      |        |      | ✅   | ✅      |      |       |
+| deepgram_language_detection          | ✅    |      |        |      |        |      |     |        |      |       |
+| deepgram_transcribe_video            | ✅    |      |        |      |        |      |     |        |      |       |
+| generate-website-screenshot          | ✅    |      |        |      |        |      |     |        |      |       |
+| generate_short_url                   | ✅    |      |        |      |        |      |     |        |      |       |
+| compress_image                       |      | ✅    |        |      |        |      |     |        |      |       |
+| deepgram-topic-detection             |      | ✅    |        |      |        |      |     |        |      |       |
+| generateShortUrl                     |      |      | ✅      |      |        |      |     |        |      |       |
+| wipe_appwrite_collection             |      |      | ✅      |      |        |      |     |        |      |       |
+| deepgramLanguageDetection            |      |      |        | ✅    |        |      |     |        |      |       |
+| get_price                            |      |      |        | ✅    |        |      |     |        |      |       |
+| short_url_generator                  |      |      |        | ✅    |        |      |     |        |      |       |
+| wipeAppwriteBucket                   |      |      |        |      | ✅      |      |     |        |      |       |
+| deepgram_topic_detection             |      |      |        |      |        | ✅    |     |        |      |       |
+| generate_invoice                     |      |      |        |      |        | ✅    |     |        |      |       |
+| get_covid_stats                      |      |      |        |      |        | ✅    |     |        |      |       |
+| send_http_request                    |      |      |        |      |        | ✅    |     |        |      |       |
+| translate_text                       |      |      |        |      |        | ✅    |     |        |      |       |
+| url-shortener                        |      |      |        |      |        | ✅    |     |        |      |       |
+| generate-giphy-gif                   |      |      |        |      |        |      |     | ✅      |      |       |
+| generate-short-url                   |      |      |        |      |        |      |     | ✅      |      |       |
+| object-detection                     |      |      |        |      |        |      |     | ✅      |      |       |
+| deepgram-audio-summary               |      |      |        |      |        |      |     |        | ✅    |       |
+| send-sms-with-twilio                 |      |      |        |      |        |      |     |        | ✅    |       |
+| translate-text-with-google           |      |      |        |      |        |      |     |        | ✅    |       |
+| wipe-appwrite-bucket                 |      |      |        |      |        |      |     |        | ✅    |       |
+| wipe-appwrite-collection             |      |      |        |      |        |      |     |        | ✅    |       |
+| get-covid-stats                      |      |      |        |      |        |      |     |        |      | ✅     |
 <!-- EXAMPLES-LIST:END -->
 
 ## Contributing
