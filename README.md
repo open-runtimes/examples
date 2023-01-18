@@ -9,9 +9,9 @@ Example functions to show off what you can achieve with Open Runtimes.
 
 ## List of Examples
 
-<!-- EXAMPLES-LIST:START -->
 
-<!-- EXAMPLES-LIST:END -->
+THIS WILL BE GENERATED 🥳
+
 
 ## Contributing
 
