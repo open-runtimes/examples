@@ -7,9 +7,11 @@ let newReadme = '';
 
 if(readme.includes('<!-- EXAMPLES-LIST:START -->') && readme.includes('<!-- EXAMPLES-LIST:END -->')) {
     newReadme += readme.split('<!-- EXAMPLES-LIST:START -->')[0];
+    newReadme += '\n';
 
     newReadme += 'THIS WILL BE GENERATED 🥳';
 
+    newReadme += '\n';
     newReadme += readme.split('<!-- EXAMPLES-LIST:END -->')[1];
 }
 

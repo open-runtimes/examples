@@ -24,7 +24,8 @@ jobs:
 
     - name: Push changes
       run: |
-        git config --global user.name 'README automation'
-        git config --global user.email 'security@appwrite.io'
-        git commit -am "Automated README generation"
+        git config user.name github-actions
+        git config user.email security@appwrite.io
+        git add README.md
+        git commit -m "Automated README generation"
         git push
