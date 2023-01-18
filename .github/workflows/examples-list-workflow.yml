@@ -29,5 +29,5 @@ jobs:
         git config user.name github-actions
         git config user.email security@appwrite.io
         git add README.md
-        git commit -m "Automated README generation"
+        git diff-index --quiet HEAD || git commit -m "Automated README generation"
         git push
