@@ -20,7 +20,7 @@ jobs:
         npm install
 
     - name: Run function
-      run: node index.js
+      run: cd .github/workflows/examples-list-workflow && node index.js
 
     - name: Push changes
       run: |
