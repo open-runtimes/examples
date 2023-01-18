@@ -22,6 +22,11 @@ jobs:
     - name: Run function
       run: cd .github/workflows/examples-list-workflow && node index.js
 
+    - name: Prepare branch
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.ref }}
+
     - name: Push changes
       run: |
         git config user.name github-actions
