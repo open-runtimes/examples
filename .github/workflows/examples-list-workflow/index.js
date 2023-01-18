@@ -40,7 +40,7 @@ const table = markdownTable([
   ]);
 
 
-const readmePath = path.join(__dirname, "../../../README.md");
+const readmePath = path.join('.', "../../../README.md");
 const readme = fs.readFileSync(readmePath).toString();
 let newReadme = '';
 
