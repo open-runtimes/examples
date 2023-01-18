@@ -8,6 +8,8 @@ jobs:
     steps:
     - name: Prepare repository
       uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.ref }}
 
     - name: Prepare Node.js
       uses: actions/setup-node@v2
@@ -21,11 +23,6 @@ jobs:
 
     - name: Run function
       run: cd .github/workflows/examples-list-workflow && node index.js
-
-    - name: Prepare branch
-      uses: actions/checkout@v2
-      with:
-        ref: ${{ github.event.pull_request.head.ref }}
 
     - name: Push changes
       run: |
