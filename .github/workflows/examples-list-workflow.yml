@@ -3,7 +3,6 @@ name: "Generate README example list"
 on: [pull_request]
 jobs:
   readme-generator:
-    name: Generate README example list
     runs-on: ubuntu-latest
 
     steps:
@@ -17,7 +16,7 @@ jobs:
 
     - name: Prepare function
       run: |
-        cd github/workflows/examples-list-workflow
+        cd .github/workflows/examples-list-workflow
         npm install
 
     - name: Run function
