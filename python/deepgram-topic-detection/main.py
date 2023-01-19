@@ -7,7 +7,7 @@ def main(req, res):
     file_url = None
     try:
         file_url = req.payload['fileUrl']
-        api_key = req.env.get('DEEPGRAM_API_KEY')
+        api_key = req.variables.get('DEEPGRAM_API_KEY')
     except Exception:
         return res.json({'success': "false", 'message': "Invalid/Empty Payload"})
 
