@@ -7,11 +7,7 @@ _Example function payload:_
 
 ```json
 {
-    {
-
-        "fileUrl":"https://rawcdn.githack.com/deepgram-devs/summary-audio/62fc7769d6e2bf38e420ee5224060922af4546f7/deepgram.mp3"
-
-    }
+    "fileUrl":"https://rawcdn.githack.com/deepgram-devs/summary-audio/62fc7769d6e2bf38e420ee5224060922af4546f7/deepgram.mp3"
 }
 ```
 
@@ -53,7 +49,7 @@ As a result, a `code.tar.gz` file will be generated.
 3. Start the Open Runtime:
 
 ```
-docker run -p 3000:3000 -e INTERNAL_RUNTIME_KEY=secret-key -e INTERNAL_RUNTIME_ENTRYPOINT=main.py --rm --interactive --tty --volume $PWD/code.tar.gz:/tmp/code.tar.gz:ro openruntimes/php:v2-8.1 sh /usr/local/src/start.sh
+docker run -p 3000:3000 -e INTERNAL_RUNTIME_KEY=secret-key -e INTERNAL_RUNTIME_ENTRYPOINT=index.php --rm --interactive --tty --volume $PWD/code.tar.gz:/tmp/code.tar.gz:ro openruntimes/php:v2-8.1 sh /usr/local/src/start.sh
 ```
 
 > Make sure to replace `YOUR_API_KEY` without your key.
