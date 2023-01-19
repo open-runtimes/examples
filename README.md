@@ -20,6 +20,7 @@ Example functions to show off what you can achieve with Open Runtimes.
 | Get COVID-19 Stats |      |      | [✅](/node/get_covid_stats) |     |        |      | [✅](/swift/get-covid-stats) |
 | Send a HTTP Request |      |      |      |     |        | [✅](/ruby/send-http-request) |      |
 | Wipe Appwrite Bucket |      |      | [✅](/node/wipe_appwrite_bucket) |      |      |      |      |
+| Detect Language with Deepgram  |      |      |      |      | [✅](/python/deepgram-language-detection) |      |      |
 | Summarize Audio with Deepgram |      |      |      |      |      |[✅](/ruby/deepgram-audio-summary)|      |
 
 ## Contributing
