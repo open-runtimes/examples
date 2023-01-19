@@ -22,6 +22,7 @@ Example functions to show off what you can achieve with Open Runtimes.
 | Wipe Appwrite Bucket |      |      | [✅](/node/wipe_appwrite_bucket) |      |      |      |      |
 | Detect Language with Deepgram  |      |      |      |      | [✅](/python/deepgram-language-detection) |      |      |
 | Summarize Audio with Deepgram |      |      |      |      |      |[✅](/ruby/deepgram-audio-summary)|      |
+| Summarize Audio with Deepgram |      |      |      |      | [✅](/python/deepgram-audio-summary) |      |      |
 
 ## Contributing
 
