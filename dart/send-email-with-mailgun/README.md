@@ -35,7 +35,7 @@ List of environment variables used by this cloud function:
 
 ```
 $ git clone https://github.com/open-runtimes/examples.git && cd examples
-$ cd dart/welcome_email
+$ cd dart/send-email-with-mailgun
 ```
 
 2. Enter this function folder and build the code:

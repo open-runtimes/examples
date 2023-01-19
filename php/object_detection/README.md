@@ -15,13 +15,12 @@ _Example output:_
 
 ```json
 {
-    "url": "https://picsum.photos/seed/open___runtimes/1000/1000",
-    "name": "cake",
-    "confidence": 0.7977721691131592,
-    "x": 21,
-    "y": 5,
-    "width": 494,
-    "height": 333
+    "ObjectClassName": "cake",
+    "Score": 0.7977721691131592,
+    "X": 21,
+    "Y": 5,
+    "Width": 494,
+    "Height": 333
 }
 ```
 
@@ -41,12 +40,14 @@ $ cd php/object_detection
 ```
 
 2. Enter this function folder and build the code:
+
 ```
 docker run --rm --interactive --tty --volume $PWD:/usr/code openruntimes/php:v2-8.1 sh /usr/local/src/build.sh
 ```
 As a result, a `code.tar.gz` file will be generated.
 
 3. Start the Open Runtime:
+
 ```
 docker run -p 3000:3000 -e INTERNAL_RUNTIME_KEY=secret-key -e INTERNAL_RUNTIME_ENTRYPOINT=index.php --rm --interactive --tty --volume $PWD/code.tar.gz:/tmp/code.tar.gz:ro openruntimes/php:v2-8.1 sh /usr/local/src/start.sh
 ```

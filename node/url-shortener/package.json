@@ -1,0 +1,10 @@
+{
+  "name": "url-shortener",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "bitly": "^7.1.2",
+    "turl": "^1.1.2"
+  }
+}
