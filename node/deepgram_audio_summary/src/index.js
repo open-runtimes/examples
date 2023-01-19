@@ -1,7 +1,7 @@
 const axios = require('axios').default;
 
 module.exports = async (req, res) => {
-  const APIkey = req.env['DEEPGRAM_API_KEY'];
+  const APIkey = req.variables['DEEPGRAM_API_KEY'];
   const { fileUrl } = req.payload;
 
   if (!APIkey) {
