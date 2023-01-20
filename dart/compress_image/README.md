@@ -1,4 +1,4 @@
-# 🌐 Compress any Image using tinyPNG and kraken
+# 🌐 Compress any Image
 
 A Dart Cloud Function that perform a lossless compression of an image. Input image is in base64 format.
 
