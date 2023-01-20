@@ -30,9 +30,6 @@ Future<void> _tinypng(
   }
 }
 
-Future<void> _krakenio(
-    final res, final Uint8List binaryImage, final String token) async {}
-
 void markSuccess(final res, final String image) {
   res.json({
     'success': true,
@@ -76,10 +73,6 @@ Future<void> start(final request, final resonse) async {
         return;
       }
       await _tinypng(resonse, image, apiKey);
-      break;
-    case "krakenio":
-      // _krakenio(resonse, image, apiKey);
-
       break;
     default:
   }

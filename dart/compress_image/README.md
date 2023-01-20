@@ -24,24 +24,6 @@ _Example input 2:_
 
 ```json
 {
-    "provider":"kraken",
-    "image":"iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAG1BMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACUUeIgAAAACHRSTlMA8712Sxr5g97cFtUAAAA9SURBVCjPY6Aa6AADfAIcDSA8KoBTgLGVgSFCAEmAqZmBwUIBSYClzTQ4wwE52Cs6OtpR4oFFUciBerEKAP58HnyLtZsYAAAAAElFTkSuQmCC"
-}
-```
-
-_Example output 2:_
-
-```json
-{
-    "success":true,
-    "image":"iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAf0lEQVR4nO2Wuw2AMAxEbw1gpMwDDMBcGQpooDKydGVAoXCK6J7k6qyc83MCCFGP/Yz+CkDF4KHmjgowbQF0CKFrCDUiwztqxabHCL0/xwcNhoI2UdsjC8g0mQvaSs1zwkg0uQAsAEaGm9/UPCeU7eMj6loTEpf6ZOQWMxd98gAhZnS6XEZcNQAAAABJRU5ErkJggg=="
-}
-```
-
-_Example input 3:_
-
-```json
-{
     "provider": "tinypng",
     "image": "wrong-image"
 }
