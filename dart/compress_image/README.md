@@ -29,7 +29,7 @@ _Example input 2:_
 }
 ```
 
-_Example output 3:_
+_Example output 2:_
 
 ```json
 {
