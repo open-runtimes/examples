@@ -7,7 +7,7 @@ _Example input 1:_
 ```json
 {
     "provider":"tinypng",
-    "image":"iVBORw0KGgoAAAANSUhEUgAAAaQAAALiCAY...QoH9hbkTPQAAAABJRU5ErkJggg=="
+    "image":"iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAf0lEQVR4nO2Wuw2AMAxEbw1gpMwDDMBcGQpooDKydGVAoXCK6J7k6qyc83MCCFGP/Yz+CkDF4KHmjgowbQF0CKFrCDUiwztqxabHCL0/xwcNhoI2UdsjC8g0mQvaSs1zwkg0uQAsAEaGm9/UPCeU7eMj6loTEpf6ZOQWMxd98gAhZnS6XEZcNQAAAABJRU5ErkJggg=="
 }
 ```
 
@@ -16,7 +16,7 @@ _Example output 1:_
 ```json
 {
     "success":true,
-    "image":"iVBORw0KGgoAAAANSUhE...o6Ie+UAAAAASU5CYII="
+    "image":"iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAG1BMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACUUeIgAAAACHRSTlMA8712Sxr5g97cFtUAAAA9SURBVCjPY6Aa6AADfAIcDSA8KoBTgLGVgSFCAEmAqZmBwUIBSYClzTQ4wwE52Cs6OtpR4oFFUciBerEKAP58HnyLtZsYAAAAAElFTkSuQmCC"
 }
 ```
 
@@ -25,7 +25,7 @@ _Example input 2:_
 ```json
 {
     "provider":"kraken",
-    "image":"iVBORw0KGgoAAAANSUhEUgAAAaQAAALiCAY...QoH9hbkTPQAAAABJRU5ErkJggg=="
+    "image":"iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAG1BMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACUUeIgAAAACHRSTlMA8712Sxr5g97cFtUAAAA9SURBVCjPY6Aa6AADfAIcDSA8KoBTgLGVgSFCAEmAqZmBwUIBSYClzTQ4wwE52Cs6OtpR4oFFUciBerEKAP58HnyLtZsYAAAAAElFTkSuQmCC"
 }
 ```
 
@@ -34,7 +34,7 @@ _Example output 2:_
 ```json
 {
     "success":true,
-    "image":"iVBORw0KGgoAAAANSUhE...o6Ie+UAAAAASU5CYII="
+    "image":"iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAf0lEQVR4nO2Wuw2AMAxEbw1gpMwDDMBcGQpooDKydGVAoXCK6J7k6qyc83MCCFGP/Yz+CkDF4KHmjgowbQF0CKFrCDUiwztqxabHCL0/xwcNhoI2UdsjC8g0mQvaSs1zwkg0uQAsAEaGm9/UPCeU7eMj6loTEpf6ZOQWMxd98gAhZnS6XEZcNQAAAABJRU5ErkJggg=="
 }
 ```
 
@@ -87,6 +87,12 @@ docker run -p 3000:3000 -e INTERNAL_RUNTIME_KEY=secret-key --rm --interactive --
 ```
 
 Your function is now listening on port `3000`, and you can execute it by sending `POST` request with appropriate authorization headers. To learn more about runtime, you can visit Dart runtime [README](https://github.com/open-runtimes/open-runtimes/tree/main/runtimes/dart-2.16).
+
+4. Execute function:
+
+```shell
+curl http://localhost:3000/ -d '{"variables":{"TINYPNG_API_KEY":"YOUR_TINYPNG_API_KEY"},"payload":"{\"provider\":\"tinypng\",\"image\":\"iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAf0lEQVR4nO2Wuw2AMAxEbw1gpMwDDMBcGQpooDKydGVAoXCK6J7k6qyc83MCCFGP/Yz+CkDF4KHmjgowbQF0CKFrCDUiwztqxabHCL0/xwcNhoI2UdsjC8g0mQvaSs1zwkg0uQAsAEaGm9/UPCeU7eMj6loTEpf6ZOQWMxd98gAhZnS6XEZcNQAAAABJRU5ErkJggg==\"}"}' -H "X-Internal-Challenge: secret-key" -H "Content-Type: application/json"
+```
 
 ## 📝 Notes
 
