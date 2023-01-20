@@ -2,7 +2,7 @@
 //  File.swift
 //  
 //
-//  Created by Matej Bačo on 04/03/2022.
+//  
 //
 
 import Foundation
@@ -47,9 +47,9 @@ func main(req: RequestValue, res: RequestResponse) async throws -> RequestRespon
     throw ExampleError.invalid("Invalid phone number")
   }
 
-  guard let endpoint = req.env["APPWRITE_FUNCTION_ENDPOINT"],
-        let projectId = req.env["APPWRITE_FUNCTION_PROJECT_ID"],
-        let apiKey = req.env["APPWRITE_FUNCTION_API_KEY"] else {
+  guard let endpoint = req.variables["APPWRITE_FUNCTION_ENDPOINT"],
+        let projectId = req.variables["APPWRITE_FUNCTION_PROJECT_ID"],
+        let apiKey = req.variables["APPWRITE_FUNCTION_API_KEY"] else {
     throw ExampleError.missing("Please provide all required environment variables")
   }
 

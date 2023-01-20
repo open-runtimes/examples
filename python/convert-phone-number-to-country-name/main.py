@@ -31,7 +31,7 @@ def main(req, res):
         raise Exception('Invalid phone number.')
 
     # Make sure we have envirnment variables required to execute
-    if not req.env.get('APPWRITE_FUNCTION_ENDPOINT', None) or not req.env.get('APPWRITE_FUNCTION_PROJECT_ID', None) or not req.env.get('APPWRITE_FUNCTION_API_KEY', None):
+    if not req.variables.get('APPWRITE_FUNCTION_ENDPOINT', None) or not req.variables.get('APPWRITE_FUNCTION_PROJECT_ID', None) or not req.variables.get('APPWRITE_FUNCTION_API_KEY', None):
         raise Exception('Please provide all required environment variables.')
 
     # If we don't have cached list of phone number prefixes (first execution only)
@@ -41,9 +41,9 @@ def main(req, res):
         locale = Locale(client)
 
         (client
-            .set_endpoint(req.env.get('APPWRITE_FUNCTION_ENDPOINT', None))
-            .set_project(req.env.get('APPWRITE_FUNCTION_PROJECT_ID', None))
-            .set_key(req.env.get('APPWRITE_FUNCTION_API_KEY', None))
+            .set_endpoint(req.variables.get('APPWRITE_FUNCTION_ENDPOINT', None))
+            .set_project(req.variables.get('APPWRITE_FUNCTION_PROJECT_ID', None))
+            .set_key(req.variables.get('APPWRITE_FUNCTION_API_KEY', None))
         )
 
         # Fetch and store phone number prefixes

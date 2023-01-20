@@ -2,8 +2,8 @@ const mailgun = require("mailgun-js");
 
 module.exports = async function (req, res) {
     const emailConfig = {
-        apiKey: req.env.MAILGUN_API_KEY,
-        domain: req.env.MAILGUN_DOMAIN
+        apiKey: req.variables.MAILGUN_API_KEY,
+        domain: req.variables.MAILGUN_DOMAIN
     };
     const mg = mailgun(emailConfig);
     
@@ -17,10 +17,10 @@ module.exports = async function (req, res) {
         from: 'Welcome to My Awesome App <welcome@my-awesome-app.io>',
         to: email,
         subject: `Welcome on board ${name}!`,
-        text: `Hi ${name}\nGreat to have you with us. ! 😍`
+        text: `Hi ${name}\nGreat to have you with us. !`
     };
     
-    // Send the email! ❤️
+    // Send the email!
     mg.messages().send(data, function (error, body) {
         res.send(body);
     });
