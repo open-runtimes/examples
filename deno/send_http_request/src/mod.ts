@@ -9,7 +9,7 @@ export default async function (req: any, res: any) {
     throw new Error("method is required");
   }
 
-  const response = await fetch(url, { method, headers, body: JSON.stringify(body) });
+  const response = await fetch(url, { method, headers, body: body ? JSON.stringify(body) : undefined });
 
   if (response.status !== 200) {
     res.json({ success: false, message: "URL could not be reached." });
