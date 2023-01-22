@@ -9,17 +9,19 @@ _Example input:_
 
 ```json
 {
-    "image": "iVBORw0KGgoA...CYII=",
+    "image": "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAf0lEQVR4nO2Wuw2AMAxEbw1gpMwDDMBcGQpooDKydGVAoXCK6J7k6qyc83MCCFGP/Yz+CkDF4KHmjgowbQF0CKFrCDUiwztqxabHCL0/xwcNhoI2UdsjC8g0mQvaSs1zwkg0uQAsAEaGm9/UPCeU7eMj6loTEpf6ZOQWMxd98gAhZnS6XEZcNQAAAABJRU5ErkJggg==",
     "provider": "tinypng", 
 }
 ```
+
+> `krakenio` is also a supported provider
 
 _Example output:_
 
 ```json
 {
     "success": true,
-    "image": "iVBORw0KGgoA...ggg=="
+    "image": "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAG1BMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACUUeIgAAAACHRSTlMA8712Sxr5g97cFtUAAAA9SURBVCjPY6Aa6AADfAIcDSA8KoBTgLGVgSFCAEmAqZmBwUIBSYClzTQ4wwE52Cs6OtpR4oFFUciBerEKAP58HnyLtZsYAAAAAElFTkSuQmCC"
 }
 ```
 
@@ -48,6 +50,12 @@ As a result, a `code.tar.gz` file will be generated.
 3. Start the Open Runtime:
 ```
 docker run -p 3000:3000 -e INTERNAL_RUNTIME_KEY=secret-key -e INTERNAL_RUNTIME_ENTRYPOINT=index.rb --rm --interactive --tty --volume $PWD/code.tar.gz:/tmp/code.tar.gz:ro openruntimes/ruby:v2-3.1 sh /usr/local/src/start.sh
+```
+
+4. Execute function:
+
+```shell
+curl http://localhost:3000/ -d '{"variables":{"TINYPNG_API":"[YOUR_API_KEY]"},"payload":"{\"provider\":\"tinypng\",\"image\":\"iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAf0lEQVR4nO2Wuw2AMAxEbw1gpMwDDMBcGQpooDKydGVAoXCK6J7k6qyc83MCCFGP/Yz+CkDF4KHmjgowbQF0CKFrCDUiwztqxabHCL0/xwcNhoI2UdsjC8g0mQvaSs1zwkg0uQAsAEaGm9/UPCeU7eMj6loTEpf6ZOQWMxd98gAhZnS6XEZcNQAAAABJRU5ErkJggg==\"}"}' -H "X-Internal-Challenge: secret-key" -H "Content-Type: application/json"
 ```
 
 Your function is now listening on port `3000`, and you can execute it by sending `POST` request with appropriate authorization headers. To learn more about runtime, you can visit Python runtime [README](https://github.com/open-runtimes/open-runtimes/tree/main/runtimes/ruby-3.1).
