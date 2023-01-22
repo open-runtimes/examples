@@ -1,7 +1,5 @@
 <?php
 
-require_once 'vendor/autoload.php';
-
 return function ($req, $res) {
   $payload = json_decode($req['payload'] ?? '{}', true);
 
@@ -22,12 +20,12 @@ return function ($req, $res) {
   switch ($chosenProvider) {
     case 'bitly':
       $apiUrl = 'https://api-ssl.bitly.com/v4/shorten';
-      $authorizationToken = $req['env']['API_BITLY_AUTHORIZATION_TOKEN'] ?? null;
+      $authorizationToken = $req['variables']['API_BITLY_AUTHORIZATION_TOKEN'] ?? null;
       $data = json_encode(['long_url' => $longUrl]);
       break;
     case 'tinyurl':
       $apiUrl = 'https://api.tinyurl.com/create';
-      $authorizationToken = $req['env']['API_TINYURL_AUTHORIZATION_TOKEN'] ?? null;
+      $authorizationToken = $req['variables']['API_TINYURL_AUTHORIZATION_TOKEN'] ?? null;
       $data = json_encode(['url' => $longUrl]);
       break;
     default:

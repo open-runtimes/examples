@@ -65,7 +65,7 @@ $ cd php/generate-short-url
 2. Enter this function folder and build the code:
 
 ```
-docker run --rm --interactive --tty --volume $PWD:/usr/code openruntimes/php:8.1 sh /usr/local/src/build.sh
+docker run --rm --interactive --tty --volume $PWD:/usr/code openruntimes/php:v2-8.1 sh /usr/local/src/build.sh
 ```
 
 As a result, a `code.tar.gz` file will be generated.
@@ -73,12 +73,18 @@ As a result, a `code.tar.gz` file will be generated.
 3. Start the Open Runtime:
 
 ```
-docker run -p 3000:3000 -e INTERNAL_RUNTIME_KEY=secret-key -e INTERNAL_RUNTIME_ENTRYPOINT=index.php --rm --interactive --tty --volume $PWD/code.tar.gz:/tmp/code.tar.gz:ro openruntimes/php:8.1 sh /usr/local/src/start.sh
+docker run -p 3000:3000 -e INTERNAL_RUNTIME_KEY=secret-key -e INTERNAL_RUNTIME_ENTRYPOINT=index.php --rm --interactive --tty --volume $PWD/code.tar.gz:/tmp/code.tar.gz:ro openruntimes/php:v2-8.1 sh /usr/local/src/start.sh
 ```
 
 Your function is now listening on port `3000`, and you can execute it by sending `POST` request with appropriate
 authorization headers. To learn more about runtime, you can visit PHP
 runtime [README](https://github.com/open-runtimes/open-runtimes/tree/main/runtimes/php-8.1).
+
+4. Execute function:
+
+```
+curl http://localhost:3000/ -d '{"variables":{"API_BITLY_AUTHORIZATION_TOKEN":"[YOUR_API_KEY]"},"payload": "{\"url\":\"https://appwrite.io/\",\"provider\":\"bitly\"}"}' -H "X-Internal-Challenge: secret-key" -H "Content-Type: application/json"
+```
 
 ## 📝 Notes
 
