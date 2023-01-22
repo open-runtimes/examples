@@ -30,8 +30,8 @@ export default async function (req: any, res: any) {
       }),
     });
 
-    if (response.status !== 201) {
-      res.json({ success: false, message: `${await response.text()}` });
+    if (response.status >= 400) {
+      res.json({ success: false, code: response.status, message: `${await response.text()}` });
       return;
     }
 

@@ -11,12 +11,26 @@ _Example input:_
 }
 ```
 
+```json
+{
+  "provider": "tinyurl",
+  "url": "https://google.com/"
+}
+```
+
 _Example output:_
 
 ```json
 {
   "success": true,
   "url": "https://bit.ly/3y3HDkC"
+}
+```
+
+```json
+{
+  "success": false,
+  "message": "provider is required"
 }
 ```
 
@@ -51,6 +65,12 @@ docker run -p 3000:3000 -e INTERNAL_RUNTIME_ENTRYPOINT=src/mod.ts -e INTERNAL_RU
 ```
 
 Your function is now listening on port `3000`, and you can execute it by sending `POST` request with appropriate authorization headers. To learn more about runtime, you can visit Deno runtime [README](https://github.com/open-runtimes/open-runtimes/tree/main/runtimes/deno-1.24).
+
+4. Execute function:
+
+```
+curl http://localhost:3000/ -d '{"variables":{"BITLY_TOKEN":"[YOUR_API_KEY]"},"payload": "{\"url\":\"https://appwrite.io/\",\"provider\":\"bitly\"}"}' -H "X-Internal-Challenge: secret-key" -H "Content-Type: application/json"
+```
 
 ## 📝 Notes
 
