@@ -1,5 +1,5 @@
 export default async function(req: any, res: any) {
-    const APIkey = req.env["CLOUDMERSIVE_API_KEY"]
+    const APIkey = req.variables["CLOUDMERSIVE_API_KEY"]
 
     const { url } = JSON.parse(req.payload);
 

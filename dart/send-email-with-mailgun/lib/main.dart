@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 Future<void> start(final req, final res) async {
-  final domain = req.env['MAILGUN_DOMAIN'];
-  final apiKey = req.env['MAILGUN_API_KEY'];
+  final domain = req.variables['MAILGUN_DOMAIN'];
+  final apiKey = req.variables['MAILGUN_API_KEY'];
 
   // Validate Domain
   if ((RegExp(r"^((?!-))(xn--)?[a-z0-9][a-z0-9-_]{0,61}[a-z0-9]{0,1}\.(xn--)?([a-z0-9\-]{1,61}|[a-z0-9-]{1,30}\.[a-z]{2,})$")).hasMatch(domain) == false) {
@@ -36,7 +36,7 @@ Future<void> start(final req, final res) async {
       from: 'Welcome to My Awesome App <mailgun@$domain>',
       to: [email],
       subject: 'Welcome on board ${name}!',
-      text: 'Hi ${name}\nGreat to have you with us. ! 😍');
+      text: 'Hi ${name}\nGreat to have you with us. !');
   if (sent) {
     res.send("email sent successfully.");
   } else {

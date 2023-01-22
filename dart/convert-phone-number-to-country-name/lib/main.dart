@@ -31,9 +31,9 @@ Future<void> start(final req, final res) async {
 
     // Make sure we have envirnment variables required to execute
     if(
-        req.env['APPWRITE_FUNCTION_ENDPOINT'] == null || 
-        req.env['APPWRITE_FUNCTION_PROJECT_ID'] == null || 
-        req.env['APPWRITE_FUNCTION_API_KEY'] == null
+        req.variables['APPWRITE_FUNCTION_ENDPOINT'] == null || 
+        req.variables['APPWRITE_FUNCTION_PROJECT_ID'] == null || 
+        req.variables['APPWRITE_FUNCTION_API_KEY'] == null
     ) {
         throw Exception('Please provide all required environment variables.');
     }
@@ -45,9 +45,9 @@ Future<void> start(final req, final res) async {
         final locale = new Locale(client);
 
         client
-            .setEndpoint(req.env['APPWRITE_FUNCTION_ENDPOINT'] ?? '')
-            .setProject(req.env['APPWRITE_FUNCTION_PROJECT_ID'] ?? '')
-            .setKey(req.env['APPWRITE_FUNCTION_API_KEY'] ?? '');
+            .setEndpoint(req.variables['APPWRITE_FUNCTION_ENDPOINT'] ?? '')
+            .setProject(req.variables['APPWRITE_FUNCTION_PROJECT_ID'] ?? '')
+            .setKey(req.variables['APPWRITE_FUNCTION_API_KEY'] ?? '');
 
         // Fetch and store phone number prefixes
         final serverResponse = await locale.getCountriesPhones();

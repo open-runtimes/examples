@@ -35,9 +35,9 @@ return function($req, $res) use ($phonePrefixList) {
 
     // Make sure we have envirnment variables required to execute
     if(
-        empty($req['env']['APPWRITE_FUNCTION_ENDPOINT']) || 
-        empty($req['env']['APPWRITE_FUNCTION_PROJECT_ID']) || 
-        empty($req['env']['APPWRITE_FUNCTION_API_KEY'])
+        empty($req['variables']['APPWRITE_FUNCTION_ENDPOINT']) || 
+        empty($req['variables']['APPWRITE_FUNCTION_PROJECT_ID']) || 
+        empty($req['variables']['APPWRITE_FUNCTION_API_KEY'])
     ) {
         throw new \Exception('Please provide all required environment variables.');
     }
@@ -49,9 +49,9 @@ return function($req, $res) use ($phonePrefixList) {
         $locale = new Locale($client);
 
         $client
-            ->setEndpoint($req['env']['APPWRITE_FUNCTION_ENDPOINT'])
-            ->setProject($req['env']['APPWRITE_FUNCTION_PROJECT_ID'])
-            ->setKey($req['env']['APPWRITE_FUNCTION_API_KEY']);
+            ->setEndpoint($req['variables']['APPWRITE_FUNCTION_ENDPOINT'])
+            ->setProject($req['variables']['APPWRITE_FUNCTION_PROJECT_ID'])
+            ->setKey($req['variables']['APPWRITE_FUNCTION_API_KEY']);
 
         // Fetch and store phone number prefixes
         $serverResponse = $locale->getCountriesPhones();

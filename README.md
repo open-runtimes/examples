@@ -19,7 +19,11 @@ Example functions to show off what you can achieve with Open Runtimes.
 | Generate Giphy GIF | [✅](/dart/generate_giphy_gif) | [✅](/deno/generate-giphy-gif) | [✅](/node/generate_giphy_gif) |     |  [✅](/python/generate-giphy-gif)  |      |      |
 | Get COVID-19 Stats |      |      |      |     |        |      | [✅](/swift/get-covid-stats) |
 | Compresss Imagse |      |      |      |     |        |[✅](/ruby/compress-image)|      |
+| Send a HTTP Request |      |      |      |     |        | [✅](/ruby/send-http-request) |      |
 | Wipe Appwrite Bucket |      |      | [✅](/node/wipe_appwrite_bucket) |      |      |      |      |
+| Detect Language with Deepgram  |      |      |      |      | [✅](/python/deepgram-language-detection) |      |      |
+| Summarize Audio with Deepgram |      |      |      |      |      |[✅](/ruby/deepgram-audio-summary)|      |
+| Summarize Audio with Deepgram |      |      |      |      | [✅](/python/deepgram-audio-summary) |      |      |
 
 ## Contributing
 
@@ -27,7 +31,7 @@ All code contributions - including those of people having commit access - must g
 
 All functions should have the exactly same functionality as their other language counterparts and if possible you should avoid using any third-party libraries to keep the functions simple and secure.
 
-We truly ❤️ pull requests! If you wish to help, you can learn more about how you can contribute to this project in the [contribution guide](CONTRIBUTING.md).
+We truly ❤️ pull requests! If you wish to help, you can learn more about how you can contribute to this project in the [contribution guide](https://github.com/open-runtimes/.github/blob/main/CONTRIBUTING.md).
 
 
 ## Security

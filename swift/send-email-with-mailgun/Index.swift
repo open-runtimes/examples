@@ -11,8 +11,8 @@ func main(req: RequestValue, res: RequestResponse) async throws -> RequestRespon
         return res.json(data: ["error": "Invalid payload."])
     }
 
-    guard let mailgunDomain = req.env["MAILGUN_DOMAIN"],
-        let mailgunAPIKey = req.env["MAILGUN_API_KEY"] else {
+    guard let mailgunDomain = req.variables["MAILGUN_DOMAIN"],
+        let mailgunAPIKey = req.variables["MAILGUN_API_KEY"] else {
         return res.json(data: ["error": "Missing environment variables."])
     }
 

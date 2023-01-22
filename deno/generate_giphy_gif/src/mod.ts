@@ -1,5 +1,5 @@
 export default async function(req: any, res: any) {
-    const APIkey = req.env["GIPHY_API_KEY"]
+    const APIkey = req.variables["GIPHY_API_KEY"]
 
     const { search } = JSON.parse(req.payload);
 

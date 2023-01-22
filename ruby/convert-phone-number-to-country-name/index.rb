@@ -29,7 +29,7 @@ def main(req, res)
     end
 
     # Make sure we have envirnment variables required to execute
-    if !req.env['APPWRITE_FUNCTION_ENDPOINT'] or !req.env['APPWRITE_FUNCTION_PROJECT_ID'] or !req.env['APPWRITE_FUNCTION_API_KEY']
+    if !req.variables['APPWRITE_FUNCTION_ENDPOINT'] or !req.variables['APPWRITE_FUNCTION_PROJECT_ID'] or !req.variables['APPWRITE_FUNCTION_API_KEY']
         raise 'Please provide all required environment variables.'
     end
 
@@ -40,9 +40,9 @@ def main(req, res)
         locale = Appwrite::Locale.new(client)
 
         client
-            .set_endpoint(req.env['APPWRITE_FUNCTION_ENDPOINT'])
-            .set_project(req.env['APPWRITE_FUNCTION_PROJECT_ID'])
-            .set_key(req.env['APPWRITE_FUNCTION_API_KEY'])
+            .set_endpoint(req.variables['APPWRITE_FUNCTION_ENDPOINT'])
+            .set_project(req.variables['APPWRITE_FUNCTION_PROJECT_ID'])
+            .set_key(req.variables['APPWRITE_FUNCTION_API_KEY'])
 
         # Fetch and store phone number prefixes
         server_response = locale.get_countries_phones()
