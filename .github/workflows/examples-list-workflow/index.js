@@ -4,6 +4,20 @@ import {markdownTable} from 'markdown-table'
 
 const folderDenylist = [ '.github', '.git' ];
 
+const runtimesVerbose = {
+    'node': 'Node.JS',
+    'deno': 'Deno',
+    'php': 'PHP',
+    'dart': 'Dart',
+    'python': 'Python',
+    'java': 'Java',
+    'kotlin': 'Kotlin',
+    'ruby': 'Ruby',
+    'swift': 'Swift',
+    'dotnet': '.NET',
+    'cpp': 'C++'
+}
+
 const runtimes = fs.readdirSync(path.join('.', '../../../'), { withFileTypes: true })
     .filter(dirent => dirent.isDirectory())
     .map(dirent => dirent.name)
@@ -15,7 +29,7 @@ const examples = [];
 for(const runtime of runtimes) {
     const folders = fs.readdirSync(path.join('.', `../../../${runtime}`), { withFileTypes: true })
         .filter(dirent => dirent.isDirectory())
-        .map(dirent => dirent.name);
+        .map(dirent => dirent.name)
     examples.push(...folders);
 }
 
@@ -29,14 +43,11 @@ const rows = uniqueExamples.map((example) => {
     return [example, ...languagesSupport];
 });
 
-const table = markdownTable([
-    ['Example', ...runtimes],
-    ...rows.sort((a, b) => {
-        const aCount = a.filter((column) => column !== '');
-        const bCount = b.filter((column) => column !== '');
+rows.sort();
 
-        return aCount > bCount ? -1 : 1;
-    })
+const table = markdownTable([
+    ['Example', ...runtimes.map((runtime) => runtimesVerbose[runtime] ?? runtime)],
+    ...rows
   ]);
 
 
