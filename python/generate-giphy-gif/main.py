@@ -15,10 +15,10 @@ def main(req, res):
         raise Exception('Invalid search.')
 
     # Make sure we have envirnment variables required to execute
-    if not req.env.get('GIPHY_API_KEY', None):
+    if not req.variables.get('GIPHY_API_KEY', None):
         raise Exception('Please provide all required environment variables.')
 
-    api_key = req.env.get('GIPHY_API_KEY', None)
+    api_key = req.variables.get('GIPHY_API_KEY', None)
 
     # Fetch the Giphy URL
     response = requests.get(f"https://api.giphy.com/v1/gifs/search?api_key={api_key}&q={search}&limit=1")

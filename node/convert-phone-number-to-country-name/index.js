@@ -29,9 +29,9 @@ module.exports = async (req, res) => {
 
     // Make sure we have envirnment variables required to execute
     if(
-        !req.env.APPWRITE_FUNCTION_ENDPOINT || 
-        !req.env.APPWRITE_FUNCTION_PROJECT_ID || 
-        !req.env.APPWRITE_FUNCTION_API_KEY
+        !req.variables.APPWRITE_FUNCTION_ENDPOINT || 
+        !req.variables.APPWRITE_FUNCTION_PROJECT_ID || 
+        !req.variables.APPWRITE_FUNCTION_API_KEY
     ) {
         throw new Error('Please provide all required environment variables.');
     }
@@ -43,9 +43,9 @@ module.exports = async (req, res) => {
         const locale = new sdk.Locale(client);
 
         client
-            .setEndpoint(req.env.APPWRITE_FUNCTION_ENDPOINT)
-            .setProject(req.env.APPWRITE_FUNCTION_PROJECT_ID)
-            .setKey(req.env.APPWRITE_FUNCTION_API_KEY);
+            .setEndpoint(req.variables.APPWRITE_FUNCTION_ENDPOINT)
+            .setProject(req.variables.APPWRITE_FUNCTION_PROJECT_ID)
+            .setKey(req.variables.APPWRITE_FUNCTION_API_KEY);
 
         // Fetch and store phone number prefixes
         const serverResponse = await locale.getCountriesPhones();

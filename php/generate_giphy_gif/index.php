@@ -21,7 +21,6 @@ return function ($req, $res) {
     ) {
         throw new \Exception('Please provide all required environment variables.');
     }
-
     // Make GET request to api.giphy.com
     $ch = \curl_init(\sprintf('https://api.giphy.com/v1/gifs/search?api_key=%s&q=%s&limit=1', $req['variables']['GIPHY_API_KEY'], \rawurlencode($search)));
     \curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

@@ -4,7 +4,7 @@ const axios = require('axios').default;
 module.exports = async function(req, res) {
     let defaultClient = CloudmersiveImageApiClient.ApiClient.instance;
     let Apikey = defaultClient.authentications['Apikey'];
-    Apikey.apiKey = req.env["CLOUDMERSIVE_API_KEY"];
+    Apikey.apiKey = req.variables["CLOUDMERSIVE_API_KEY"];
     let payload = JSON.parse(req.payload);
 
     let apiInstance = new CloudmersiveImageApiClient.RecognizeApi();
