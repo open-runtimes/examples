@@ -1,7 +1,5 @@
 import json
-from PIL import Image
 import requests
-from io import BytesIO
 import base64
 
 def error(res,message):
