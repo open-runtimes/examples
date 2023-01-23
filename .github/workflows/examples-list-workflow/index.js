@@ -4,6 +4,19 @@ import {markdownTable} from 'markdown-table'
 
 const folderDenylist = [ '.github', '.git' ];
 
+const runtimesVerbose = {
+    'node': 'Node.JS',
+    'deno': 'Deno',
+    'php': 'PHP',
+    'dart': 'Dart',
+    'python': 'Python',
+    'java': 'Java',
+    'kotlin': 'Kotlin',
+    'ruby': 'Ruby',
+    'swift': 'Swift',
+    'dotnet': '.NET'
+}
+
 const runtimes = fs.readdirSync(path.join('.', '../../../'), { withFileTypes: true })
     .filter(dirent => dirent.isDirectory())
     .map(dirent => dirent.name)
@@ -15,7 +28,8 @@ const examples = [];
 for(const runtime of runtimes) {
     const folders = fs.readdirSync(path.join('.', `../../../${runtime}`), { withFileTypes: true })
         .filter(dirent => dirent.isDirectory())
-        .map(dirent => dirent.name);
+        .map(dirent => dirent.name)
+        .map((folder) => runtimesVerbose[folder] ?? folder);
     examples.push(...folders);
 }
 
