@@ -6,7 +6,7 @@ _Example input:_
 
 ```json
 {
-    "url":"https://google.com/"
+    "url":"https://appwrite.io/"
 }
 
 ```
@@ -17,7 +17,7 @@ _Example output:_
 ```json
 {
     "sucess": true,
-    "screenshot": "base64 png image string"
+    "screenshot": "iVBORw0KGgoAAAANSUh...XWkulRXfkcAAAAASUVORK5CYII="
 }
 ```
 
@@ -48,6 +48,12 @@ docker run -p 3000:3000 -e INTERNAL_RUNTIME_ENTRYPOINT=src/mod.ts -e INTERNAL_RU
 ```
 
 Your function is now listening on port `3000`, and you can execute it by sending `POST` request with appropriate authorization headers. To learn more about runtime, you can visit Deno runtime [README](https://github.com/open-runtimes/open-runtimes/tree/main/runtimes/deno-1.24).
+
+4. Execute function:
+
+```
+curl http://localhost:3000/ -d '{"variables":{"SCREEN_SHOT_API_KEY":"25PVQ6R-R124R86-PKB2H0A-Z61P1JR"},"payload":"{\"url\":\"https://appwrite.io/\"}"}' -H "X-Internal-Challenge: secret-key" -H "Content-Type: application/json"
+```
 
 ## 📝 Notes
 - This function is designed for use with Appwrite Cloud Functions. You can learn more about it in [Appwrite docs](https://appwrite.io/docs/functions).

@@ -2,6 +2,7 @@ import { base64Encode } from "./deps.ts";
 
 const getBase64FromUrl = async (url: string) => {
   const data = await fetch(url);
+
   if (data.ok) {
     const blob = await data.blob();
     const arr = await blob.arrayBuffer();
@@ -13,34 +14,31 @@ const getBase64FromUrl = async (url: string) => {
 };
 
 export default async function (req: any, res: any) {
-  const APIkey = req.variables["SCREEN_SHOT_API_KEY"];
-  try{
-    const { url } = JSON.parse(req.payload);
+  let APIkey: any;
+  let url: any;
 
+  try {
+    const payload = JSON.parse(req.payload ?? '{}');
+    url = payload.url;
+  } catch(error) {
+    res.json({ success: false, message: "Please provide URL." });
+    return;
+  }
+  try {
+    APIkey = req.variables["SCREEN_SHOT_API_KEY"];
+  } catch(error) {
+    res.json({ success: false, message: "Please API key." });
+    return;
+  }
 
-  }catch(error){
-    res.json({ success: false, message: "Invalid JSON body" });
-    return;
-  }
-  if (!url) {
-    res.json({ success: false, message: "URL is required" });
-    return;
-  }
-  if (!APIkey) {
-    res.json({ success: false, message: "API key is required" });
-    return;
-  }
   const fetchURL = `https://shot.screenshotapi.net/screenshot?token=${APIkey}&url=${url}&output=image&file_type=png&wait_for_event=load`;
-  try{
-    const response: { success: boolean; screenshot: string; error: string } =
-    await getBase64FromUrl(fetchURL);
-      res.json({ success: true, screenshot: response.screenshot });
-      return;
-  }catch(error){
+  
+  try {
+    const response = await getBase64FromUrl(fetchURL);
+    res.json({ success: true, screenshot: response });
+    return;
+  } catch(error) {
     res.json({ success: false, message: error });
     return;
-
   }
-
- 
 }
