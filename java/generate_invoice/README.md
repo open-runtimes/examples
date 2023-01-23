@@ -1,4 +1,4 @@
-# 💻 Get Short URL
+# 💻 Generate invoice
 
 A Java Cloud Function for generating invoice.
 
@@ -34,7 +34,7 @@ _Error Example output:_
 
 ## 📝 Environment Variables
 
-List of environment variables used by this cloud function.
+This function does not require any variables.
 
 ## 🚀 Deployment
 
@@ -57,6 +57,12 @@ docker run -p 3000:3000 -e INTERNAL_RUNTIME_KEY=secret-key --rm --interactive --
 ```
 
 Your function is now listening on port `3000`, and you can execute it by sending `POST` request with appropriate authorization headers. To learn more about runtime, you can visit Java runtime [README](https://github.com/open-runtimes/open-runtimes/tree/main/runtimes/java-18.0).
+
+4. Execute function:
+
+```
+curl http://localhost:3000/ -d '{"payload":"{\"currency\":\"EUR\",\"items\":[{\"name\":\"Web development\",\"price\":15}],\"issuer\":\"Some\nIssuer\",\"customer\":\"Some\nCustomer\",\"vat\":21}"}' -H "X-Internal-Challenge: secret-key" -H "Content-Type: application/json"
+```
 
 ## 📝 Notes
  - This function is designed for use with Appwrite Cloud Functions. You can learn more about it in [Appwrite docs](https://appwrite.io/docs/functions).
