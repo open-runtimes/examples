@@ -29,7 +29,6 @@ for(const runtime of runtimes) {
     const folders = fs.readdirSync(path.join('.', `../../../${runtime}`), { withFileTypes: true })
         .filter(dirent => dirent.isDirectory())
         .map(dirent => dirent.name)
-        .map((folder) => runtimesVerbose[folder] ?? folder);
     examples.push(...folders);
 }
 
@@ -46,7 +45,7 @@ const rows = uniqueExamples.map((example) => {
 rows.sort();
 
 const table = markdownTable([
-    ['Example', ...runtimes],
+    ['Example', ...runtimes.map((runtime) => runtimesVerbose[runtime] ?? runtime)],
     ...rows
   ]);
 
