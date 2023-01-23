@@ -14,7 +14,15 @@ _Example output:_
 
 ```json
 {
-  "success":true
+  "success":true,
+  "sum": 3
+}
+```
+
+```json
+{
+  "success":false,
+  "message": "Could not connect to Appwrite server."
 }
 ```
 
@@ -28,14 +36,32 @@ List of environment variables used by this cloud function:
 
 ## 🚀 Deployment
 
-There are two ways of deploying the Appwrite function, both having the same results, but each using a different process. We highly recommend using CLI deployment to achieve the best experience.
+1. Clone this repository, and enter this function folder:
 
-### Using CLI
+```
+$ git clone https://github.com/open-runtimes/examples.git && cd examples
+$ cd php/wipe_appwrite_bucket
+```
 
-Make sure you have [Appwrite CLI](https://appwrite.io/docs/command-line#installation) installed, and you have successfully logged into your Appwrite server. To make sure Appwrite CLI is ready, you can use the command `appwrite client --debug` and it should respond with green text `✓ Success`.
+2. Enter this function folder and build the code:
+```
+docker run --rm --interactive --tty --volume $PWD:/usr/code openruntimes/php:v2-8.1 sh /usr/local/src/build.sh
+```
+As a result, a `code.tar.gz` file will be generated.
 
-Make sure you are in the same folder as your `appwrite.json` file and run `appwrite deploy function` to deploy your function. You will be prompted to select which functions you want to deploy.
+3. Start the Open Runtime:
+```
+docker run -p 3000:3000 -e INTERNAL_RUNTIME_KEY=secret-key -e INTERNAL_RUNTIME_ENTRYPOINT=index.php --rm --interactive --tty --volume $PWD/code.tar.gz:/tmp/code.tar.gz:ro openruntimes/php:v2-8.1 sh /usr/local/src/start.sh
+```
 
-### Manual using tar.gz
+Your function is now listening on port `3000`, and you can execute it by sending `POST` request with appropriate authorization headers. To learn more about runtime, you can visit PHP runtime [README](https://github.com/open-runtimes/open-runtimes/tree/main/runtimes/php-8.1).
 
-Manual deployment has no requirements and uses Appwrite Console to deploy the tag. First, enter the folder of your function. Then, create a tarball of the whole folder and gzip it. After creating `.tar.gz` file, visit Appwrite Console, click on the `Deploy Tag` button and switch to the `Manual` tab. There, set the `entrypoint` to `index.php`, and upload the file we just generated.
+4. Execute function:
+
+```
+curl http://localhost:3000/ -d '{"variables":{"APPWRITE_FUNCTION_ENDPOINT":"YOUR_ENDPOINT","APPWRITE_FUNCTION_PROJECT_ID":"YOUR_PROJECT_ID","APPWRITE_FUNCTION_API_KEY":"YOUR_API_KEY"},"payload":"{\"bucketId\":\"profilePictures\"}"}' -H "X-Internal-Challenge: secret-key" -H "Content-Type: application/json"
+```
+
+## 📝 Notes
+ - This function is designed for use with Appwrite Cloud Functions. You can learn more about it in [Appwrite docs](https://appwrite.io/docs/functions).
+ - This example is compatible with PHP 8.1. Other versions may work but are not guaranteed to work as they haven't been tested.

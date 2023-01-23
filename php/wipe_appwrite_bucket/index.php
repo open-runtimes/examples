@@ -34,7 +34,7 @@ return function ($req, $res) {
        !$req['variables']['APPWRITE_FUNCTION_API_KEY']) {
         $res->json([
             'success' => false,
-            'message' => 'Please provide all required environment variables.'
+            'message' => 'Please provide all required variables.'
         ]);
         return;
     }
@@ -48,11 +48,13 @@ return function ($req, $res) {
         ->setKey($req['variables']['APPWRITE_FUNCTION_API_KEY']);
 
     $done = false;
+    $sum = 0;
     try {
         while (!$done) {
             $files = $storage->listFiles($bucketId)['files'];
             foreach ($files as $file) {
                 $storage->deleteFile($bucketId, $file['$id']);
+                $sum++;
             }
 
             if (count($files) == 0) {
@@ -69,6 +71,7 @@ return function ($req, $res) {
 
     // Return success result
     $res->json([
-        'success' => true
+        'success' => true,
+        'sum' => $sum
     ]);
 };
