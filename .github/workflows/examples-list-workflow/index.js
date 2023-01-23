@@ -29,14 +29,11 @@ const rows = uniqueExamples.map((example) => {
     return [example, ...languagesSupport];
 });
 
+rows.sort();
+
 const table = markdownTable([
     ['Example', ...runtimes],
-    ...rows.sort((a, b) => {
-        const aCount = a.filter((column) => column !== '');
-        const bCount = b.filter((column) => column !== '');
-
-        return aCount > bCount ? -1 : 1;
-    })
+    ...rows
   ]);
 
 
