@@ -14,7 +14,8 @@ const runtimesVerbose = {
     'kotlin': 'Kotlin',
     'ruby': 'Ruby',
     'swift': 'Swift',
-    'dotnet': '.NET'
+    'dotnet': '.NET',
+    'cpp': 'C++'
 }
 
 const runtimes = fs.readdirSync(path.join('.', '../../../'), { withFileTypes: true })
