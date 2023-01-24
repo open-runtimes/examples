@@ -70,10 +70,9 @@ static RuntimeResponse &main(const RuntimeRequest &req, RuntimeResponse &res) {
     CURL *curl = curl_easy_init();
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &responseBuffer);
-    curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &httpCode);
 
     if(provider == "bitly") {
-        std::string url = "https://api-ssl.bitly.com/v4/shorten";
+        std::string apiUrl = "https://api-ssl.bitly.com/v4/shorten";
         std::string body = "{\"long_url\":\"" + url + "\"}";
         std::string authHeader = "Authorization: Bearer " + apiKey;
 
@@ -82,19 +81,34 @@ static RuntimeResponse &main(const RuntimeRequest &req, RuntimeResponse &res) {
         headers = curl_slist_append(headers, "Content-Type: application/json");
         headers = curl_slist_append(headers, authHeader.c_str());
 
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, body.length());
+        curl_easy_setopt(curl, CURLOPT_COPYPOSTFIELDS, body.c_str());
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, body.c_str());
+        curl_easy_setopt(curl, CURLOPT_URL, apiUrl.c_str());
         curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "POST");
     } else if(provider == "tinyurl") {
+        std::string apiUrl = "https://api.tinyurl.com/create";
+        std::string body = "{\"url\":\"" + url + "\"}";
+        std::string authHeader = "Authorization: Bearer " + apiKey;
+
+        struct curl_slist *headers;
+        headers = NULL;
+        headers = curl_slist_append(headers, "Content-Type: application/json");
+        headers = curl_slist_append(headers, authHeader.c_str());
+
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, body.length());
+        curl_easy_setopt(curl, CURLOPT_COPYPOSTFIELDS, body.c_str());
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        curl_easy_setopt(curl, CURLOPT_URL, apiUrl.c_str());
+        curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "POST");
     }
 
     CURLcode curlStatus = curl_easy_perform(curl);
+
+    curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &httpCode);
     curl_easy_cleanup(curl);
 
-
     if(httpCode < 400) {
-        // TODO: Finish (get response + return url)
         Json::Value responseJson;
         reader->parse(
             responseBuffer.c_str(),
@@ -106,8 +120,13 @@ static RuntimeResponse &main(const RuntimeRequest &req, RuntimeResponse &res) {
         delete reader;
 
         response["success"] = true;
-        response["data"] = responseJson;
-        response["httpCode"] = httpCode;
+
+        if(provider == "bitly") {
+            response["url"] = responseJson["link"]; // bitly
+        } else if(provider == "tinyurl") {
+            response["url"] = responseJson["data"]["tiny_url"];
+        }
+        
         return res.json(response);
     } else {
         std::string message = "Could not generate url with error " + std::to_string(httpCode) +  ": " + responseBuffer.c_str();
