@@ -23,12 +23,13 @@ public RuntimeResponse main(RuntimeRequest req,RuntimeResponse res)throws Except
 
         // Validate the requested payload (URL)
         String payloadString=req.getPayload().toString();
-        Map<String, Object> payload=gson.fromJson(payloadString,Map.class);
-
-        errorResponse=validatePayload(payload,res);
+        
+        errorResponse=validatePayload(payloadString,res);
         if(errorResponse!=null){
             return errorResponse;
         }
+
+        Map<String, Object> payload = gson.fromJson(payloadString,Map.class);
 
         // Get file url from payload
         String fileurl=payload.get("fileUrl").toString();
@@ -125,8 +126,16 @@ private RuntimeResponse checkEmptyAPIKey(RuntimeRequest req,RuntimeResponse res,
  * @param payload is the object that contains the URL
  * @return null if payload is valid, otherwise an error response
  */
-private RuntimeResponse validatePayload(Map<String, Object> payload,RuntimeResponse res){
+private RuntimeResponse validatePayload(String payloadString,RuntimeResponse res){
         Map<String, Object> responseData=new HashMap<>();
+        Map<String, Object> payload=new HashMap<>();;
+        try{
+            payload=gson.fromJson(payloadString,Map.class);
+        } catch (Exception e) {
+            responseData.put("success",false);
+            responseData.put("message","The payload is invalid. Example of valid payload:{\"fileUrl\": \"...\"}");       
+            return  res.json(responseData);
+        }
 
         // Validate that payload has fileUrl
         if(!payload.containsKey("fileUrl")){
@@ -154,18 +163,20 @@ private RuntimeResponse validatePayload(Map<String, Object> payload,RuntimeRespo
  * @return null is nothing is empty, otherwise an error response
  */
 private RuntimeResponse checkEmptyPayloadAndVariables(RuntimeRequest req,RuntimeResponse res){
-        Map<String, Object> responseData=new HashMap<>();
+    
+    Map<String, Object> responseData=new HashMap<>();
 
-        if(req.getPayload()==null||req.getPayload().trim().isEmpty()||req.getPayload().trim().equals("{}")){
+    if(req.getPayload()==null||req.getPayload().trim().isEmpty()||req.getPayload().trim().equals("{}")){
         responseData.put("success",false);
         responseData.put("message","Payload is empty, expected a payload with provider and URL");
-            return res.json(responseData);
-        }
-
-        if(req.getVariables()==null){
+        return res.json(responseData);
+    
+    }
+    if(req.getVariables()==null){
         responseData.put("success",false);
         responseData.put("message","Empty function variables found. You need to pass an API key for the provider");
-            return res.json(responseData);
-        }
-        return null;
+        return res.json(responseData);
+    }
+
+    return null;
 }
