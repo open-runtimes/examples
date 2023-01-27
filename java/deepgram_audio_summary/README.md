@@ -26,9 +26,9 @@ _Error Example output:_
 ```
 
 
-## 📝 Environment Variables
+## 📝 Variables
 
-List of environment variables used by this cloud function. These must be passed within 'variables' section of the request:
+List of variables used by this cloud function. These must be passed within 'variables' section of the request:
 
 **DEEPGRAM_SECRET_KEY** - This API key would be the access token used by Deepgram for generating the Summary.
 
