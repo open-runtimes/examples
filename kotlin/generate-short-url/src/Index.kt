@@ -38,8 +38,8 @@ suspend fun main(req: RuntimeRequest, res: RuntimeResponse): RuntimeResponse {
 
     val provider = payloadMap["provider"]?:""
     val longUrl = payloadMap["url"] ?: ""
-    val providerApiKey = payloadMap["provider_api_key"]?:""
-    var providerResponse="";
+    val providerApiKey = req.variables["PROVIDER_API_KEY"]?:""
+    var providerResponse=""
 
     try{
 
