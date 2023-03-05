@@ -12,9 +12,8 @@ _Example input:_
 
 _Example output:_
 
-```json
+![Command Prompt 05-03-2023 19_22_05](https://user-images.githubusercontent.com/92082372/222965772-8cc7b454-c28a-4e36-a796-65407ddfc713.png)
 
-```
 
 ## 📝 Environment Variables
 
