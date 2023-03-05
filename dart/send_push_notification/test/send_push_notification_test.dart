@@ -7,17 +7,13 @@ import 'package:test/test.dart';
 
 
 const fakeFriendDeviceToken = 'fake_friend_device_token';
-const fakeFirebaseAuthKey = 'fake_firebase_auth_key';
+const fakeServerKey = 'fake_server_key';
 
 class Request {
   Map<String, dynamic> headers = {};
   String payload = '';
   Map<String, dynamic> variables = {
-    'APPWRITE_FUNCTION_ENDPOINT': 'fake_url',
-    'APPWRITE_FUNCTION_PROJECT_ID': 'fake_project_id',
-    'APPWRITE_FUNCTION_API_KEY': 'fake_api_key',
-    'APPWRITE_FUNCTION_USER_ID': 'fake_user_id',
-    'FIREBASE_AUTH_KEY': fakeFirebaseAuthKey
+    'FMC_SERVER_KEY': fakeServerKey
   };
 }
 
@@ -41,7 +37,7 @@ class MockFCMService extends Mock implements FCMService {}
 void main() {
   test('call remote function with incorrect ENV variables', () async {
     final req = Request();
-    req.variables['FIREBASE_AUTH_KEY'] = null;
+    req.variables['FMC_SERVER_KEY'] = null;
 
     final res = Response();
     await start(req, res);
@@ -70,7 +66,7 @@ void main() {
     mockFCMService = MockFCMService();
 
     when(() => mockFCMService!.sendFCMToUser(
-          firebaseAuthKey: fakeFirebaseAuthKey,
+          serverKey: fakeServerKey,
           userFCMToken: fakeFriendDeviceToken,
           notificationData: any(named: 'notificationData'),
         )).thenAnswer((invocation) async => true);
@@ -78,7 +74,7 @@ void main() {
     await start(req, res);
 
     final capturedFCMDataArgs = verify(() => mockFCMService!.sendFCMToUser(
-          firebaseAuthKey: fakeFirebaseAuthKey,
+          serverKey: fakeServerKey,
           userFCMToken: captureAny(named: 'userFCMToken'),
           notificationData: captureAny(named: 'notificationData'),
         )).captured;

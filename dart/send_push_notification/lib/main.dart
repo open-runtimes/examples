@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'fcm_service.dart';
 
 void returnSuccess(final res, final message) {
@@ -17,11 +16,7 @@ void returnFailure(final res, final String message) {
 }
 
 bool checkEnvVariables(final req, final res) {
-  if (req.variables['APPWRITE_FUNCTION_ENDPOINT'] == null ||
-      req.variables['APPWRITE_FUNCTION_API_KEY'] == null ||
-      req.variables['APPWRITE_FUNCTION_PROJECT_ID'] == null ||
-      req.variables['APPWRITE_FUNCTION_USER_ID'] == null ||
-      req.variables['FIREBASE_AUTH_KEY'] == null) {
+  if (req.variables['FMC_SERVER_KEY'] == null) {
     returnFailure(res, "Some Environment variables are not set");
     return false;
   }
@@ -42,7 +37,7 @@ Future<void> start(final req, final res) async {
   if (!checkEnvVariables(req, res)) {
     return;
   }
-  final String firebaseAuthKey = req.variables['FIREBASE_AUTH_KEY'];
+  final String serverKey = req.variables['FMC_SERVER_KEY'];
 
   final payload = jsonDecode(req.payload == '' ? '{}' : req.payload);
   if (!checkPayload(payload, res)) {
@@ -59,7 +54,7 @@ Future<void> start(final req, final res) async {
   };
 
   final isPushSent = await fcmService.sendFCMToUser(
-      firebaseAuthKey: firebaseAuthKey,
+      serverKey: serverKey,
       userFCMToken: userToken,
       notificationData: notificationData);
 

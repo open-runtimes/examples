@@ -1,22 +1,22 @@
 # Send push notification
 
-A Dart Cloud Function that send push notification using Firebase Cloud Messaging to particular user
+A Dart Cloud Function that send push notification using FCM to particular user.
 
-* First of all make sure that you are integrated FCM into your flutter app
-    - https://firebase.flutter.dev/docs/messaging/overview/
-* Generate needed `FIREBASE_AUTH_KEY` env variable
+* Make sure that you are integrated FCM into your app (Web/Android/Apple/Flutter)
+* Generate needed `FMC_SERVER_KEY` env variable
 
 ### Hot to get FCM Server Key
-* Go to Messaging settings
-  ![FCM Settings](firebase_messaging_setting.png "Firebase Messaging Settings")
+
+* Visit your FCM console and enter your project
+* Go to Project settings and switch to Cloud Messaging tab
+* Enable Cloud Messaging API (Legacy)
 * Copy server key or create a new one
-  ![FCM Server Auth Key](firebase_auth_server_key.png "Firebase Server Auth Key")
 
 _Example input 1:_
 
 ```json
 {
-  "user_token": "some_valid_token"
+  "user_token": "d0MXntS8ur81...UEFGL"
 }
 ```
 
@@ -50,9 +50,7 @@ _Example output 2:_
 
 List of environment variables used by this cloud function:
 
-* **FIREBASE_AUTH_KEY** - API Key for FCM
-
-<!-- * **TINYURL_API_KEY** - API Key for TinyUrl -->
+* **FMC_SERVER_KEY** - Server Key for FCM settings
 
 ## 🚀 Deployment
 
@@ -84,7 +82,7 @@ runtime [README](https://github.com/open-runtimes/open-runtimes/tree/main/runtim
 4. Execute function:
 
 ```shell
-curl http://localhost:3000/ -d '{"variables":{"FIREBASE_AUTH_KEY":"YOUR_FIREBASE_AUTH_KEY"},"payload":"{\"user_token\":\"USER_FCM_TOKEN\"}"}' -H "X-Internal-Challenge: secret-key" -H "Content-Type: application/json"
+curl http://localhost:3000/ -d '{"variables":{"FMC_SERVER_KEY":"YOUR_FMC_SERVER_KEY"},"payload":"{\"user_token\":\"USER_FCM_TOKEN\"}"}' -H "X-Internal-Challenge: secret-key" -H "Content-Type: application/json"
 ```
 
 ## 📝 Notes
