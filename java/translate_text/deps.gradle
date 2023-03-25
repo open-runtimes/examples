@@ -1,0 +1,7 @@
+dependencies {
+    implementation platform('com.google.cloud:libraries-bom:25.4.0')
+	implementation platform('software.amazon.awssdk:bom:2.15.0')
+	implementation 'software.amazon.awssdk:translate'
+	implementation 'com.google.code.gson:gson:2.9.0'
+	implementation 'com.google.cloud:google-cloud-translate'
+}
