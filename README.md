@@ -22,8 +22,8 @@ Example functions to show off what you can achieve with Open Runtimes.
 | Send a HTTP Request |      |      |      |     |        | [✅](/ruby/send-http-request) |      |
 | Wipe Appwrite Bucket |      |      | [✅](/node/wipe_appwrite_bucket) |      |      |      |      |
 | Detect Language with Deepgram  |      |      |      |      | [✅](/python/deepgram-language-detection) |      |      |
-| Summarize Audio with Deepgram |      |      |      |      |      |[✅](/ruby/deepgram-audio-summary)|      |
-| Summarize Audio with Deepgram |      |      |      |      | [✅](/python/deepgram-audio-summary) |      |      |
+| Summarize Audio with Deepgram |      |      |      |      |[✅](/python/deepgram-audio-summary) |[✅](/ruby/deepgram-audio-summary)|      |
+| Summarize Video with Deepgram |      |      |      |      |  |   [✅](/ruby/deepgram-video-summary)   |      |
 
 ## Contributing
 
