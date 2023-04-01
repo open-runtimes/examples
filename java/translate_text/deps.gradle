@@ -4,4 +4,5 @@ dependencies {
 	implementation 'software.amazon.awssdk:translate'
 	implementation 'com.google.code.gson:gson:2.9.0'
 	implementation 'com.google.cloud:google-cloud-translate'
+	implementation 'com.squareup.okhttp3:okhttp:3.2.0'
 }
