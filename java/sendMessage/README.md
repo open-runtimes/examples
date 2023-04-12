@@ -35,7 +35,6 @@ _Twitter Example payload_
 ```json
 {
   "type": "Twitter",
-  "receiver": "",
   "message": "Programming is fun!"
 }
 ```

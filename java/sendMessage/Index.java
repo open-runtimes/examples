@@ -11,6 +11,8 @@ import java.util.Base64;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiConsumer;
+import io.github.redouane59.twitter.TwitterClient;
+import io.github.redouane59.twitter.signature.TwitterCredentials;
 
 private static class MessageSendingFailedException extends RuntimeException {
     public MessageSendingFailedException(String message) {
@@ -51,7 +53,7 @@ private void sendDiscordMessage(Map<String, Object> messageBody, Map<String, Str
     String discordWebhookURL = variables.get("DISCORD_WEBHOOK_URL");
 
     Gson gson = new Gson();
-    String message = getMessageField("message");
+    String message = getMessageField(messageBody,"message");
     String body = gson.toJson(Map.of("content", message));
 
     HttpClient client = HttpClient.newHttpClient();
@@ -151,14 +153,22 @@ private void sendTwitterMessage(Map<String, Object> messageBody, Map<String, Str
     String twitterAccessToken = variables.get("TWITTER_ACCESS_TOKEN");
     String twitterAccessTokenSecret = variables.get("TWITTER_ACCESS_TOKEN_SECRET");
 
-    Gson gson = new Gson();
-
-    String receiver = getMessageField(messageBody, "receiver"); // "hello@example.com",
     String message = getMessageField(messageBody, "message"); // "Programming is fun!",
 
-    // TODO: add use of twitter API to send a tweet
+    try {
+        TwitterClient twitterClient = new TwitterClient(TwitterCredentials.builder()
+                .apiKey(twitterApiKey)
+                .apiSecretKey(twitterApiKeySecret)
+                .accessToken(twitterAccessToken)
+                .accessTokenSecret(twitterAccessTokenSecret)
+                .build());
+
+        twitterClient.postTweet(message);
+    } catch(Exception e) {
+        throw new MessageSendingFailedException("There seems to have been a problem either with posting the tweet or with using Twitter's API.", e);
+    }
 }
 
 private String getMessageField(Map<String, Object> messageBody, String field) {
-    return Optional.ofNullable(messageBody.get(field)).orElseThrow(() -> new IllegalArgumentException(String.format("%s field not specified", field));
+    return Optional.ofNullable((String)messageBody.get(field)).orElseThrow(() -> new IllegalArgumentException(String.format("%s field not specified", field)));
 }
