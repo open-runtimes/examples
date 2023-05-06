@@ -1,0 +1,11 @@
+{
+    "name": "opr/deepgram_topic_detection",
+    "description": "",
+    "type": "library",
+    "license": "ISC",
+    "authors": [],
+    "require": {
+        "php": ">=8.0.0",
+        "guzzlehttp/guzzle": "^7.0"
+    }
+}
