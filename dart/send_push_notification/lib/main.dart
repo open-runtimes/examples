@@ -49,8 +49,8 @@ Future<void> start(final req, final res) async {
   final fcmService = mockFCMService ?? FCMService();
 
   final Map<String, dynamic> notificationData = {
-    'Title': "Awesome title!",
-    'Body': "Awesome body",
+    'title': "Awesome title!",
+    'body': "Awesome body",
   };
 
   final isPushSent = await fcmService.sendFCMToUser(
