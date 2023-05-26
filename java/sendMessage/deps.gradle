@@ -1,0 +1,7 @@
+dependencies {
+    implementation "io.github.redouane59.twitter:twittered:1.27"
+    implementation 'org.slf4j:slf4j-api:1.7.30'
+    implementation 'org.slf4j:slf4j-simple:1.7.30'
+}
+
+tasks.withType(Jar) { duplicatesStrategy = DuplicatesStrategy.EXCLUDE }
