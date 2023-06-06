@@ -1,0 +1,9 @@
+name: send_http_request
+description: An example code to send HTTP request by @Yavnik.
+version: 1.0.0
+
+environment:
+  sdk: '>=2.17.0 <3.0.0'
+
+dependencies: 
+  dio: ^5.2.0
