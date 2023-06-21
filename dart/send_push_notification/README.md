@@ -3,7 +3,7 @@
 A Dart Cloud Function that send push notification using FCM to particular user.
 
 * Make sure that you are integrated FCM into your app (Web/Android/Apple/Flutter)
-* Generate needed `FMC_SERVER_KEY` env variable
+* Generate needed `FCM_SERVER_KEY` env variable
 
 ### Hot to get FCM Server Key
 
@@ -50,7 +50,7 @@ _Example output 2:_
 
 List of environment variables used by this cloud function:
 
-* **FMC_SERVER_KEY** - Server Key for FCM settings
+* **FCM_SERVER_KEY** - Server Key for FCM settings
 
 ## 🚀 Deployment
 
@@ -82,7 +82,7 @@ runtime [README](https://github.com/open-runtimes/open-runtimes/tree/main/runtim
 4. Execute function:
 
 ```shell
-curl http://localhost:3000/ -d '{"variables":{"FMC_SERVER_KEY":"YOUR_FMC_SERVER_KEY"},"payload":"{\"user_token\":\"USER_FCM_TOKEN\"}"}' -H "X-Internal-Challenge: secret-key" -H "Content-Type: application/json"
+curl http://localhost:3000/ -d '{"variables":{"FCM_SERVER_KEY":"YOUR_FCM_SERVER_KEY"},"payload":"{\"user_token\":\"USER_FCM_TOKEN\"}"}' -H "X-Internal-Challenge: secret-key" -H "Content-Type: application/json"
 ```
 
 ## 📝 Notes
