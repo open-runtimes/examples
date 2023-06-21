@@ -16,7 +16,7 @@ void returnFailure(final res, final String message) {
 }
 
 bool checkEnvVariables(final req, final res) {
-  if (req.variables['FMC_SERVER_KEY'] == null) {
+  if (req.variables['FCM_SERVER_KEY'] == null) {
     returnFailure(res, "Some Environment variables are not set");
     return false;
   }
@@ -37,7 +37,7 @@ Future<void> start(final req, final res) async {
   if (!checkEnvVariables(req, res)) {
     return;
   }
-  final String serverKey = req.variables['FMC_SERVER_KEY'];
+  final String serverKey = req.variables['FCM_SERVER_KEY'];
 
   final payload = jsonDecode(req.payload == '' ? '{}' : req.payload);
   if (!checkPayload(payload, res)) {
