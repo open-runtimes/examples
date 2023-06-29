@@ -72,11 +72,12 @@ def main(req, res):
     # Decode the image data from base64
     decoded = base64.b64decode(image)
 
-    # Create the temp directory
+    # Create a temp directory inside of the current working directory. Prefix it as "temp"
     temp_dir = tempfile.mkdtemp(prefix='temp', dir=os.getcwd())
 
     # Generate a copy of the decoded image data as non_optimized.jpg
     file_path = os.path.join(temp_dir, "non_optimized.jpg")
+    # I used with open, to write media file with the decoded base64 contents
     with open(file_path, "wb") as f:
         f.write(decoded)
 
