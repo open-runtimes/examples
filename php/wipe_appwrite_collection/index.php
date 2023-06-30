@@ -11,7 +11,7 @@ return function ($req, $res) {
         'message' => 'Payload is invalid.'
     ];
     try {
-        $payload = \json_decode($req['payload'], true);
+        $payload = \json_decode($req['payload'], true, flags: JSON_THROW_ON_ERROR);
         $databaseId = \trim($payload['databaseId']);
         $collectionId = \trim($payload['collectionId']);
     } catch(\Exception $err) {
