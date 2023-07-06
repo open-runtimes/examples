@@ -1,4 +1,3 @@
-
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import io.openruntimes.kotlin.RuntimeRequest
@@ -10,66 +9,60 @@ import java.io.OutputStream
 import java.net.HttpURLConnection
 import java.net.URL
 
-fun sendEmailMailgun(variables: map<string, string>, email: string, message: string, subject: string): RuntimeResponse{
-    return res.json(mapOf(
-    "success" to true,
-    "message" to "You called sendEmailMailgun",))
+fun sendEmailMailgun(variables: Map<String, String>, email: String?, message: String?, subject: String?): Map<String, Any>{
+    return mapOf("success" to true,
+                 "message" to "You called sendEmailMailgun")
 }
 
-fun sendMessageDiscordWebhook(variables: map<string, string>, message: string): RuntimeResponse{
-    return res.json(mapOf(
-    "success" to true,
-    "message" to "You called sendMessageDiscordWebhook"))
+fun sendMessageDiscordWebhook(variables: Map<String, String>, message: String?): Map<String, Any>{
+    return mapOf("success" to true,
+                 "message" to "You called sendMessageDiscordWebhook")
 }
 
-fun sendSmsTwilio(variables: map<string, string>, phoneNumber: string, message: string): RuntimeResponse{
-    return res.json(mapOf(
-    "success" to true,
-    "message" to "You called sendSmsTwilio"))
-
-fun sendTweet(variables: map<string, string>, message: string): RuntimeResponse{
-    return res.json(mapOf(
-    "success" to true,
-    "message" to "You called sendTweet"))
+fun sendSmsTwilio(variables: Map<String, String>, receiver: String?, message: String?): Map<String, Any>{
+    return mapOf("success" to true,
+                 "message" to "You called sendSmsTwilio")
 }
 
+fun sendTweet(variables: Map<String, String>, message: String?): Map<String, Any>{
+    return mapOf("success" to true,
+                 "message" to "You called sendTweet")
+}
 
 @Throws(Exception::class)
-suspend fun main(req: RuntimeRequest, res: RuntimeResponse): RuntimeResponse 
+fun main(req: RuntimeRequest, res: RuntimeResponse): RuntimeResponse 
 {   
-    var result: Map<String, Any> 
+    var result: Map<String, Any> = mapOf("" to "") 
     try
     {
-        //Convert JSON string "payload" to a map "payloadMap"  
+        //Convert JSON String "payload" to a Map "payloadMap"  
         val payloadMap = Gson().fromJson<Map<String, String>>(
             req.payload.ifBlank { "{}" },
             Map::class.java)       
         val payloadType = payloadMap["type"]
         val message = payloadMap["message"]
 
-        if (payloadType == "Email")
+        when (payloadType) 
         {
-            val receiver = payloadMap["receiver"]
-            val subject = payloadMap["subject"]
-            result = sendEmailMailgun(req.variables, receiver, message, subject)
-        }
-        else if (payloadType == "SMS")
-        {
-            val receiver = payloadMap["receiver"]
-            val result = sendSMSTwilio(req.variables, receiver, message)
-        }
-        else if (payloadType == "Discord")
-        {
-            result = sendMessageDiscord(req.variables, message)
-        }
-        else if (payloadType == "Twitter")
-        {
-            result = sendTweet(req.variables, message)
-        }
-        else
-        {
-            result = mapOf("success" to false,
-                           "message" to "Invalid Type")
+            "Email" -> {
+                val receiver = payloadMap["receiver"]
+                val subject = payloadMap["subject"]
+                result = sendEmailMailgun(req.variables, receiver, message, subject)
+            }
+            "SMS" -> {
+                val receiver = payloadMap["receiver"]
+                result = sendSmsTwilio(req.variables, receiver, message)
+            }
+            "Discord" -> {
+                result = sendMessageDiscordWebhook(req.variables, message)
+            }
+            "Twitter" -> {
+                result = sendTweet(req.variables, message)
+            }
+            else -> {
+                result = mapOf("success" to false,
+                            "message" to "Invalid Type")
+            }
         }
     }
     catch (e: Exception)
@@ -79,6 +72,5 @@ suspend fun main(req: RuntimeRequest, res: RuntimeResponse): RuntimeResponse
         "message" to e.message,
         ))
     }
-
     return res.json(result)
 }
