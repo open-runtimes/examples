@@ -1,3 +1,4 @@
+
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import io.openruntimes.kotlin.RuntimeRequest
@@ -8,6 +9,30 @@ import java.io.InputStreamReader
 import java.io.OutputStream
 import java.net.HttpURLConnection
 import java.net.URL
+
+fun sendEmailMailgun(variables: map<string, string>, email: string, message: string, subject: string): RuntimeResponse{
+    return res.json(mapOf(
+    "success" to true,
+    "message" to "You called sendEmailMailgun",))
+}
+
+fun sendMessageDiscordWebhook(variables: map<string, string>, message: string): RuntimeResponse{
+    return res.json(mapOf(
+    "success" to true,
+    "message" to "You called sendMessageDiscordWebhook"))
+}
+
+fun sendSmsTwilio(variables: map<string, string>, phoneNumber: string, message: string): RuntimeResponse{
+    return res.json(mapOf(
+    "success" to true,
+    "message" to "You called sendSmsTwilio"))
+
+fun sendTweet(variables: map<string, string>, message: string): RuntimeResponse{
+    return res.json(mapOf(
+    "success" to true,
+    "message" to "You called sendTweet"))
+}
+
 
 @Throws(Exception::class)
 suspend fun main(req: RuntimeRequest, res: RuntimeResponse): RuntimeResponse 
