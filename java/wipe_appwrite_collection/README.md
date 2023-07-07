@@ -1,4 +1,4 @@
-# 💻 Get Short URL
+# 💻 Wipe Appwrite Collection
 
 A Java Cloud Function for generating a Short URL using [tinyurl](https://tinyurl.com/app) and [bitly](https://bitly.com/)
 
