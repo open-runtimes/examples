@@ -15,8 +15,8 @@ fun sendEmailMailgun(variables: Map<String, String>, email: String?, message: St
 }
 
 fun sendMessageDiscordWebhook(variables: Map<String, String>, message: String?): Map<String, Any>{
-    return mapOf("success" to true,
-                 "message" to "You called sendMessageDiscordWebhook")
+        return mapOf("success" to true,
+                     "message" to "You called sendMessageDiscordWebhook")
 }
 
 fun sendSmsTwilio(variables: Map<String, String>, receiver: String?, message: String?): Map<String, Any>{
