@@ -8,11 +8,14 @@ import java.io.InputStreamReader
 import java.io.OutputStream
 import java.net.HttpURLConnection
 import java.net.URL
+import java.util.Base64
+import java.nio.charset.StandardCharsets
 
 fun sendEmailMailgun(variables: Map<String, String>, email: String?, message: String?, subject: String?): Map<String, Any>{
     return mapOf("success" to true,
                  "message" to "You called sendEmailMailgun")
 }
+
 
 fun sendMessageDiscordWebhook(variables: Map<String, String>, message: String?): Map<String, Any>{
         return mapOf("success" to true,
