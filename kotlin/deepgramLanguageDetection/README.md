@@ -54,7 +54,7 @@ docker run -e INTERNAL_RUNTIME_ENTRYPOINT=Index.java --rm --interactive --tty --
 docker run -p 3000:3000 -e INTERNAL_RUNTIME_KEY=secret-key --rm --interactive --tty --volume $PWD/code.tar.gz:/tmp/code.tar.gz:ro openruntimes/kotlin:v2-1.6 sh /usr/local/src/start.sh
 ```
 
-Your function is now listening on port `3000`, and you can execute it by sending `POST` request with appropriate authorization headers. To learn more about runtime, you can visit Java runtime [README](https://github.com/open-runtimes/open-runtimes/tree/main/runtimes/java-11.0).
+Your function is now listening on port `3000`, and you can execute it by sending `POST` request with appropriate authorization headers. To learn more about runtime, you can visit Kotlin runtime [README](https://github.com/open-runtimes/open-runtimes/tree/main/runtimes/kotlin-1.6).
 
 4. Run the curl function to send request.
 
@@ -63,7 +63,7 @@ curl --location --request POST 'http://localhost:3000/' \
 --header 'X-Internal-Challenge: secret-key' \
 --header 'Content-Type: application/json' \
 --data-raw '{"payload": "{\"fileUrl\": \"https://static.deepgram.com/examples/interview_speech-analytics.wav\"}", 
-"variables": {"DEEPGRAM_SECRET_KEY":"<YOUR_API_KEY>"}}
+"variables": {"DEEPGRAM_API_KEY":"<YOUR_API_KEY>"}}
 '
 ```
 
