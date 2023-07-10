@@ -30,47 +30,61 @@ fun sendTweet(variables: Map<String, String>, message: String?): Map<String, Any
 }
 
 @Throws(Exception::class)
-fun main(req: RuntimeRequest, res: RuntimeResponse): RuntimeResponse 
-{   
-    var result: Map<String, Any> = mapOf("" to "") 
-    try
-    {
-        //Convert JSON String "payload" to a Map "payloadMap"  
+fun main(req: RuntimeRequest, res: RuntimeResponse): RuntimeResponse {
+    var result: Map<String, Any> = emptyMap()
+    try {
         val payloadMap = Gson().fromJson<Map<String, String>>(
             req.payload.ifBlank { "{}" },
-            Map::class.java)       
+            Map::class.java
+        )
         val payloadType = payloadMap["type"]
         val message = payloadMap["message"]
 
-        when (payloadType) 
-        {
+        result = when (payloadType) {
             "Email" -> {
                 val receiver = payloadMap["receiver"]
                 val subject = payloadMap["subject"]
-                result = sendEmailMailgun(req.variables, receiver, message, subject)
+                sendEmailMailgun(req.variables, receiver, message, subject)
             }
             "SMS" -> {
                 val receiver = payloadMap["receiver"]
-                result = sendSmsTwilio(req.variables, receiver, message)
+                sendSmsTwilio(req.variables, receiver, message)
             }
             "Discord" -> {
-                result = sendMessageDiscordWebhook(req.variables, message)
+                sendMessageDiscordWebhook(req.variables, message)
             }
             "Twitter" -> {
-                result = sendTweet(req.variables, message)
+                sendTweet(req.variables, message)
             }
             else -> {
-                result = mapOf("success" to false,
-                            "message" to "Invalid Type")
+                mapOf(
+                    "success" to false,
+                    "message" to "Invalid Type"
+                )
             }
         }
+    } catch (e: JsonSyntaxException) { // if payload is not a valid JSON or does not match the expected structure it will catch that
+        return res.json(
+            mapOf(
+                "success" to false,
+                "message" to "Invalid JSON payload"
+            )
+        )
+    } catch (e: IOException) { // if there is an issue with reading the payload from the request or writting the response it catches that
+        return res.json(
+            mapOf(
+                "success" to false,
+                "message" to "I/O error occurred"
+            )
+        )
+    } catch (e: Exception) { // if any other unhandled exception occurrs this catches that
+        return res.json(
+            mapOf(
+                "success" to false,
+                "message" to e.message
+            )
+        )
     }
-    catch (e: Exception)
-    {
-        return res.json(mapOf(
-        "success" to false,
-        "message" to e.message,
-        ))
-    }
+
     return res.json(result)
 }
