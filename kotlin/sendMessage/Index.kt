@@ -11,6 +11,13 @@ import java.net.URL
 import java.util.Base64
 import java.nio.charset.StandardCharsets
 
+fun getErrorResponseWithMessage(message: String? = "Some error occurred"): Map<String, Any> {
+    return mapOf{
+        "success" to false, 
+        "message" to message.toString()
+    }
+}
+
 fun sendEmailMailgun(variables: Map<String, String>, email: String?, message: String?, subject: String?): Map<String, Any>{
     return mapOf("success" to true,
                  "message" to "You called sendEmailMailgun")
