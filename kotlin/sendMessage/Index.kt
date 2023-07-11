@@ -8,31 +8,14 @@ import java.io.InputStreamReader
 import java.io.OutputStream
 import java.net.HttpURLConnection
 import java.net.URL
-import java.nio.charset.StandardCharsets
 import java.util.Base64
-import java.io.OutputStreamWriter
-//Tweeter deps below
-import com.chromasgaming.ktweet.constants.VERSION
-import com.chromasgaming.ktweet.models.*
-// import com.chromasgaming.ktweet.models.Tweet
-import com.chromasgaming.ktweet.oauth.SignatureBuilder
-import com.chromasgaming.ktweet.oauth.buildSignature
-import kotlinx.coroutines.runBlocking
-import kotlinx.serialization.ExperimentalSerializationApi
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-
-fun getErrorResponseWithMessage(message: String? = "Some error occurred"): Map<String, Any> {
-    return mapOf(
-            "success" to false,
-            "message" to message.toString()
-        )
-}
+import java.nio.charset.StandardCharsets
 
 fun sendEmailMailgun(variables: Map<String, String>, email: String?, message: String?, subject: String?): Map<String, Any>{
     return mapOf("success" to true,
                  "message" to "You called sendEmailMailgun")
 }
+
 
 fun sendMessageDiscordWebhook(variables: Map<String, String>, message: String?): Map<String, Any>{
     val webhook = variables["DISCORD_WEBHOOK_URL"]?:""
