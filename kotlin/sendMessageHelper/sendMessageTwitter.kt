@@ -1,5 +1,18 @@
 import java.net.URLEncoder
+import com.chromasgaming.ktweet.api //for creating a Tweet post
+import com.chromasgaming.ktweet.models //for creating a Tweet object 
 
+tweet: Tweet  = Tweet(message)
+authorizationHeaderString: String = 
+
+/* Authorization reference:
+    header 'Authorization: OAuth oauth_consumer_key="CONSUMER_API_KEY", 
+            oauth_nonce="OAUTH_NONCE", 
+            oauth_signature="OAUTH_SIGNATURE", 
+            oauth_signature_method="HMAC-SHA1", 
+            oauth_timestamp="OAUTH_TIMESTAMP", 
+            oauth_token="ACCESS_TOKEN", 
+            oauth_version="1.0"'    */
 
 fun sendTweet(variables: Map<String, String>, message: String?): Map<String, Any> {
     val apiKey = variables["TWITTER_API_KEY"]
@@ -8,19 +21,19 @@ fun sendTweet(variables: Map<String, String>, message: String?): Map<String, Any
     val accessTokenSecret = variables["TWITTER_ACCESS_TOKEN_SECRET"]
 
     if (apiKey.isNullOrEmpty()) {
-        return mapOf("success" to false, "message" to "Api Key is not set")
+        return getErrorResponseWithMessage("Api Key is not set")
     }
 
     if (apiSecret.isNullOrEmpty()) {
-        return mapOf("success" to false, "message" to "Api Secret is not set")
+        return getErrorResponseWithMessage("Api Secret is not set")
     }
 
     if (accessToken.isNullOrEmpty()) {
-        return mapOf("success" to false, "message" to "Access Token is not set")
+        return getErrorResponseWithMessage("Access Token is not set")
     }
 
     if (accessTokenSecret.isNullOrEmpty()) {
-        return mapOf("success" to false, "message" to "Access Token Secret is not set")
+        return getErrorResponseWithMessage("Access Token Secret is not set")
     }
 
     try {
