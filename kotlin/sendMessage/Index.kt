@@ -10,6 +10,19 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.util.Base64
 import java.nio.charset.StandardCharsets
+import java.io.OutputStreamWriter
+import com.chromasgaming.ktweet.models.ManageTweets
+import com.chromasgaming.ktweet.models.Tweet
+import com.chromasgaming.ktweet.oauth.SignatureBuilder
+import com.chromasgaming.ktweet.oauth.buildSignature
+import com.chromasgaming.ktweet.config.ClientConfig
+
+fun getErrorResponseWithMessage(message: String? = "Some error occurred"): Map<String, Any> {
+    return mapOf(
+            "success" to false,
+            "message" to message.toString()
+        )
+}
 
 fun sendEmailMailgun(variables: Map<String, String>, email: String?, message: String?, subject: String?): Map<String, Any>{
     return mapOf("success" to true,
@@ -49,112 +62,82 @@ fun sendMessageDiscordWebhook(variables: Map<String, String>, message: String?):
         }
         else {
             return getErrorResponseWithMessage(conn.getResponseMessage())
-            // return mapOf("success" to false,
-            //             "message" to conn.getResponseMessage())    
         } 
 
     } catch (e: IllegalArgumentException) { // if variable receiver is set to "invalid"
-        // println("First was executed")
         return getErrorResponseWithMessage(e.message)
-        // return mapOf("success" to false, "message" to "Error: ${e.message}")
     } catch (e: IOException) { // if network-related issues such as failure to establish a connection or send the HTTP request to the Twilio APi this will catch it
-        // println("Second was executed")
         return getErrorResponseWithMessage(e.message)
-        // return mapOf("success" to false, "message" to "Error: ${e.message}")
     }
 }
 
 fun sendSmsTwilio(variables: Map<String, String>, receiver: String?, message: String?): Map<String, Any>{
-
-    val accountID = variables.get("TWILIO_ACCOUNT_SID") // Acount SID from Twilio
-    val authToken  = variables.get("TWILIO_AUTH_TOKEN") // Auth Token from Twilio
-    val sender = variables.get("TWILIO_SENDER") // Sender Phone Number from Twilio | Mandatory format: +# ### ### #### (all together)
-
-    
-    if (accountID.isNullOrEmpty()) {
-        return mapOf("success" to false, "message" to "Account ID is not set")
-    }
-
-    if (authToken.isNullOrEmpty()) {
-        return mapOf("success" to false, "message" to "Auth token is not set")
-    }
-
-    if (sender.isNullOrEmpty()) {
-        return mapOf("success" to false, "message" to "Sender is not set")
-    }
-
-    if (receiver.isNullOrEmpty()) {
-        return mapOf("success" to false, "message" to "Receiver is not set")
-    }
-    if (message.isNullOrEmpty()) {
-        return mapOf("success" to false, "message" to "Message is not set")
-    }
-
-
-    try {
-        val urlString= "https://api.twilio.com/2010-04-01/Accounts/$accountID/Messages.json"
-        val url = URL(urlString)
-        val connection = url.openConnection() as HttpURLConnection
-        connection.requestMethod = "POST"
-        connection.doOutput = true
-
-        val authString = "$accountID:$authToken "
-        val authEncoded = Base64.getEncoder().encodeToString(authString.toByteArray(StandardCharsets.UTF_8))
-        connection.setRequestProperty("Authorization", "Basic $authEncoded")    
-
-        val postData = "To=$receiver&From=$sender&Body=$message"
-            
-        val outputStreamWriter = OutputStreamWriter(connection.outputStream)
-        outputStreamWriter.write(postData)
-        outputStreamWriter.flush()
-    
-    
-        val responseCode = connection.responseCode
-        val responseMessage = connection.responseMessage
-    
-        connection.disconnect()
-
-        if (responseCode != HttpURLConnection.HTTP_CREATED) { // HttpURLConnection.HTTP_CREATED = 201 Created
-            return mapOf("success" to false, "message" to "Error: #$responseCode  - > $responseMessage")
-        } 
-
-        return mapOf("success" to true, "message" to "Message sent!")
-
-    } catch (e: IllegalArgumentException) { // if variable receiver is set to "invalid"
-        return mapOf("success" to false, "message" to "Error: ${e.message}")
-    } catch (e: IOException) { // if network-related issues such as failure to establish a connection or send the HTTP request to the Twilio APi this will catch it
-        return mapOf("success" to false, "message" to "Error: ${e.message}")
-    }
+    return mapOf("success" to true,
+                 "message" to "You called sendEmailMailgun")
 }
 
-fun sendTweet(variables: Map<String, String>, message: String?): Map<String, Any>{
-    val apiKey = variables["TWITTER_API_KEY"]
-    val apiSecret = variables["TWITTER_API_KEY_SECRET"]
-    val accessToken = variables["TWITTER_ACCESS_TOKEN"]
-    val accessTokenSecret = variables["TWITTER_ACCESS_TOKEN_SECRET"]
+fun sendTweet(variables: Map<String, String>, message: String?): Map<String, Any> {
+    val apiKey = variables["TWITTER_API_KEY"]?:""
+    val apiSecret = variables["TWITTER_API_KEY_SECRET"]?:""
+    val accessToken = variables["TWITTER_ACCESS_TOKEN"]?:""
+    val accessTokenSecret = variables["TWITTER_ACCESS_TOKEN_SECRET"]?:""
 
-    var post: ManageTweets
-    manageTweets = ManageTweetsAPI()
+    if (apiKey.isNullOrEmpty()) {
+        return getErrorResponseWithMessage("Payload doesn't contain an API key (i.e. consumer key)")
+    }
 
-    signatureBuilder = SignatureBuilder.Builder()
+    if (apiSecret.isNullOrEmpty()) {
+        return getErrorResponseWithMessage("Payload doesn't contain an API key Secret (i.e. consumer secret)")
+    }
+
+    if (accessToken.isNullOrEmpty()) {
+        return getErrorResponseWithMessage("Payload doesn't contain an access token")
+    }
+
+    if (accessTokenSecret.isNullOrEmpty()) {
+        return getErrorResponseWithMessage("Payload doesn't contain an an access token secret")
+    }
+
+    val signatureBuilder: SignatureBuilder = SignatureBuilder.Builder()
             .oauthConsumerKey(apiKey)
             .oauthConsumerSecret(apiSecret)
             .accessToken(accessToken)
             .accessTokenSecret(accessTokenSecret)
             .build()
 
-    authorizationHeaderString = buildSignature(
+    val authorizationHeaderString: String = buildSignature(
             "POST",
             signatureBuilder,
-            "$VERSION/tweets",
+            "2/tweets",
             emptyMap()
         )
+    // println(authorizationHeaderString)
 
-    val tweet = Tweet(message)
-    post = manageTweets.create(tweet, authorizationHeaderString)
-    /*How can I use <post> to check if the request was sucessful??? 
-      Seems like it's a JSON object; represents the body response*/
-    return mapOf("success" to true, "message" to post.text)
+    val urlString = "https://api.twitter.com/2/tweets"
+    val url = URL(urlString)
+    val connection = url.openConnection() as HttpURLConnection
+    connection.requestMethod = "POST"
+    connection.doOutput = true
+
+    connection.setRequestProperty("Authorization", "$authorizationHeaderString")
+    // connection.setRequestProperty("Content-Type", "application/json")    
+
+    val postData = "text=$message"
+    // println(postData)
+
+    val outputStreamWriter = OutputStreamWriter(connection.outputStream)
+    outputStreamWriter.write(postData)
+    outputStreamWriter.flush()
+    
+    val responseCode = connection.responseCode
+    val responseMessage = connection.responseMessage
+    
+    connection.disconnect()
+
+    if (responseCode != HttpURLConnection.HTTP_CREATED) { // HttpURLConnection.HTTP_CREATED = 201 Created
+        return getErrorResponseWithMessage("Error: #$responseCode  - > $responseMessage")
+    } 
+    return mapOf("success" to true, "message" to "You called sendTweet")
 }
 
 @Throws(Exception::class)
