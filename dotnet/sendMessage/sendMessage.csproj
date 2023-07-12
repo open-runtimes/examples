@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+  <PackageReference Include="TweetinviAPI" Version="5.0.4" />
+
+  </ItemGroup>
+
 </Project>
