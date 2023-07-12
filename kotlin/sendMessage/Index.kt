@@ -60,8 +60,7 @@ fun sendEmailMailgun(variables: Map<String, String>, email: String?, message: St
         return getErrorResponseWithMessage("$responseCode - $responseMessage")
     }
     
-    return mapOf("success" to true,
-                    "message" to "You called sendEmailMailgun")
+    return mapOf("success" to true)
 }
 
 fun sendMessageDiscordWebhook(variables: Map<String, String>, message: String?): Map<String, Any> {
@@ -91,8 +90,7 @@ fun sendMessageDiscordWebhook(variables: Map<String, String>, message: String?):
         os.close()
         conn.disconnect()
         if (responseCode / 100 == 2) {    //HTTP code of 2xx means success (most of the time)
-            return mapOf("success" to true,
-                        "message" to "You called sendMessageDiscordWebhook")
+            return mapOf("success" to true)
         }
         else {
             return getErrorResponseWithMessage(conn.getResponseMessage())
@@ -149,17 +147,16 @@ fun sendSmsTwilio(variables: Map<String, String>, receiver: String?, message: St
         outputStreamWriter.write(postData)
         outputStreamWriter.flush()
     
-    
         val responseCode = connection.responseCode
         val responseMessage = connection.responseMessage
     
         connection.disconnect()
 
         if (responseCode != HttpURLConnection.HTTP_CREATED) { // HttpURLConnection.HTTP_CREATED = 201 Created
-            return mapOf("success" to false, "message" to "Error: #$responseCode  - > $responseMessage")
+            return getErrorResponseWithMessage("Error: #$responseCode  - > $responseMessage")
         } 
 
-        return mapOf("success" to true, "message" to "Message sent!")
+        return mapOf("success" to true)
 
     } catch (e: IllegalArgumentException) { // if variable receiver is set to "invalid"
         return getErrorResponseWithMessage("Error: ${e.message}")
@@ -229,7 +226,7 @@ fun sendTweet(variables: Map<String, String>, message: String?): Map<String, Any
     if (responseCode != HttpURLConnection.HTTP_CREATED) { // HttpURLConnection.HTTP_CREATED = 201 Created
         return getErrorResponseWithMessage("Error: #$responseCode  - > $responseMessage")
     } 
-    return mapOf("success" to true, "message" to "You called sendTweet")
+    return mapOf("success" to true)
 }
 
 @Throws(Exception::class)
