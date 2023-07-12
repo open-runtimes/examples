@@ -3,19 +3,16 @@ import com.google.gson.JsonSyntaxException
 import io.openruntimes.kotlin.RuntimeRequest
 import io.openruntimes.kotlin.RuntimeResponse
 import java.io.BufferedReader
-import java.io.IOException
 import java.io.InputStreamReader
+import java.io.OutputStreamWriter
 import java.io.OutputStream
+import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.Base64
 import java.nio.charset.StandardCharsets
-import java.io.OutputStreamWriter
-import com.chromasgaming.ktweet.models.ManageTweets
-import com.chromasgaming.ktweet.models.Tweet
 import com.chromasgaming.ktweet.oauth.SignatureBuilder
 import com.chromasgaming.ktweet.oauth.buildSignature
-import com.chromasgaming.ktweet.config.ClientConfig
 
 fun getErrorResponseWithMessage(message: String? = "Some error occurred"): Map<String, Any> {
     return mapOf(
@@ -60,8 +57,7 @@ fun sendEmailMailgun(variables: Map<String, String>, email: String?, message: St
         return getErrorResponseWithMessage("$responseCode - $responseMessage")
     }
     
-    return mapOf("success" to true,
-                    "message" to "You called sendEmailMailgun")
+    return mapOf("success" to true)
 }
 
 fun sendMessageDiscordWebhook(variables: Map<String, String>, message: String?): Map<String, Any> {
@@ -72,10 +68,9 @@ fun sendMessageDiscordWebhook(variables: Map<String, String>, message: String?):
             return getErrorResponseWithMessage("Payload doesn't contain a Discord Webhook URL")
         }
 
-        // println(webhook)   //************ */
         val url = URL(webhook)
-
         val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+
         val body = "{\"content\":\"$message\"}"
         conn.addRequestProperty("Content-Type", "application/json")
         conn.requestMethod = "POST"
@@ -83,20 +78,18 @@ fun sendMessageDiscordWebhook(variables: Map<String, String>, message: String?):
 
         val os: OutputStream = conn.outputStream
         val input: ByteArray = body.toByteArray(Charsets.UTF_8)
-        // println(input)   //********** */
         os.write(input)
 
-        val responseCode: Int = conn.responseCode // To Check for 200
-        // println(responseCode)  //************ */
+        val responseCode: Int = conn.responseCode 
+        val responseMessage = conn.responseMessage
+
         os.close()
         conn.disconnect()
-        if (responseCode / 100 == 2) {    //HTTP code of 2xx means success (most of the time)
-            return mapOf("success" to true,
-                        "message" to "You called sendMessageDiscordWebhook")
-        }
-        else {
-            return getErrorResponseWithMessage(conn.getResponseMessage())
+
+        if (responseCode / 100 != 2) { // 201 - CREATED or 204 - Successful but no content 
+            return getErrorResponseWithMessage("Error: #$responseCode  - > $responseMessage")
         } 
+        return mapOf("success" to true)
 
     } catch (e: IllegalArgumentException) { // if variable receiver is set to "invalid"
         return getErrorResponseWithMessage(e.message)
@@ -127,6 +120,7 @@ fun sendSmsTwilio(variables: Map<String, String>, receiver: String?, message: St
     if (receiver.isNullOrEmpty()) {
         return getErrorResponseWithMessage("Receiver is not set")
     }
+
     if (message.isNullOrEmpty()) {
         return getErrorResponseWithMessage("Message is not set")
     }
@@ -149,17 +143,16 @@ fun sendSmsTwilio(variables: Map<String, String>, receiver: String?, message: St
         outputStreamWriter.write(postData)
         outputStreamWriter.flush()
     
-    
         val responseCode = connection.responseCode
         val responseMessage = connection.responseMessage
     
         connection.disconnect()
 
         if (responseCode != HttpURLConnection.HTTP_CREATED) { // HttpURLConnection.HTTP_CREATED = 201 Created
-            return mapOf("success" to false, "message" to "Error: #$responseCode  - > $responseMessage")
+            return getErrorResponseWithMessage("Error: #$responseCode  - > $responseMessage")
         } 
 
-        return mapOf("success" to true, "message" to "Message sent!")
+        return mapOf("success" to true)
 
     } catch (e: IllegalArgumentException) { // if variable receiver is set to "invalid"
         return getErrorResponseWithMessage("Error: ${e.message}")
@@ -190,46 +183,51 @@ fun sendTweet(variables: Map<String, String>, message: String?): Map<String, Any
         return getErrorResponseWithMessage("Payload doesn't contain an an access token secret")
     }
 
-    val signatureBuilder: SignatureBuilder = SignatureBuilder.Builder()
-            .oauthConsumerKey(apiKey)
-            .oauthConsumerSecret(apiSecret)
-            .accessToken(accessToken)
-            .accessTokenSecret(accessTokenSecret)
-            .build()
+    try {
+        val signatureBuilder: SignatureBuilder = SignatureBuilder.Builder()
+                .oauthConsumerKey(apiKey)
+                .oauthConsumerSecret(apiSecret)
+                .accessToken(accessToken)
+                .accessTokenSecret(accessTokenSecret)
+                .build()
 
-    val authorizationHeaderString: String = buildSignature(
-            "POST",
-            signatureBuilder,
-            "2/tweets",
-            emptyMap()
-        )
-    // println(authorizationHeaderString)
+        val authorizationHeaderString: String = buildSignature(
+                "POST",
+                signatureBuilder,
+                "2/tweets",
+                emptyMap()
+            )
 
-    val urlString = "https://api.twitter.com/2/tweets"
-    val url = URL(urlString)
-    val connection = url.openConnection() as HttpURLConnection
-    connection.requestMethod = "POST"
-    connection.doOutput = true
+        val urlString = "https://api.twitter.com/2/tweets"
+        val url = URL(urlString)
 
-    connection.setRequestProperty("Authorization", "$authorizationHeaderString")
-    connection.setRequestProperty("Content-Type", "application/json")    
+        val connection = url.openConnection() as HttpURLConnection
+        connection.requestMethod = "POST"
+        connection.doOutput = true
+        connection.setRequestProperty("Authorization", "$authorizationHeaderString")
+        connection.setRequestProperty("Content-Type", "application/json")    
 
-    val postData = "{\"text\":\"$message\"}"
-    // println(postData)
+        val postData = "{\"text\":\"$message\"}"
 
-    val outputStreamWriter = OutputStreamWriter(connection.outputStream)
-    outputStreamWriter.write(postData)
-    outputStreamWriter.flush()
-    
-    val responseCode = connection.responseCode
-    val responseMessage = connection.responseMessage
-    
-    connection.disconnect()
+        val outputStreamWriter = OutputStreamWriter(connection.outputStream)
+        outputStreamWriter.write(postData)
+        outputStreamWriter.flush()
+        
+        val responseCode = connection.responseCode
+        val responseMessage = connection.responseMessage
+        
+        connection.disconnect()
 
-    if (responseCode != HttpURLConnection.HTTP_CREATED) { // HttpURLConnection.HTTP_CREATED = 201 Created
-        return getErrorResponseWithMessage("Error: #$responseCode  - > $responseMessage")
-    } 
-    return mapOf("success" to true, "message" to "You called sendTweet")
+        if (responseCode != HttpURLConnection.HTTP_CREATED) { // HttpURLConnection.HTTP_CREATED = 201 Created
+            return getErrorResponseWithMessage("Error: #$responseCode  - > $responseMessage")
+        } 
+        return mapOf("success" to true)
+
+    } catch (e: IllegalArgumentException) { // if variable receiver is set to "invalid"
+        return getErrorResponseWithMessage("Error: ${e.message}")
+    } catch (e: IOException) { // if network-related issues such as failure to establish a connection or send the HTTP request to the Twilio APi this will catch it
+        return getErrorResponseWithMessage("Error: ${e.message}")
+    }
 }
 
 @Throws(Exception::class)
