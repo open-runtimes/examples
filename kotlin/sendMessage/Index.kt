@@ -25,12 +25,46 @@ fun getErrorResponseWithMessage(message: String? = "Some error occurred"): Map<S
 }
 
 fun sendEmailMailgun(variables: Map<String, String>, email: String?, message: String?, subject: String?): Map<String, Any>{
+    if (email.isNullOrEmpty() || message.isNullOrEmpty() || subject.isNullOrEmpty()){
+        return getErrorResponseWithMessage("Missing email, message, or subject")
+    }
+
+    val domain = variables["MAILGUN_DOMAIN"]
+    val apiKey = variables["MAILGUN_API_KEY"]
+    
+    if (domain.isNullOrEmpty()){
+        return getErrorResponseWithMessage("Missing Mailgun domain")
+    }
+    if (apiKey.isNullOrEmpty()){
+        return getErrorResponseWithMessage("Missing Mailgun API key")
+    }
+
+    val url = URL("https://api.mailgun.net/v3/$domain/messages")
+    val auth = "api:$apiKey"
+    val authEncoded = Base64.getEncoder().encodeToString(auth.toByteArray(StandardCharsets.UTF_8))
+    val emailData = "from=<welcome@my-awesome-app.io>&to=$email&subject=$subject&text=$message"
+    
+    val connection = url.openConnection() as HttpURLConnection
+    connection.doOutput = true
+    connection.requestMethod = "POST"
+    connection.addRequestProperty("Authorization", "Basic $authEncoded")
+    
+    val outputStream: OutputStream = connection.outputStream
+    outputStream.write(emailData.toByteArray(Charsets.UTF_8))
+    outputStream.flush()
+
+    val responseCode = connection.responseCode
+    val responseMessage = connection.responseMessage
+    connection.disconnect()
+    if (responseCode != HttpURLConnection.HTTP_OK) {
+        return getErrorResponseWithMessage("$responseCode - $responseMessage")
+    }
+    
     return mapOf("success" to true,
-                 "message" to "You called sendEmailMailgun")
+                    "message" to "You called sendEmailMailgun")
 }
 
-
-fun sendMessageDiscordWebhook(variables: Map<String, String>, message: String?): Map<String, Any>{
+fun sendMessageDiscordWebhook(variables: Map<String, String>, message: String?): Map<String, Any> {
     val webhook = variables["DISCORD_WEBHOOK_URL"]?:""
 
     try {
@@ -58,7 +92,7 @@ fun sendMessageDiscordWebhook(variables: Map<String, String>, message: String?):
         conn.disconnect()
         if (responseCode / 100 == 2) {    //HTTP code of 2xx means success (most of the time)
             return mapOf("success" to true,
-            "message" to "You called sendMessageDiscordWebhook")
+                        "message" to "You called sendMessageDiscordWebhook")
         }
         else {
             return getErrorResponseWithMessage(conn.getResponseMessage())
@@ -72,8 +106,66 @@ fun sendMessageDiscordWebhook(variables: Map<String, String>, message: String?):
 }
 
 fun sendSmsTwilio(variables: Map<String, String>, receiver: String?, message: String?): Map<String, Any>{
-    return mapOf("success" to true,
-                 "message" to "You called sendEmailMailgun")
+
+    val accountID = variables.get("TWILIO_ACCOUNT_SID") // Acount SID from Twilio
+    val authToken  = variables.get("TWILIO_AUTH_TOKEN") // Auth Token from Twilio
+    val sender = variables.get("TWILIO_SENDER") // Sender Phone Number from Twilio | Mandatory format: +# ### ### #### (all together)
+
+    
+    if (accountID.isNullOrEmpty()) {
+        return getErrorResponseWithMessage("Account ID is not set")
+    }
+
+    if (authToken.isNullOrEmpty()) {
+        return getErrorResponseWithMessage("Auth token is not set")
+    }
+
+    if (sender.isNullOrEmpty()) {
+        return getErrorResponseWithMessage("Sender is not set")
+    }
+
+    if (receiver.isNullOrEmpty()) {
+        return getErrorResponseWithMessage("Receiver is not set")
+    }
+    if (message.isNullOrEmpty()) {
+        return getErrorResponseWithMessage("Message is not set")
+    }
+
+
+    try {
+        val urlString= "https://api.twilio.com/2010-04-01/Accounts/$accountID/Messages.json"
+        val url = URL(urlString)
+        val connection = url.openConnection() as HttpURLConnection
+        connection.requestMethod = "POST"
+        connection.doOutput = true
+
+        val authString = "$accountID:$authToken "
+        val authEncoded = Base64.getEncoder().encodeToString(authString.toByteArray(StandardCharsets.UTF_8))
+        connection.setRequestProperty("Authorization", "Basic $authEncoded")    
+
+        val postData = "To=$receiver&From=$sender&Body=$message"
+            
+        val outputStreamWriter = OutputStreamWriter(connection.outputStream)
+        outputStreamWriter.write(postData)
+        outputStreamWriter.flush()
+    
+    
+        val responseCode = connection.responseCode
+        val responseMessage = connection.responseMessage
+    
+        connection.disconnect()
+
+        if (responseCode != HttpURLConnection.HTTP_CREATED) { // HttpURLConnection.HTTP_CREATED = 201 Created
+            return mapOf("success" to false, "message" to "Error: #$responseCode  - > $responseMessage")
+        } 
+
+        return mapOf("success" to true, "message" to "Message sent!")
+
+    } catch (e: IllegalArgumentException) { // if variable receiver is set to "invalid"
+        return getErrorResponseWithMessage("Error: ${e.message}")
+    } catch (e: IOException) { // if network-related issues such as failure to establish a connection or send the HTTP request to the Twilio APi this will catch it
+        return getErrorResponseWithMessage("Error: ${e.message}")
+    }
 }
 
 fun sendTweet(variables: Map<String, String>, message: String?): Map<String, Any> {
@@ -174,27 +266,12 @@ fun main(req: RuntimeRequest, res: RuntimeResponse): RuntimeResponse {
                 )
             }
         }
-    } catch (e: JsonSyntaxException) { // if payload is not a valid JSON or does not match the expected structure it will catch that
-        return res.json(
-            mapOf(
-                "success" to false,
-                "message" to "Invalid JSON payload"
-            )
-        )
-    } catch (e: IOException) { // if there is an issue with reading the payload from the request or writting the response it catches that
-        return res.json(
-            mapOf(
-                "success" to false,
-                "message" to "I/O error occurred"
-            )
-        )
-    } catch (e: Exception) { // if any other unhandled exception occurrs this catches that
-        return res.json(
-            mapOf(
-                "success" to false,
-                "message" to e.message
-            )
-        )
+    } catch (e: JsonSyntaxException) { // if the payload is not a valid JSON or does not match the expected structure
+        result = getErrorResponseWithMessage("Invalid JSON payload")
+    } catch (e: IOException) { // if there is an issue with reading the payload from the request or writting the response
+        result = getErrorResponseWithMessage("I/O error occurred")
+    } catch (e: Exception) {
+        result = getErrorResponseWithMessage("$e.message")
     }
 
     return res.json(result)
