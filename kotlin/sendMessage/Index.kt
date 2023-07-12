@@ -212,9 +212,9 @@ fun sendTweet(variables: Map<String, String>, message: String?): Map<String, Any
     connection.doOutput = true
 
     connection.setRequestProperty("Authorization", "$authorizationHeaderString")
-    // connection.setRequestProperty("Content-Type", "application/json")    
+    connection.setRequestProperty("Content-Type", "application/json")    
 
-    val postData = "text=$message"
+    val postData = "{\"text\":\"$message\"}"
     // println(postData)
 
     val outputStreamWriter = OutputStreamWriter(connection.outputStream)
