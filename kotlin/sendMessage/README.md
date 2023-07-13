@@ -136,7 +136,7 @@ Twitter
 
 ```
 $ git clone https://github.com/open-runtimes/examples.git && cd examples
-$ cd kotlin/send_message
+$ cd kotlin/sendMessage
 ```
 
   
@@ -151,7 +151,7 @@ docker run -e INTERNAL_RUNTIME_ENTRYPOINT=Index.kt --rm --interactive --tty --vo
 
   
 
-As a result, a `kotlin.tar.gz` file will be generated.
+As a result, a `code.tar.gz` file will be generated.
 
   
 
