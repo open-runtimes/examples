@@ -50,7 +50,7 @@ _Discord Example payload_
 }
 ```
 
-Twitter Example payload_
+_Twitter Example payload_
 
   
 
@@ -146,7 +146,7 @@ $ cd kotlin/send_message
   
 
 ```bash
-docker run --rm --interactive --tty --volume $PWD:/usr/code  openruntimes/kotlin:v1.6.0 sh /usr/local/src/build.kotlin
+docker run -e INTERNAL_RUNTIME_ENTRYPOINT=Index.kt --rm --interactive --tty --volume $PWD:/usr/code openruntimes/kotlin:v2-1.6 sh /usr/local/src/build.sh
 ```
 
   
@@ -155,12 +155,12 @@ As a result, a `kotlin.tar.gz` file will be generated.
 
   
 
-3. Start the Open Runtime:
+3. Spin-up open-runtime:
 
   
 
 ```bash
-docker run -p 3000:3000 -e INTERNAL_RUNTIME_KEY=secret-key -e  INTERNAL_RUNTIME_ENTRYPOINT=main.kt --rm --interactive --tty --volume  $PWD/kotlin.tar.gz:/tmp/kotlin.tar.gz:ro openruntimes/kotlin:v1.6.0 sh /usr/local/src/start.kotlin
+docker run -p 3000:3000 -e INTERNAL_RUNTIME_KEY=secret-key --rm --interactive --tty --volume $PWD/code.tar.gz:/tmp/code.tar.gz:ro openruntimes/kotlin:v2-1.6 sh /usr/local/src/start.sh
 ```
 
   
@@ -169,7 +169,7 @@ Your function is now listening on port `3000`, and you can execute it by sending
 
   
 
-4. Curl Command ( Email )
+4. In new terminal window, execute the function. Example curl command (Email):
 
   
 
