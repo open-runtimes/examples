@@ -1,36 +1,102 @@
-package java.collection_wiper;
-import okhttp3.*;
-import java.io.IOException;
+import io.appwrite.Client;
+import io.appwrite.services.Databases;
+import io.appwrite.services.Exceptions.AppwriteException;
+import io.appwrite.services.Models.DocumentList;
+import io.appwrite.services.Response;
 
-public AppwriteCollectionWiper {
-    private static final String API_ENDPOINT = "http://localhost/v1";
-    private static final String PROJECT_ID = "649f0fde61b9f6d9d83c";
-    private static final String COLLECTION_ID = "";
-    private static final String API_KEY = "9761bd7ab2d242e1e1343cf2757e51a2f28befda464a168947f308fca1cf4d98f4d749b90291ff3d35155025018c856aeaf3d597cb1ec6ad7ce067b0d10e87eb586b2f9ca3e0da9c81a8509acdefae6c2632f95ea4f6986bdaffe8a8dc15eaa40332ff7fd059b00f6aad1ef92618a903aa7b6b273903e3c750296b75d227b182";
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
+public class Index {
     public static void main(String[] args) {
-        wipeAppwriteCollection();
-    }
+        String endpoint = System.getenv("APPWRITE_FUNCTION_ENDPOINT");
+        String apiKey = System.getenv("APPWRITE_FUNCTION_API_KEY");
+        String projectId = System.getenv("APPWRITE_FUNCTION_PROJECT_ID");
 
-    public static void wipeAppwriteCollection() {
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder()
-                .url(API_ENDPOINT + "/database/collections/" + COLLECTION_ID + "/documents")
-                .addHeader("X-Appwrite-Project", PROJECT_ID)
-                .addHeader("X-Appwrite-Key", API_KEY)
-                .delete()
-                .build();
+        if (endpoint == null || apiKey == null || projectId == null) {
+            System.out.println("{\"success\": false, \"message\": \"Variables missing.\"}");
+            return;
+        }
 
-        Call call = client.newCall(request);
+        Client client = new Client();
+        client
+            .setEndpoint(endpoint)
+            .setProject(projectId)
+            .setKey(apiKey);
+
+        Databases databases = new Databases(client);
+
         try {
-            Response response = call.execute();
-            if (response.isSuccessful()) {
-                System.out.println("Collection wiped successfully.");
-            } else {
-                System.out.println("Failed to wipe collection. Error: " + response.body().string());
+            JsonObject payload = JsonParser.parseString("{}").getAsJsonObject();
+            if (!payload.has("databaseId") || !payload.has("collectionId")) {
+                System.out.println("{\"success\": false, \"message\": \"Invalid payload.\"}");
+                return;
             }
-        } catch (IOException e) {
-            System.out.println("An error occurred: " + e.getMessage());
+
+            int sum = 0;
+            boolean done = false;
+
+            while (!done) {
+                Response<DocumentList> response = databases.listDocuments(
+                    payload.get("databaseId").getAsString(),
+                    payload.get("collectionId").getAsString()
+                ).execute();
+
+                if (response.getStatusCode() != 200) {
+                    throw new AppwriteException("Failed to list documents");
+                }
+
+                DocumentList result = response.getBody();
+
+                if (result == null || result.getDocuments() == null) {
+                    done = true;
+                    break;
+                }
+
+                for (JsonObject document : result.getDocuments()) {
+                    Response<Void> deleteResponse = databases.deleteDocument(
+                        payload.get("databaseId").getAsString(),
+                        payload.get("collectionId").getAsString(),
+                        document.get("$id").getAsString()
+                    ).execute();
+
+                    if (deleteResponse.getStatusCode() == 200) {
+                        sum++;
+                    } else {
+                        throw new AppwriteException("Failed to delete document");
+                    }
+                }
+
+                if (result.getDocuments().size() == 0) {
+                    done = true;
+                }
+            }
+
+            System.out.println("{\"success\": true, \"sum\": " + sum + "}");
+        } catch (AppwriteException e) {
+            System.out.println("{\"success\": false, \"message\": \"Unexpected error: " + e.getMessage() + "\"}");
         }
     }
+}
+
+/**
+ * This function will validate that the payload and variables are non-empty in the request
+ *
+ * @param req is the received POST request
+ * @return null is nothing is empty, otherwise an error response
+ */
+private RuntimeResponse checkEmptyPayloadAndVariables(RuntimeRequest req,RuntimeResponse res){
+    Map<String, Object> responseData=new HashMap<>();
+
+    if(req.getPayload().isEmpty()||req.getPayload().trim().equals("{}")){
+        responseData.put("message","Payload is empty, expected a payload with provider and URL");
+        return res.json(responseData);
+    }
+
+    if(req.getVariables()==null){
+        responseData.put("success",false);
+        responseData.put("message","Empty function variables found. You need to pass an API key for the provider");
+        return res.json(responseData);
+    }
+    return null;
 }
