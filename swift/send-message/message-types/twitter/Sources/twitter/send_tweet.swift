@@ -3,7 +3,7 @@ import AsyncHTTPClient
 import NIO
 import NIOFoundationCompat
 
-class Tweeter {
+class Tweeter : Messenger{
     var oauth_consumer_key:String
     var oauth_token:String
     var httpClient: HTTPClient
@@ -14,30 +14,34 @@ class Tweeter {
         self.httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
     }
 
-    public func sendMessage(receiver:String = "", message:String = "") async throws -> Error? {         
+    func sendMessage(messageRequest:Message) async -> Error? {         
         var tweet_text:String
-        if receiver != "" {
-            tweet_text = "@" + receiver + " " + message
+        if messageRequest.recipient != "" {
+            tweet_text = "@" + messageRequest.recipient + " " + messageRequest.content
         } else {
-            tweet_text = message
+            tweet_text = messageRequest.content
         }
 
         var request = HTTPClientRequest(url: "https://api.twitter.com/2/tweets?")
-        let jsonText : [String:String] = ["text":"\(tweet_text)"]
-
         request.method = .POST
         request.headers.add(name: "Authorization", value: "no current value")
-        request.body = .bytes(ByteBuffer(data: (try JSONSerialization.data(withJSONObject: jsonText))))
-        let response = try await httpClient.execute(request, timeout: .seconds(30))
-        try await httpClient.shutdown()
+        let jsonText : [String:String] = ["text":"\(tweet_text)"]
+        
+        let response:HTTPClientResponse
+        do {
+            request.body = .bytes(ByteBuffer(data: (try JSONSerialization.data(withJSONObject: jsonText))))
+            response = try await httpClient.execute(request, timeout: .seconds(30))
+            try await httpClient.shutdown()
+        } catch {
+            return MessengerError.providerError(error: "Request did not recieve a response or  connection timeout")
+        }
+        
         
         if response.status != .ok {
-            print("Tweet was unable to be created")
+            return MessengerError.validationError(error: "Unable to create dm, API Status Code: \(response.status)")
         }
         return nil //Returns no error if tweet was created
     } 
-
-
 }
 
     //public func createHeader() -> String {
