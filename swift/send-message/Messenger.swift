@@ -15,13 +15,13 @@ enum MessengerError: Error {
 
 //this is our interface for users to interact with us, input to this example function must conform to this 
 struct Message {
-    var type MessageType
-    var recipient String
-    var content String
+    var type: MessageType
+    var recipient: String
+    var content: String
 }
 
 protocol Messenger {
-    func sendMessage(messageRequest: Message) -> Error? //make sure this is synchronous and you handle error handling
+    func sendMessage(messageRequest: Message) async -> Error? //make sure this is synchronous and you handle error handling
 }
 
 func main(messageRequest: Message) {
