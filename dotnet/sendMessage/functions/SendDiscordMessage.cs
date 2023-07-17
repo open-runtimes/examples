@@ -23,20 +23,19 @@ public class DiscordWebhook{
         }
 
         try{
-            using (HttpClient client = new HttpClient())
-            {
-                var content = new StringContent(
+            using (HttpClient httpclient = new HttpClient()){
+                 var contentofmessage = new StringContent(
                     "{\"content\": \"" + message + "\"}",
                     Encoding.UTF8,
                     "application/json"
-                )
+                );
+                HttpResponseMessage response = await httpclient.PostAsync(webhook, contentofmessage);
             }
-
-            HttpResponseMessage response = await client.PostAsync(webhook, content);
+            
         }
         catch (Exception e)
         {
-            Console.Writeline(e);
+            Console.WriteLine(e);
             return new Dictionary<string, object>{{"success", false}, {"message", e.Message}};
         }
 
