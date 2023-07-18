@@ -1,0 +1,4 @@
+dependencies {
+    implementation 'com.google.code.gson:gson:2.9.0'
+    implementation 'com.yahoofinance-api:YahooFinanceAPI:3.16.0'
+}
