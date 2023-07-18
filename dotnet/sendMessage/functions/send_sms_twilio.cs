@@ -1,11 +1,12 @@
 using System;
-using System.Collections.Specialized;
-using System.Net;
+using System.Collections.Generic;
+using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 public class TwilioSMS
 {
-    public static void SendSMS(string accountSID, string authToken, string sender, string phoneNumber, string message)
+    public static async Task<object> SendSMS(Dictionary<string, string> variables, string phoneNumber, string message)
     {
         if (string.IsNullOrEmpty(phoneNumber))
         {
@@ -16,6 +17,10 @@ public class TwilioSMS
         {
             throw new Exception("No message provided");
         }
+
+        string accountSID = variables.TryGetValue("TWILIO_ACCOUNT_SID", out string accountSIDValue) ? accountSIDValue : null;
+        string authToken = variables.TryGetValue("TWILIO_AUTH_TOKEN", out string authTokenValue) ? authTokenValue : null;
+        string sender = variables.TryGetValue("TWILIO_SENDER", out string senderValue) ? senderValue : null;
 
         if (string.IsNullOrEmpty(accountSID))
         {
@@ -34,50 +39,34 @@ public class TwilioSMS
 
         try
         {
-            using (var client = new WebClient())
+            using (var httpClient = new HttpClient())
             {
-                client.Credentials = new NetworkCredential(accountSID, authToken);
+                httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes($"{accountSID}:{authToken}")));
 
-                var data = new NameValueCollection
+                var values = new Dictionary<string, string>
                 {
                     { "From", sender },
                     { "To", phoneNumber },
                     { "Body", message }
                 };
 
-                var response = client.UploadValues($"https://api.twilio.com/2010-04-01/Accounts/{accountSID}/Messages.json", data);
-                var responseString = Encoding.UTF8.GetString(response);
+                var content = new FormUrlEncodedContent(values);
 
-                // Handle the response if needed
+                var response = await httpClient.PostAsync($"https://api.twilio.com/2010-04-01/Accounts/{accountSID}/Messages.json", content);
+                response.EnsureSuccessStatusCode();
+                var responseString = await response.Content.ReadAsStringAsync();
+
+              
                 Console.WriteLine(responseString);
             }
         }
         catch (Exception e)
         {
-            Console.WriteLine(e.Message);
-            throw;
+            Console.WriteLine(e);
+            return new { success = false, message = e.Message };
         }
+
+        return new { success = true };
     }
 }
 
-public class Program
-{
-    public static void Main()
-    {
-        string accountSID = "";
-        string authToken = "";
-        string sender = "";
-        string phoneNumber = "";
-        string message = "";
-
-        try
-        {
-            TwilioSMS.SendSMS(accountSID, authToken, sender, phoneNumber, message);
-            Console.WriteLine("SMS sent successfully.");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("SMS sending failed: " + ex.Message);
-        }
-    }
-}
