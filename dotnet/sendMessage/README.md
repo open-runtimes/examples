@@ -11,7 +11,7 @@ Supported channels include, `SMS`, `Email` ,`Disocrd` and `Twitter`.
 ```markdown
 {
     type = "Discord",
-    message = "Message sent from a C# Cloud Function. 😏"
+    message = "Programming is fun!"
 };
 ```
 
@@ -31,8 +31,8 @@ Supported channels include, `SMS`, `Email` ,`Disocrd` and `Twitter`.
 {
     type = "Email",
     receiver = "user@example.app",
-    subject = "Welcome to the work of Cloud Functions",
-    message = "Email sent from a C# Cloud Function. 👀"
+    subject = "Programming is fun!",
+    message = "Programming is fun!"
 };
 ```
 
@@ -41,7 +41,7 @@ Supported channels include, `SMS`, `Email` ,`Disocrd` and `Twitter`.
 ```markdown
 {
     type = "Twitter",
-    message = "Tweet sent from a C# Cloud Function. 🐦"
+    message = "Programming is fun!"
 };
 ```
 
@@ -68,29 +68,33 @@ List of variables used by this cloud function:
 
 ### Twilio
 
-- **TWILIO_ACCOUNT_SID**
-- **TWILIO_AUTH_TOKEN**
-- **TWILIO_SENDER**
+- **TWILIO_ACCOUNT_SID** - Acount SID from Twilio
+- **TWILIO_AUTH_TOKEN** - Auth Token from Twilio
+- **TWILIO_SENDER** - Sender Phone Number from Twilio
 
 ### Discord
 
-- **DISCORD_WEBHOOK_URL**
+- **DISCORD_WEBHOOK_URL** - Webhook URL for Discord
 
 ### Mailgun
 
-- **MAILGUN_API_KEY**
-- **MAILGUN_DOMAIN**
+- **MAILGUN_API_KEY** - API Key for Mailgun
+- **MAILGUN_DOMAIN** - Domain Name from Mailgun
 
 ### Twitter
 
-- **TWITTER_API_KEY**
-- **TWITTER_API_KEY_SECRET**
-- **TWITTER_ACCESS_TOKEN**
-- **TWITTER_ACCESS_KEY_SECRET**
+- **TWITTER_API_KEY** - API Key for Twitter
+- **TWITTER_API_KEY_SECRET** - API Key Secret for Twitter
+- **TWITTER_ACCESS_TOKEN** - Access Token from Twitter
+- **TWITTER_ACCESS_KEY_SECRET** - Access Token Secret from Twitter
 
-<!-- To be continued  -->
+## 🚀 Deployment
+
 <!-- To do:
+1. Update the deployment section  -->
+- ***To be updated soon***
 
-1. Complete the variables
-2. add the deployment step by step process
-3. add the notes -->
+## 📝 Notes
+
+- This function is designed for use with Appwrite Cloud Functions. You can learn more about it in [Appwrite docs](https://appwrite.io/docs/functions).
+- This example is compatible with C# and .NET.
