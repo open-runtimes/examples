@@ -36,7 +36,6 @@ class Tweeter : Messenger{
         do {
             request.body = .bytes(ByteBuffer(data: (try JSONSerialization.data(withJSONObject: jsonText))))
             response = try await httpClient.execute(request, timeout: .seconds(30))
-            print(response)
             try await httpClient.shutdown()
         } catch {
             return MessengerError.providerError(error: "Request did not recieve a response or  connection timeout")
