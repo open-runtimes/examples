@@ -4,7 +4,8 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-public class Send_sms_twilio
+namespace sendMessage.functions;
+public class SendSmsTwilio
 {
     public static async Task<object> SendSMS(Dictionary<string, string> variables, string phoneNumber, string message)
     {
