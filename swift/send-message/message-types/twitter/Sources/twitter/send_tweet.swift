@@ -31,6 +31,7 @@ class Tweeter : Messenger{
         var request = HTTPClientRequest(url: "https://api.twitter.com/2/tweets?")
         request.method = .POST
         request.headers.add(name: "Authorization", value: createAuthorizationHeader(text:tweetText))
+        request.headers.add(name: "Content-Type", value: "application/json")
         let response:HTTPClientResponse
 
         do {
