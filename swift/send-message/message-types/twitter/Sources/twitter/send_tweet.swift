@@ -28,16 +28,14 @@ class TwitterMessenger : Messenger{
         }
         let jsonText : [String:String] = ["text":"\(tweetText)"]
 
-        var request = HTTPClientRequest(url: "https://api.twitter.com/2/tweets?")
+        var request = HTTPClientRequest(url: "https://api.twitter.com/2/tweets")
         request.method = .POST
         request.headers.add(name: "Authorization", value: createAuthorizationHeader(text:tweetText))
-        request.headers.add(name: "Content-Type", value: "application/json")
         let response:HTTPClientResponse
 
         do {
             request.body = .bytes(ByteBuffer(data: (try JSONSerialization.data(withJSONObject: jsonText))))
             response = try await httpClient.execute(request, timeout: .seconds(30))
-            print(response)
             try await httpClient.shutdown()
         } catch {
             return MessengerError.providerError(error: "Request did not recieve a response or  connection timeout")
@@ -53,7 +51,7 @@ class TwitterMessenger : Messenger{
         let cc = (key: self.oauth_consumer_key, secret: self.oauth_consumer_secret)
         let uc = (key: self.oauth_token, secret: self.oauth_token_secret)
         let paras = ["text": text]
-        let requestURL = URL(string: "https://api.twitter.com/2/tweets?")!
+        let requestURL = URL(string: "https://api.twitter.com/2/tweets")!
 
         let oauth_signature = OhhAuth.calculateSignature(url: requestURL, method: "HMAC-SHA1", parameter: paras, consumerCredentials: cc, userCredentials: uc)
         return oauth_signature
