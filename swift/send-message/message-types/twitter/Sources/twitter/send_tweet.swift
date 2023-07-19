@@ -4,7 +4,7 @@ import NIO
 import NIOFoundationCompat
 import OhhAuth
 
-class Tweeter : Messenger{
+class TwitterMessenger : Messenger{
     var oauth_consumer_key:String
     var oauth_consumer_secret:String
     var oauth_token:String
@@ -37,6 +37,7 @@ class Tweeter : Messenger{
         do {
             request.body = .bytes(ByteBuffer(data: (try JSONSerialization.data(withJSONObject: jsonText))))
             response = try await httpClient.execute(request, timeout: .seconds(30))
+            print(response)
             try await httpClient.shutdown()
         } catch {
             return MessengerError.providerError(error: "Request did not recieve a response or  connection timeout")
