@@ -59,19 +59,6 @@ class Tweeter : Messenger{
     }
 }
 
-    //public func createHeader() -> String {
-    //     var header:[String, String] = "OAuth oauth_consumer_key":\(oauth_consumer_key) ,
-    //                         oauth_token=\(oauth_token) , 
-    //                         oauth_signature_method=\(oauth_signature_method) ,
-    //                         oauth_timestamp=\(oauth_timestamp) ,
-    //                         oauth_nonce = \(oauth_nonce) ,
-    //                         oauth_version = \(oauth_version) ,
-    //                         oauth_signature = \()"
-        
-    //     var testString:String = "this is a test \"string inside a string\" "
-    //     return header
-    // }
-
 
 
 
