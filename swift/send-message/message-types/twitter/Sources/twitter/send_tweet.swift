@@ -11,12 +11,18 @@ class TwitterMessenger : Messenger{
     private let oauth_token_secret:String
     private let httpClient: HTTPClient
 
-    init() {
-        self.oauth_consumer_key = ProcessInfo.processInfo.environment["TWITTER_API_KEY"]
-        self.oauth_consumer_secret = ProcessInfo.processInfo.environment["TWITTER_API_KEY_SECRET"]
-        self.oauth_token = ProcessInfo.processInfo.environment["TWITTER_ACCESS_TOKEN"]
-        self.oauth_token_secret = ProcessInfo.environment["TWITTER_ACCESS_TOKEN_SECRET"]
-        self.httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
+    init(_ env_vars: [String: String]) throws {
+    guard let oauth_consumer_key = env_vars["TWITTER_API_KEY"],
+        let oauth_consumer_secret = env_vars["TWITTER_API_KEY_SECRET"],
+        let oauth_token = env_vars["TWITTER_ACCESS_TOKEN"],
+        let oauth_token_secret = env_vars["TWITTER_ACCESS_TOKEN_SECRET"] else {
+        throw MessengerError.misconfigurationError(error: "Missing environment variables.")
+    }
+    self.oauth_consumer_key = oauth_consumer_key
+    self.oauth_consumer_secret = oauth_consumer_secret
+    self.oauth_token = oauth_token
+    self.oauth_token_secret = oauth_token_secret
+    httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
     }
 
     func sendMessage(messageRequest:Message) async -> Error? {        
