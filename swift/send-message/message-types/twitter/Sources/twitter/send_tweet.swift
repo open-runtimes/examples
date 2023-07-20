@@ -5,17 +5,17 @@ import NIOFoundationCompat
 import Crypto
 
 class TwitterMessenger : Messenger{
-    var oauth_consumer_key:String
-    var oauth_consumer_secret:String
-    var oauth_token:String
-    var oauth_token_secret:String
-    var httpClient: HTTPClient
+    private let oauth_consumer_key:String
+    private let oauth_consumer_secret:String
+    private let oauth_token:String
+    private let oauth_token_secret:String
+    private let httpClient: HTTPClient
 
-    init(oauth_consumer_key:String, oauth_consumer_secret:String, oauth_token:String, oauth_token_secret:String) {
-        self.oauth_consumer_key = oauth_consumer_key
-        self.oauth_consumer_secret = oauth_consumer_secret
-        self.oauth_token = oauth_token
-        self.oauth_token_secret = oauth_token_secret
+    init() {
+        self.oauth_consumer_key = ProcessInfo.processInfo.environment["TWITTER_API_KEY"]
+        self.oauth_consumer_secret = ProcessInfo.processInfo.environment["TWITTER_API_KEY_SECRET"]
+        self.oauth_token = ProcessInfo.processInfo.environment["TWITTER_ACCESS_TOKEN"]
+        self.oauth_token_secret = ProcessInfo.environment["TWITTER_ACCESS_TOKEN_SECRET"]
         self.httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
     }
 
@@ -26,17 +26,17 @@ class TwitterMessenger : Messenger{
         } else {
             tweetText = messageRequest.content
         }
+        
+        var request = HTTPClientRequest(url: "https://api.twitter.com/2/tweets")
         let jsonText : [String:String] = ["text":"\(tweetText)"]
 
-        var request = HTTPClientRequest(url: "https://api.twitter.com/2/tweets")
         request.method = .POST
         request.headers.add(name: "Content-Type", value: "application/json")
         request.headers.add(name: "Authorization", value: createHeader())
-        let response:HTTPClientResponse
-
+        
         do {
             request.body = .bytes(ByteBuffer(data: (try JSONSerialization.data(withJSONObject: jsonText))))
-            response = try await httpClient.execute(request, timeout: .seconds(30))
+            let response = try await httpClient.execute(request, timeout: .seconds(30))
             try await httpClient.shutdown()
         } catch {
             return MessengerError.providerError(error: "Request did not recieve a response or  connection timeout")
