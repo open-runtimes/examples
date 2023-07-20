@@ -2,7 +2,7 @@ import Foundation
 import AsyncHTTPClient
 import NIO
 import NIOFoundationCompat
-import OhhAuth
+import Crypto
 
 class TwitterMessenger : Messenger{
     var oauth_consumer_key:String
@@ -19,7 +19,7 @@ class TwitterMessenger : Messenger{
         self.httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
     }
 
-    func sendMessage(messageRequest:Message) async -> Error? {         
+    func sendMessage(messageRequest:Message) async -> Error? {        
         var tweetText:String
         if messageRequest.recipient != "" {
             tweetText = "@" + messageRequest.recipient + " " + messageRequest.content
@@ -30,7 +30,8 @@ class TwitterMessenger : Messenger{
 
         var request = HTTPClientRequest(url: "https://api.twitter.com/2/tweets")
         request.method = .POST
-        request.headers.add(name: "Authorization", value: createAuthorizationHeader(text:tweetText))
+        request.headers.add(name: "Content-Type", value: "application/json")
+        request.headers.add(name: "Authorization", value: createHeader())
         let response:HTTPClientResponse
 
         do {
@@ -41,29 +42,32 @@ class TwitterMessenger : Messenger{
             return MessengerError.providerError(error: "Request did not recieve a response or  connection timeout")
         }
         
-        if response.status != .ok {
+        if response.headers["location"] == [] {
             return MessengerError.validationError(error: "Unable to post tweet, API Status Code: \(response.status)")
         }
         return nil //Returns no error if tweet was created
     } 
 
-    private func createAuthorizationHeader(text:String) -> String {
-        let cc = (key: self.oauth_consumer_key, secret: self.oauth_consumer_secret)
-        let uc = (key: self.oauth_token, secret: self.oauth_token_secret)
-        let paras = ["text": text]
-        let requestURL = URL(string: "https://api.twitter.com/2/tweets")!
+    private func createHeader() -> String {
+        let nonce = (Data(ChaChaPoly.Nonce()).base64EncodedString()).filter{$0.isLetter}
+        let timestamp = Int(Date().timeIntervalSince1970)
+        let customAllowedSet =  NSCharacterSet(charactersIn:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~") as CharacterSet
+        var baseString = "POST&https%3A%2F%2Fapi.twitter.com%2F2%2Ftweets&"
+        let parameters = """
+        oauth_consumer_key=\(oauth_consumer_key)&oauth_nonce=\(nonce)&oauth_signature_method=HMAC-SHA1&\
+        oauth_timestamp=\(timestamp)&oauth_token=\(oauth_token)&oauth_version=1.0
+        """
+        baseString.append(contentsOf: parameters.addingPercentEncoding(withAllowedCharacters: customAllowedSet)!)
+        let dataBaseString = baseString.data(using: .utf8)!
+        let signingKey = (oauth_consumer_secret + "&" + oauth_token_secret).data(using: .utf8)!
+        
+        let hmacHash = HMAC<Insecure.SHA1>.authenticationCode(for: dataBaseString, using: SymmetricKey(data: signingKey))
+        let signature = Data(hmacHash).base64EncodedString().addingPercentEncoding(withAllowedCharacters: customAllowedSet)!
 
-        let oauth_signature = OhhAuth.calculateSignature(url: requestURL, method: "HMAC-SHA1", parameter: paras, consumerCredentials: cc, userCredentials: uc)
-        return oauth_signature
+        return """
+        OAuth oauth_consumer_key=\"\(oauth_consumer_key)\",oauth_token=\"\(oauth_token)\",oauth_signature_method=\"HMAC-SHA1\",\
+        oauth_timestamp=\"\(timestamp)\",oauth_nonce=\"\(nonce)\",\
+        oauth_version=\"1.0\",oauth_signature=\"\(signature)\"
+        """
     }
 }
-
-
-
-
-
-
-
-
-
-
