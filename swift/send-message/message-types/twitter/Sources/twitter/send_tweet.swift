@@ -44,14 +44,13 @@ class TwitterMessenger : Messenger{
             request.body = .bytes(ByteBuffer(data: (try JSONSerialization.data(withJSONObject: jsonText))))
             let response = try await httpClient.execute(request, timeout: .seconds(30))
             try await httpClient.shutdown()
+            if response.headers["location"] == [] {
+                return MessengerError.validationError(error: "Unable to post tweet, API Status Code: \(response.status)")
+            }
+            return nil //Returns no error if tweet was created    
         } catch {
             return MessengerError.providerError(error: "Request did not recieve a response or  connection timeout")
         }
-        
-        if response.headers["location"] == [] {
-            return MessengerError.validationError(error: "Unable to post tweet, API Status Code: \(response.status)")
-        }
-        return nil //Returns no error if tweet was created
     } 
 
     private func createHeader() -> String {
