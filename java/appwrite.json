@@ -6,7 +6,7 @@
             "$id": "64b036a92b2e743106ca",
             "name": "AppwriteCollectionWiper",
             "runtime": "java-17.0",
-            "path": "functions/AppwriteCollectionWiper",
+            "path": "AppwriteCollectionWiper",
             "entrypoint": "src/Index.java",
             "ignore": [
                 "build"
