@@ -10,8 +10,8 @@ Supported channels include, `SMS`, `Email` ,`Disocrd` and `Twitter`.
 
 ```markdown
 {
-    type = "Discord",
-    message = "Programming is fun!"
+    "type" = "Discord",
+    "message" = "Programming is fun!"
 };
 ```
 
@@ -19,9 +19,9 @@ Supported channels include, `SMS`, `Email` ,`Disocrd` and `Twitter`.
 
 ```markdown
 {
-    type = "SMS",
-    receiver = "+123456789",
-    message = "Programming is fun!"
+    "type" = "SMS",
+    "receiver" = "+123456789",
+    "message" = "Programming is fun!"
 };
 ```
 
@@ -29,10 +29,10 @@ Supported channels include, `SMS`, `Email` ,`Disocrd` and `Twitter`.
 
 ```markdown
 {
-    type = "Email",
-    receiver = "user@example.app",
-    subject = "Programming is fun!",
-    message = "Programming is fun!"
+    "type" = "Email",
+    "receiver" = "user@example.app",
+    "subject" = "Programming is fun!",
+    "message" = "Programming is fun!"
 };
 ```
 
@@ -40,8 +40,8 @@ Supported channels include, `SMS`, `Email` ,`Disocrd` and `Twitter`.
 
 ```markdown
 {
-    type = "Twitter",
-    message = "Programming is fun!"
+    "type" = "Twitter",
+    "message" = "Programming is fun!"
 };
 ```
 
@@ -92,6 +92,14 @@ List of variables used by this cloud function:
 
 <!-- To do:
 1. Update the deployment section  -->
+
+1. Clone this repository, and enter this function folder:
+
+```markdown
+git clone https://github.com/open-runtimes/examples.git && cd examples
+$ cd dotnet/send_message
+```
+
 - ***To be updated soon***
 
 ## 📝 Notes
