@@ -14,16 +14,12 @@ import java.nio.charset.StandardCharsets
 import com.chromasgaming.ktweet.oauth.SignatureBuilder
 import com.chromasgaming.ktweet.oauth.buildSignature
 
-
-
 fun getErrorResponseWithMessage(message: String? = "Some error occurred"): Map<String, Any> {
     return mapOf(
             "success" to false,
             "message" to message.toString()
         )
 }
-
-
 
 fun sendEmailMailgun(variables: Map<String, String>, email: String?, message: String?, subject: String?): Map<String, Any>{
     if (email.isNullOrEmpty() || message.isNullOrEmpty() || subject.isNullOrEmpty()){
@@ -36,6 +32,7 @@ fun sendEmailMailgun(variables: Map<String, String>, email: String?, message: St
     if (domain.isNullOrEmpty()){
         return getErrorResponseWithMessage("Missing Mailgun domain")
     }
+
     if (apiKey.isNullOrEmpty()){
         return getErrorResponseWithMessage("Missing Mailgun API key")
     }
@@ -69,8 +66,6 @@ fun sendEmailMailgun(variables: Map<String, String>, email: String?, message: St
         return getErrorResponseWithMessage("Error: ${e.message}")
     }
 }
-
-
 
 fun sendMessageDiscordWebhook(variables: Map<String, String>, message: String?): Map<String, Any> {
     if (message.isNullOrEmpty()) {
