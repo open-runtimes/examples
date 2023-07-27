@@ -36,9 +36,9 @@ Example error output:
 ## 📝 Environment Variables
 
 List of environment variables used by this cloud function:
-
-- **API_KEY** - Tinypng API Key or KrakenIO API Key
-- **SECRET_API_KEY** - KrakenIO Secret API Key
+- **TINYPNG_KEY** - Tinypng API Key
+- **KRAKENIO_KEY** - KrakenIO API Key
+- **KRAKENIO_SECRET_KEY** - KrakenIO Secret API Key
 
 
 ℹ️ _Create your TinyPNG API key at https://tinypng.com/developers_. <br>
