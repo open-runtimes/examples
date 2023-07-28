@@ -1,4 +1,4 @@
-""" Unittests for Compress Image implementation in main.py"""
+""" Unittests for Compress Image implementation in main.py."""
 # Standard library
 import base64
 import pathlib
@@ -29,12 +29,12 @@ RESULT_KRAKENIO = (
 
 
 class TestTinypng(unittest.TestCase):
-    """Class for testing the functionality of the "tinypng_impl" function."""
-    @unittest.skipUnless(secret.API_KEY_TINYPNG, "No Tinypng API Key set")
+    """Class for testing the functionality of the "implement_tinypng" function."""
+    @unittest.skipUnless(secret.API_KEY_TINYPNG, "No Tinypng API Key set.")
     def test_tinypng_happy_path(self):
-        """Test case optimizing 1kb image using "tinypng_impl" function."""
+        """Test case optimizing 1kb image using "implement_tinypng" function."""
         want = RESULT_TINYPNG
-        got = main.tinypng_impl(
+        got = main.implement_tinypng(
             {
                 "api_key": secret.API_KEY_TINYPNG,
                 "decoded_image": IMAGE,
@@ -43,11 +43,11 @@ class TestTinypng(unittest.TestCase):
         self.assertEqual(base64.b64encode(got).decode(), want)
 
     def test_tinypng_credential(self):
-        """Test case handling Account errors in the "tinypng_impl" function."""
+        """Test case handling Account errors in the "implement_tinypng" function."""
         # Incorrect Credential
         self.assertRaises(
             tinify.errors.AccountError,
-            main.tinypng_impl,
+            main.implement_tinypng,
             {
                 "api_key": "1NCORRECT4CREDENT1ALS",
                 "decoded_image": IMAGE,
@@ -60,13 +60,13 @@ class TestTinypng(unittest.TestCase):
         (b"ORw0KGgoAAAANSUhEUgAAABEAAAAOCAMAAAD+M",),
     ])
     def test_tinypng_client(self, image):
-        """Test case for Client errors in the "tinypng_impl" function."""
+        """Test case for Client errors in the "implement_tinypng" function."""
         # Image is empty
         data = {
             "api_key": secret.API_KEY_TINYPNG,
             "decoded_image": image,
         }
-        self.assertRaises(tinify.errors.ClientError, main.tinypng_impl, data)
+        self.assertRaises(tinify.errors.ClientError, main.implement_tinypng, data)
 
     @unittest.skipUnless(secret.API_KEY_TINYPNG, "No Tinypng API Key set.")
     @parameterized.expand([
@@ -84,41 +84,41 @@ class TestTinypng(unittest.TestCase):
         ),
     ])
     def test_tinypng_keys(self, data):
-        """Test case for handling KeyError in the "tinypng_impl" function."""
+        """Test case for handling KeyError in the "implement_tinypng" function."""
         # Accessing wrong key
         self.assertRaises(
             KeyError,
-            main.tinypng_impl,
+            main.implement_tinypng,
             data,
         )
 
     @unittest.skipUnless(secret.API_KEY_TINYPNG, "No Tinypng API Key set.")
     def test_tinypng_variables(self):
-        """Test case handling variables in the "tinypng_impl" function."""
+        """Test case handling variables in the "implement_tinypng" function."""
         # Empty variables
         self.assertRaises(
             KeyError,
-            main.tinypng_impl,
+            main.implement_tinypng,
             {},
         )
         # One key in variable
         self.assertRaises(
             KeyError,
-            main.tinypng_impl,
+            main.implement_tinypng,
             {
                 "api_key": secret.API_KEY_TINYPNG
             },
         )
 
     @unittest.skipUnless(secret.API_KEY_TINYPNG, "No Tinypng API Key set.")
-    def test_tinypng_impl_basic_functionality_1kb(self):
-        """Basic functionality of "tinypng_impl" with a 1kb image."""
+    def test_implement_tinypng_basic_functionality_1kb(self):
+        """Basic functionality of "implement_tinypng" with a 1kb image."""
         with patch.object(tinify, "from_buffer") as mock_from_buffer:
             # Set up the mock return value as decoded result
             mock_from_buffer.return_value.to_buffer.return_value = (
                 base64.b64decode(RESULT_TINYPNG))
             # Assert the expected result
-            optimized_image = main.tinypng_impl(
+            optimized_image = main.implement_tinypng(
                 {
                     "api_key": secret.API_KEY_TINYPNG,
                     "decoded_image": IMAGE,
@@ -132,8 +132,8 @@ class TestTinypng(unittest.TestCase):
                 mock_from_buffer.return_value.to_buffer.return_value)
 
     @unittest.skipUnless(secret.API_KEY_TINYPNG, "No Tinypng API Key set.")
-    def test_tinypng_impl_unexpected_exception_account_error(self):
-        """Test case handling unexpected "AccountError" in tinypng_impl."""
+    def test_implement_tinypng_unexpected_exception_account_error(self):
+        """Test case handling unexpected "AccountError" in implement_tinypng."""
         with patch.object(tinify, "from_buffer") as mock_from_buffer:
             # Set up the mock return value as account exception
             mock_from_buffer.side_effect = (
@@ -141,24 +141,24 @@ class TestTinypng(unittest.TestCase):
             # Check the raise for Account error
             self.assertRaises(
                 tinify.errors.AccountError,
-                main.tinypng_impl,
+                main.implement_tinypng,
                 {
                     "api_key": secret.API_KEY_TINYPNG,
                     "decoded_image": IMAGE,
                 },
             )
 
-    @unittest.skipUnless(secret.API_KEY_TINYPNG, "No Tinypng API Key set")
-    def test_tinypng_impl_unexpected_exception_client_error(self):
-        """Test case handling unexpected "ClientError" in tinypng_impl."""
+    @unittest.skipUnless(secret.API_KEY_TINYPNG, "No Tinypng API Key set.")
+    def test_implement_tinypng_unexpected_exception_client_error(self):
+        """Test case handling unexpected "ClientError" in implement_tinypng."""
         with patch.object(tinify, "from_buffer") as mock_from_buffer:
             # Set up the mock return value as client exception
             mock_from_buffer.side_effect = (
-                tinify.errors.ClientError("Image is incorrect"))
+                tinify.errors.ClientError("Image is incorrect."))
             # Check the raise for Client error
             self.assertRaises(
                 tinify.errors.ClientError,
-                main.tinypng_impl,
+                main.implement_tinypng,
                 {
                     "api_key": secret.API_KEY_TINYPNG,
                     "decoded_image": IMAGE
@@ -167,14 +167,14 @@ class TestTinypng(unittest.TestCase):
 
 
 class TestKrakenIO(unittest.TestCase):
-    """Class for testing the functionality of the "krakenio_impl" function."""
+    """Class for testing the functionality of the "implement_krakenio" function."""
     @unittest.skipUnless(
         secret.API_KEY_KRAKENIO and secret.SECRET_API_KEY_KRAKENIO,
         "No KrakenIO API Key or Secret Key.")
     def test_krakenio_happy_path(self):
-        """Test case optimizing 1kb image using "krakenio_impl" function."""
+        """Test case optimizing 1kb image using "implement_krakenio" function."""
         want = RESULT_KRAKENIO
-        got = main.krakenio_impl(
+        got = main.implement_krakenio(
             {
                 "api_key": secret.API_KEY_KRAKENIO,
                 "api_secret_key": secret.SECRET_API_KEY_KRAKENIO,
@@ -192,7 +192,7 @@ class TestKrakenIO(unittest.TestCase):
             mock_post.side_effect = requests.exceptions.ReadTimeout
             self.assertRaises(
                 requests.exceptions.ReadTimeout,
-                main.krakenio_impl,
+                main.implement_krakenio,
                 {
                     "api_key": secret.API_KEY_KRAKENIO,
                     "api_secret_key": secret.SECRET_API_KEY_KRAKENIO,
@@ -347,7 +347,7 @@ class TestValidateRequest(unittest.TestCase):
 
 class TestMain(unittest.TestCase):
     """Class test for main function."""
-    @unittest.skipUnless(secret.API_KEY_TINYPNG, "No Tinypng API Key set")
+    @unittest.skipUnless(secret.API_KEY_TINYPNG, "No Tinypng API Key set.")
     def test_main_success(self):
         """Unittest for main function success json response."""
         want = {
@@ -373,7 +373,7 @@ class TestMain(unittest.TestCase):
 
     def test_main_value_error(self):
         """Unittest for main function when a value error is raised."""
-        want = {"success": False, "error": "Missing payload"}
+        want = {"success": False, "error": "Missing payload."}
         # Create a request
         req = MyRequest({"payload": {}, "variables": {}})
         # Create a response object

@@ -11,7 +11,7 @@ KRAKEN_USER_AGENT = (
 )
 
 
-def krakenio_impl(variables):
+def implement_krakenio(variables):
     """
     Implements image optimization using the Kraken.io API.
 
@@ -56,7 +56,7 @@ def krakenio_impl(variables):
     return optimized_image
 
 
-def tinypng_impl(variables):
+def implement_tinypng(variables):
     """
     Implements image optimization using the Tinypng API.
 
@@ -85,19 +85,19 @@ def validate_request(req):
     """
     # Check if payload is empty
     if not req.payload:
-        raise ValueError("Missing payload")
+        raise ValueError("Missing payload.")
     # Accessing provider from payload
     if not req.payload.get("provider"):
-        raise ValueError("Missing provider")
+        raise ValueError("Missing provider.")
     # Check if payload is not empty
     if not req.variables:
         raise ValueError("Missing variables.")
     # Accessing api_key from variables
     if not req.variables.get("API_KEY"):
-        raise ValueError("Missing API_KEY")
+        raise ValueError("Missing API_KEY.")
     # Accessing encoded image from payload
     if not req.payload.get("image"):
-        raise ValueError("Missing encoding image")
+        raise ValueError("Missing encoding image.")
     result = {
         "provider": req.payload.get("provider").lower(),
         "api_key": req.variables.get("API_KEY"),
@@ -109,12 +109,6 @@ def validate_request(req):
             raise ValueError("Missing api secret key.")
         result["api_secret_key"] = req.variables.get("SECRET_API_KEY")
     return result
-
-
-IMPLEMENTATIONS = {
-        "krakenio": krakenio_impl,
-        "tinypng": tinypng_impl,
-    }
 
 
 def main(req, res):
@@ -136,7 +130,12 @@ def main(req, res):
             "error": f"{value_error}",
         })
     try:
-        optimized_image = IMPLEMENTATIONS[variables["provider"]](variables)
+        if variables["provider"] == "tinypng":
+            optimized_image = implement_tinypng(variables)
+        elif variables["provider"] == "krakenio":
+            optimized_image = implement_krakenio(variables)
+        else:
+            raise ValueError("Invalid provider.")
     except Exception as error:
         return res.json({
             "success": False,
