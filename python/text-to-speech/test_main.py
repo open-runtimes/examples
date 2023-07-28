@@ -180,6 +180,91 @@ class ValidateCommonTest(unittest.TestCase):
         """Test validate_common function when 'language' is missing."""
         pass
 
+    def test_validate_request_missing_aws_access_key_id(self, req):
+        """Test validate_request methsod when 'AWS_ACCESS_KEY_ID' is missing."""
+        pass
+
+    def test_validate_request_missing_aws_secret_access_key(self, req):
+        """Test validate_request method when 'AWS_SECRET_ACCESS_KEY' is missing."""
+        pass
+
+    def test_speech(self, text, language):
+        """Test speech method for text-to-speech synthesis."""
+        pass
+
+    def test_speech_key_exception(self, text, language):
+        """Test speech method for handling exceptions during text-to-speech synthesis."""
+        pass
+
+
+class AWSTest(unittest.TestCase):
+    """AWS API Test Cases"""
+    def test_validate_request(self, req):
+        """Test validate_request method when all required fields are present."""
+        pass
+
+    def test_validate_request_missing_aws_access_key_id(self, req):
+        """Test validate_request method when 'AWS_ACCESS_KEY_ID' is missing."""
+        pass
+
+    def test_validate_request_missing_aws_secret_access_key(self, req):
+        """Test validate_request method when 'AWS_SECRET_ACCESS_KEY' is missing."""
+        pass
+
+    def test_speech(self):
+        """Test speech method for successful text-to-speech synthesis."""
+        req = MyRequest({
+            "payload": {
+                "provider": "aws",
+                "text": "hi",
+                "language": "en-US",
+            },
+            "variables": {
+                "API_KEY": "123",
+                "PROJECT_ID": "123",
+            }
+        })
+        # Create an instance of Google Class
+        aws_instance = main.AWS(req)
+        # Variables
+        text = "hello"
+        language = "en-US"
+        # Set up mock
+        with patch.object(texttospeech, "TextToSpeechClient") as mock_client:
+            mock_response = mock_client.return_value
+            mock_response.synthesize_speech.return_value.audio_content = base64.b64decode(RESULT_AWS)
+
+            # Call the speech method
+            audio_stream = aws_instance.speech(text, language)
+
+            # Assert that the mock client was called with the correct arguments
+            mock_client.assert_called_once_with(client_options={"api_key": "123", "secret_api_key": "123"})
+
+            # Assert that the synthesize_speech method was called with the correct arguments
+            mock_response.synthesize_speech.assert_called_once_with(VoiceId="Joanna", OutputFormat="mp3", Text=text, LanguageCode=language)
+
+            # Assert the result
+            self.assertEqual(audio_stream, base64.b64decode(RESULT_AWS))
+
+    def test_speech_key_exception(self, text, language):
+        """Test speech method for handling exceptions during text-to-speech synthesis."""
+        pass
+
+
+class ValidateCommonTest(unittest.TestCase):
+    """Test Cases for validate_common function"""
+    def test_validate_common(self, req):
+        """Test validate_common function with valid input."""
+        pass
+
+    def test_missing_text(self, req):
+        """Test validate_common function when 'text' is missing."""
+        pass
+
+    def test_missing_language(self, req):
+        """Test validate_common function when 'language' is missing."""
+        pass
+
 
 if __name__ == "__main__":
     unittest.main()
