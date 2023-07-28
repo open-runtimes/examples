@@ -24,6 +24,7 @@ RESULT_AZURE = (
     read_text(encoding="utf-8"))
 
 
+
 def get_instance(provider, key, project_id):
     IMPLEMENTATIONS = {
         "google": main.Google,
