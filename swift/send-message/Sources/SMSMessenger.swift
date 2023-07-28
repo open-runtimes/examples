@@ -9,7 +9,7 @@ class SMSMessenger: Messenger{
     private let twilioNumber: String
     private let httpClient: HTTPClient
 
-    init(_ env_vars: [String: String]) throws{
+    init(_ env_vars: [String: String], httpClient: HTTPClient) throws{
         guard let accountSid = env_vars["TWILIO_ACCOUNT_SID"],
             let authToken = env_vars["TWILIO_AUTH_TOKEN"],
             let twilioNumber =  env_vars["TWILIO_SENDER"] else {
@@ -18,7 +18,7 @@ class SMSMessenger: Messenger{
         self.authToken = authToken
         self.accountSid = accountSid
         self.twilioNumber = twilioNumber
-        self.httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
+        self.httpClient = httpClient
 
     }
     /* 

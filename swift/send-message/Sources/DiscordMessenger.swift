@@ -6,20 +6,21 @@ import NIOFoundationCompat
 let createDMURL = "https://discord.com/api/v10/users/@me/channels"
 
 class DiscordMessenger: Messenger{
-    private let botToken: String
-    private let guildID: String
+    private let discordBotToken: String
+    private let discordGuildID: String
     private let httpClient: HTTPClient
 
-    init(_ env_vars: [String: String]) throws {
-        guard let botToken = env_vars["BOT_TOKEN"],
-            let guildID = env_vars["GUILD_ID"] else {
+    init(_ env_vars: [String: String], httpClient: HTTPClient) throws {
+        guard let discordBotToken = env_vars["DISCORD_BOT_TOKEN"],
+            let discordGuildID = env_vars["DISCORD_GUILD_ID"] else {
             throw MessengerError.misconfigurationError(error: "Missing environment variables.")
         }
-        self.botToken = botToken
-        self.guildID = guildID
-        httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
+        self.discordBotToken = discordBotToken
+        self.discordGuildID = discordGuildID
+        self.httpClient = httpClient
     }
-    public func searchUsersByUsername(json: [[String:Any]], username: String) throws -> String{
+
+    private func getIDFromUsername(json: [[String:Any]], username: String) throws -> String{
         for user  in json{
             let currentUsername = ((user["user"]) as! [String: Any])["username"] as! String
             
@@ -32,11 +33,11 @@ class DiscordMessenger: Messenger{
 
     //Returns a recipient id given their username
     private func getRecipientID(username: String) async throws -> String{
-        let targetURL = "https://discord.com/api/v10/guilds/\(guildID)/members/search?query=\(username)&limit=1000"
+        let targetURL = "https://discord.com/api/v10/guilds/\(discordGuildID)/members/search?query=\(username)&limit=1000"
         var request = HTTPClientRequest(url: targetURL)
 
         request.method = .GET
-        request.headers.add(name: "Authorization", value: botToken) 
+        request.headers.add(name: "Authorization", value: discordBotToken) 
         
         let response:HTTPClientResponse
         do{
@@ -53,7 +54,7 @@ class DiscordMessenger: Messenger{
             throw MessengerError.validationError(error: "Unable to get recipient id, API Status Code: \(response.status), API Error Message: \((responseBodyJson as! [String: Any])["message"] ?? "none")")
         }
 
-        return try searchUsersByUsername(json: responseBodyJson as! Array<[String: Any]>, username: username)
+        return try getIDFromUsername(json: responseBodyJson as! Array<[String: Any]>, username: username)
     }
 
     //Returns dm channel ID. If there isn't already a dm channel with a user one is made.
@@ -63,7 +64,7 @@ class DiscordMessenger: Messenger{
 
         request.method = .POST
         request.headers.add(name: "Content-Type", value: "application/json")
-        request.headers.add(name: "Authorization", value: botToken)
+        request.headers.add(name: "Authorization", value: discordBotToken)
         request.body = .bytes(ByteBuffer(data: (try JSONSerialization.data(withJSONObject: jsonRecipientID))))
         
         let response:HTTPClientResponse
@@ -99,7 +100,7 @@ class DiscordMessenger: Messenger{
 
         request.method = .POST
         request.headers.add(name: "Content-Type", value: "application/json")
-        request.headers.add(name: "Authorization", value: botToken)
+        request.headers.add(name: "Authorization", value: discordBotToken)
 
         do{
             request.body = .bytes(ByteBuffer(data: (try JSONSerialization.data(withJSONObject: jsonMessage))))

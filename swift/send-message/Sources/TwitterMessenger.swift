@@ -11,7 +11,7 @@ class TwitterMessenger : Messenger{
     private let oauth_token_secret:String
     private let httpClient: HTTPClient
 
-    init(_ env_vars: [String: String]) throws {
+    init(_ env_vars: [String: String], httpClient: HTTPClient) throws {
     guard let oauth_consumer_key = env_vars["TWITTER_API_KEY"],
         let oauth_consumer_secret = env_vars["TWITTER_API_KEY_SECRET"],
         let oauth_token = env_vars["TWITTER_ACCESS_TOKEN"],
@@ -22,7 +22,7 @@ class TwitterMessenger : Messenger{
     self.oauth_consumer_secret = oauth_consumer_secret
     self.oauth_token = oauth_token
     self.oauth_token_secret = oauth_token_secret
-    httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
+    self.httpClient = httpClient
     }
 
     func sendMessage(messageRequest:Message) async -> Error? {        
@@ -47,7 +47,6 @@ class TwitterMessenger : Messenger{
         do {
             request.body = .bytes(ByteBuffer(data: (try JSONSerialization.data(withJSONObject: jsonText))))
             let response = try await httpClient.execute(request, timeout: .seconds(30))
-            try await httpClient.shutdown()
             
             if response.status.code != 201 {
                 var errorMessage:String = ""

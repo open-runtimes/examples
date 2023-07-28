@@ -1,22 +1,22 @@
-// swift-tools-version:5.8
+// swift-tools-version:5.5
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
-
 let package = Package(
-    name: "twitter",
-    platforms: [.macOS(.v12)],
+    name: "send-message",
     dependencies: [
-        .package(url: "https://github.com/swift-server/async-http-client", from: "1.18.0"),
-        .package(url: "https://github.com/apple/swift-crypto.git", from: "2.0.3")
+        .package(url: "https://github.com/swift-server/async-http-client.git", from: "1.9.0"),
+        .package(url: "https://github.com/apple/swift-crypto.git", from: "2.0.3"),
     ],
     targets: [
         .executableTarget(
-            name: "twitter",
+            name: "send-message",
             dependencies: [
                 .product(name: "AsyncHTTPClient", package: "async-http-client"),
-                .product(name: "Crypto", package: "swift-crypto")
-            ])
+                .product(name: "Crypto", package: "swift-crypto"),
+            ],
+            path: "Sources"
+        ),
     ]
 )

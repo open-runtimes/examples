@@ -10,7 +10,7 @@ class EmailMessenger: Messenger{
     private let fromEmailAddress: String
     private let httpClient: HTTPClient
 
-    init(_ env_vars: [String: String]) throws{
+    init(_ env_vars: [String: String], httpClient: HTTPClient) throws{
         guard let mailgunAPIKey = env_vars["MAILGUN_API_KEY"],
             let mailgunDomain = env_vars["MAILGUN_DOMAIN"] else {
             throw MessengerError.misconfigurationError(error: "Missing environment variables.")
@@ -21,7 +21,7 @@ class EmailMessenger: Messenger{
         //sender of the message's email and optionally their name. Can be a non-existent email as long as it is formatted correctly. 
         //for example “Bob <bob@example.com>”  or "me@samples.mailgun.org" or "5555@5555.5555".
         fromEmailAddress = env_vars["MAILGUN_FROM_EMAIL_ADDRESS"] ?? "me@samples.mailgun.org"
-        httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
+        self.httpClient = httpClient
     }
     
     public func sendMessage(messageRequest: Message) async -> Error? {     

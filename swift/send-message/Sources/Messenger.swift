@@ -1,4 +1,5 @@
 import Foundation
+import AsyncHTTPClient
 //an enum of the implementations we provide, anything else is rejected
 enum MessageType: String {
     case sms = "sms"
@@ -41,18 +42,19 @@ func main(req: RequestValue, res: RequestResponse) async throws -> RequestRespon
 
     let type:MessageType = MessageType(rawValue: typeString) ?? .none
     let messenger: Messenger
+    let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
 
-    //initialize messenger with environment variables
+    //initialize messenger with environment variables and httpClient
     do{
         switch type{
             case .sms:
-                messenger = try SMSMessenger(req.variables)
+                messenger = try SMSMessenger(req.variables, httpClient: httpClient)
             case .email:
-                messenger = try EmailMessenger(req.variables)
+                messenger = try EmailMessenger(req.variables, httpClient: httpClient)
             case .twitter:
-                messenger = try TwitterMessenger(req.variables)
+                messenger = try TwitterMessenger(req.variables, httpClient: httpClient)
             case .discord:
-                messenger = try DiscordMessenger(req.variables)
+                messenger = try DiscordMessenger(req.variables, httpClient: httpClient)
             default: 
                 return res.json(data: ["success": false, "message" :"Misconfigurtion Error: Invalid Type"])
         }
@@ -64,6 +66,7 @@ func main(req: RequestValue, res: RequestResponse) async throws -> RequestRespon
     let messageRequest = Message(type: type, recipient: recipient, content: content, subject: subject)
 
     let result = await messenger.sendMessage(messageRequest: messageRequest)
+    try await httpClient.shutdown()
     
     if result == nil{
         return res.json(data: ["success": true])
