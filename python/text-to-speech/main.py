@@ -30,9 +30,6 @@ class TextToSpeech():
 
 class Google(TextToSpeech):
     """This class represents the implementation of Google text to speech."""
-    api_key = None
-    project_id = None
-
     def validate_request(self, req: requests) -> None:
         """
         This method validates the request data for Google text to speech.
