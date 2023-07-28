@@ -83,7 +83,7 @@ class Google(TextToSpeech):
 
 
 class Azure(TextToSpeech):
-    """This class represents the implementation of Azure text to speech.""
+    """This class represents the implementation of Azure text to speech."""
     def validate_request(self, req: requests) -> None:
         """
         This method validates the request data for Azure text to speech.
@@ -178,8 +178,7 @@ class AWS(TextToSpeech):
 list_of_providers = ["google", "azure", "aws"]
 
 
-def validate_common(req: requests) -> tuple[str]:
-
+def validate_common(req: requests) -> tuple:
     """
     This function validates the common fields in the request data
         that are independent of the text-to-speech provider.
