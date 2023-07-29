@@ -1,81 +1,84 @@
 import io.appwrite.Client;
 import io.appwrite.services.Databases;
-import io.appwrite.services.Exceptions.AppwriteException;
-import io.appwrite.services.Models.DocumentList;
-import io.appwrite.services.Response;
+import io.appwrite.exceptions.AppwriteException;
+import io.appwrite.models.DocumentList;
+import kotlin.Result;
+import kotlin.coroutines.Continuation;
+import kotlin.coroutines.CoroutineContext;
+import kotlin.coroutines.EmptyCoroutineContext;
+import okhttp3.Response;
+import org.jetbrains.annotations.NotNull;
+import io.openruntimes.java.*;
+import java.util.*;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-public class Index {
-    public static void main(String[] args) {
-        String endpoint = System.getenv("APPWRITE_FUNCTION_ENDPOINT");
-        String apiKey = System.getenv("APPWRITE_FUNCTION_API_KEY");
-        String projectId = System.getenv("APPWRITE_FUNCTION_PROJECT_ID");
+public RuntimeResponse main(RuntimeRequest req, RuntimeResponse res) {
+    // Validate that values present in the request are not empty (payload, variables)
+    RuntimeResponse errorResponse=checkEmptyPayloadAndVariables(req,res);
+    if(errorResponse!=null){
+        return errorResponse;
+    }
+    String endpoint = req.getVariables().get("APPWRITE_FUNCTION_ENDPOINT");
+    String apiKey = req.getVariables().get("APPWRITE_FUNCTION_API_KEY");
+    String projectId = req.getVariables().get("APPWRITE_FUNCTION_PROJECT_ID");
 
-        if (endpoint == null || apiKey == null || projectId == null) {
-            System.out.println("{\"success\": false, \"message\": \"Variables missing.\"}");
-            return;
+    Map<String, Object> responseData=new HashMap<>();
+    if (endpoint == null || apiKey == null || projectId == null) {
+        responseData.put("success",false);
+        responseData.put("message","Variables missing.");
+        return res.json(responseData);
+    }
+
+    Client client = new Client();
+    client
+        .setEndpoint(endpoint)
+        .setProject(projectId)
+        .setKey(apiKey);
+
+    Databases databases = new Databases(client);
+
+    try {
+        JsonObject payload = JsonParser.parseString("{}").getAsJsonObject();
+        if (!payload.has("databaseId") || !payload.has("collectionId")) {
+            responseData.put("success",false);
+            responseData.put("message","Invalid payload.");
+            return res.json(responseData);
         }
-
-        Client client = new Client();
-        client
-            .setEndpoint(endpoint)
-            .setProject(projectId)
-            .setKey(apiKey);
-
-        Databases databases = new Databases(client);
-
-        try {
-            JsonObject payload = JsonParser.parseString("{}").getAsJsonObject();
-            if (!payload.has("databaseId") || !payload.has("collectionId")) {
-                System.out.println("{\"success\": false, \"message\": \"Invalid payload.\"}");
-                return;
-            }
-
-            int sum = 0;
-            boolean done = false;
-
-            while (!done) {
-                Response<DocumentList> response = databases.listDocuments(
-                    payload.get("databaseId").getAsString(),
-                    payload.get("collectionId").getAsString()
-                ).execute();
-
-                if (response.getStatusCode() != 200) {
-                    throw new AppwriteException("Failed to list documents");
+        databases.deleteCollection(
+            payload.get("databaseId").getAsString(),
+            payload.get("collectionId").getAsString(),
+            new Continuation<Object>() {
+                @NotNull
+                @Override
+                public CoroutineContext getContext() {
+                    return EmptyCoroutineContext.INSTANCE;
                 }
 
-                DocumentList result = response.getBody();
-
-                if (result == null || result.getDocuments() == null) {
-                    done = true;
-                    break;
-                }
-
-                for (JsonObject document : result.getDocuments()) {
-                    Response<Void> deleteResponse = databases.deleteDocument(
-                        payload.get("databaseId").getAsString(),
-                        payload.get("collectionId").getAsString(),
-                        document.get("$id").getAsString()
-                    ).execute();
-
-                    if (deleteResponse.getStatusCode() == 200) {
-                        sum++;
-                    } else {
-                        throw new AppwriteException("Failed to delete document");
+                @Override
+                public void resumeWith(@NotNull Object o) {
+                    String json = "";
+                    try {
+                        if (o instanceof Result.Failure) {
+                            Result.Failure failure = (Result.Failure) o;
+                            throw failure.exception;
+                        } else {
+                            Response response = (Response) o;
+                        }
+                    } catch (Throwable th) {
+                        System.out.println("ERROR: " +  th.toString());
                     }
                 }
-
-                if (result.getDocuments().size() == 0) {
-                    done = true;
-                }
             }
+        );
 
-            System.out.println("{\"success\": true, \"sum\": " + sum + "}");
-        } catch (AppwriteException e) {
-            System.out.println("{\"success\": false, \"message\": \"Unexpected error: " + e.getMessage() + "\"}");
-        }
+        responseData.put("success",true);
+        return res.json(responseData);
+    } catch (AppwriteException e) {
+        responseData.put("success",true);
+        responseData.put("message","Unexpected error: " + e.getMessage());
+        return res.json(responseData);
     }
 }
 
@@ -86,17 +89,20 @@ public class Index {
  * @return null is nothing is empty, otherwise an error response
  */
 private RuntimeResponse checkEmptyPayloadAndVariables(RuntimeRequest req,RuntimeResponse res){
-    Map<String, Object> responseData=new HashMap<>();
 
-    if(req.getPayload().isEmpty()||req.getPayload().trim().equals("{}")){
-        responseData.put("message","Payload is empty, expected a payload with provider and URL");
-        return res.json(responseData);
-    }
+        Map<String, Object> responseData=new HashMap<>();
 
-    if(req.getVariables()==null){
-        responseData.put("success",false);
-        responseData.put("message","Empty function variables found. You need to pass an API key for the provider");
-        return res.json(responseData);
-    }
-    return null;
+        if(req.getPayload()==null||req.getPayload().trim().isEmpty()||req.getPayload().trim().equals("{}")){
+            responseData.put("success",false);
+            responseData.put("message","Payload is empty, expected a payload with provider and URL");
+            return res.json(responseData);
+
+        }
+        if(req.getVariables()==null){
+            responseData.put("success",false);
+            responseData.put("message","Empty function variables found. You need to pass an API key for the provider");
+            return res.json(responseData);
+        }
+
+        return null;
 }

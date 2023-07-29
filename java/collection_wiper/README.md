@@ -9,50 +9,20 @@ _Bitly Example input:_
 
 
 ```json
-{
-    "provider": "bitly",
-    "url": "https://google.com"
-}
+{"databaseId":"stage","collectionId":"profiles"}
 ```
 
-_Bitly Example output:_
+_Example output:_
 
 
 ```json
-{
-    "success": true,
-    "url": "https://bit.ly/3CywbjA"
-}
-```
-
-_Tinyurl Example input:_
-
-
-
-```json
-{
-    "provider": "tinyurl",
-    "url": "https://google.com"
-}
-```
-
-_Tinyurl Example output:_
-
-
-```json
-{
-    "success": true,
-    "url": "https://tinyurl.com/dck67zxk"
-}
+{"success":true}
 ```
 
 _Error Example output:_
 
 ```json
-{
-    "success": false,
-    "message":"Provided URL: https://xyz is not valid, please provide a valid, correctly formed URL"
-}
+{"success":false,"message":"Collection not found."}
 ```
 
 
@@ -75,7 +45,7 @@ $ cd java/short_url_generator
 
 2. Enter this function folder and build the code:
 ```
-docker run -e INTERNAL_RUNTIME_ENTRYPOINT=Index.java --rm --interactive --tty --volume $PWD:/usr/code openruntimes/java:v2-11.0 sh /usr/local/src/build.sh
+docker run -e INTERNAL_RUNTIME_ENTRYPOINT=Index.java --rm -it -v ${PWD}:/usr/code openruntimes/java:v2-11.0 sh /usr/local/src/build.sh
 ```
 As a result, a `code.tar.gz` file will be generated.
 
