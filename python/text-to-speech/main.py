@@ -206,7 +206,7 @@ def validate_common(req: requests) -> tuple:
         raise ValueError("Missing Provider.")
 
     # Check if provider is in the list
-    if req.payload.get("provider").lower not in list_of_providers:
+    if (req.payload.get("provider").lower() not in list_of_providers):
         raise ValueError("Invalid Provider.")
 
     # Check if text is empty.
