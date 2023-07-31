@@ -164,9 +164,18 @@ class AWS(TextToSpeech):
             bytes: The synthezied speech in bytes.
         """
         # Call polly client using boto3.session
-        polly_client = boto3.Session(aws_access_key_id=self.api_key, aws_secret_access_key=self.secret_api_key, region_name="us-west-2").client("polly")
+        polly_client = boto3.Session(
+            aws_access_key_id=self.api_key,
+            aws_secret_access_key=self.secret_api_key,
+            region_name="us-west-2").client("polly")
+
         # Get response from polly client
-        response = polly_client.synthesize_speech(VoiceId=AWS.voice_id,OutputFormat="mp3",Text=text,LanguageCode=language)
+        response = polly_client.synthesize_speech(
+            VoiceId=AWS.voice_id,
+            OutputFormat="mp3",
+            Text=text,
+            LanguageCode=language
+        )
         return response["Audiostream"]
 
 
@@ -190,7 +199,7 @@ def validate_common(req: requests) -> tuple:
     """
     # Check if the payload is empty.
     if not req.payload:
-        raise ValueError("Missing payload")
+        raise ValueError("Missing Payload.")
 
     # Check if variables is empty.
     if not req.variables:
@@ -218,6 +227,7 @@ def validate_common(req: requests) -> tuple:
 
 
 def main(req: requests, res: json) -> json:
+
     """
     Main Function for Text to Speech.
 
