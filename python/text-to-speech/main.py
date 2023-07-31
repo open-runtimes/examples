@@ -7,7 +7,7 @@ import json
 # Third party
 import requests
 from google.cloud import texttospeech
-import azure.cognitiveservices.speech as speechsdk
+# import azure.cognitiveservices.speech as speechsdk
 import boto3
 
 
@@ -141,9 +141,9 @@ class AWS(TextToSpeech):
         Raises:
             ValueError: If any required value is missing or invalid.
         """
-        if not req.payload.get("API_KEY"):
+        if not req.variables.get("API_KEY"):
             raise ValueError("Missing API_KEY.")
-        if not req.payload.get("SECRET_API_KEY"):
+        if not req.variables.get("SECRET_API_KEY"):
             raise ValueError("Missing SECRET_API_KEY.")
         self.api_key = req.payload.get("API_KEY")
         self.secret_api_key = req.payload.get("SECRET_API_KEY")
@@ -172,7 +172,7 @@ class AWS(TextToSpeech):
             Text=text,
             LanguageCode=language
         )
-        return response["Audiostream"].read()
+        return response["Audiostream"]
 
 
 list_of_providers = ["google", "azure", "aws"]
@@ -195,7 +195,7 @@ def validate_common(req: requests) -> tuple:
     """
     # Check if the payload is empty.
     if not req.payload:
-        raise ValueError("Missing payload")
+        raise ValueError("Missing Payload.")
 
     # Check if variables is empty.
     if not req.variables:
@@ -206,7 +206,7 @@ def validate_common(req: requests) -> tuple:
         raise ValueError("Missing Provider.")
 
     # Check if provider is in the list
-    if req.payload.get("provider").lower not in list_of_providers:
+    if (req.payload.get("provider").lower() not in list_of_providers):
         raise ValueError("Invalid Provider.")
 
     # Check if text is empty.
@@ -221,8 +221,9 @@ def validate_common(req: requests) -> tuple:
     return (req.payload.get("provider").lower(),
             req.payload.get("text"), req.payload.get("language"))
 
-
+# print("google".lower() not in list_of_providers)
 def main(req: requests, res: json) -> json:
+
     """
     Main Function for Text to Speech.
 
