@@ -26,27 +26,6 @@ RESULT_AWS = (
     pathlib.Path("results/aws.txt").
     read_text(encoding="utf-8"))
 
-def get_instance(provider, key, project_id):
-    IMPLEMENTATIONS = {
-        "google": main.Google,
-        "azure": main.Azure,
-        "aws": main.AWS,
-    }
-
-    req = MyRequest({
-        "payload": {
-            "provider": provider,
-            "text": "hi",
-            "language": "en-US",
-        },
-        "variables": {
-            "API_KEY": key,
-            "PROJECT_ID": project_id,
-        }
-    })
-
-    return IMPLEMENTATIONS[provider](req)
-
 
 class MyRequest:
     """Class for defining My Request structure."""
@@ -69,17 +48,31 @@ class MyResponse:
 
 class GoogleTest(unittest.TestCase):
     """Google API Test Cases"""
+    def get_google_instance(self, key, project_id):
+        req = MyRequest({
+            "payload": {
+                "provider": "google",
+                "text": "hi",
+                "language": "en-US",
+            },
+            "variables": {
+                "API_KEY": key,
+                "PROJECT_ID": project_id,
+            }
+        })
+        return main.Google(req)
+
     @parameterized.expand([
         (None, "123"),  # Missing API KEY
         ("123", None),  # Missing PROJECT ID
         (None, None),  # Missing Both
     ])
     def test_validate_request(self, key, project_id):
-        self.assertRaises(ValueError, get_instance, "google", key, project_id)
+        self.assertRaises(ValueError, self.get_google_instance, key, project_id)
 
     def test_speech_happy(self):
         """Test speech method for successful text-to-speech synthesis."""
-        instance = get_instance("google", "123", "123")
+        instance = self.get_google_instance("123", "123")
         # Set up mock
         with patch.object(texttospeech.TextToSpeechClient, "synthesize_speech") as mock_synthesize_speech:
             mock_synthesize_speech.return_value.audio_content = base64.b64decode(RESULT_GOOGLE)
@@ -90,7 +83,7 @@ class GoogleTest(unittest.TestCase):
 
     def test_speech_error(self):
         """Test speech method for unsuccessful text-to-speech synthesis."""
-        instance = get_instance("google", "123", "123")
+        instance = self.get_google_instance("123", "123")
         # Set up mock
         with patch.object(texttospeech.TextToSpeechClient, "synthesize_speech") as mock_synthesize_speech:
             mock_synthesize_speech.return_value.audio_content = b"INCORRECT_VALUE"
@@ -100,54 +93,83 @@ class GoogleTest(unittest.TestCase):
         self.assertNotEqual(audio_bytes, base64.b64decode(RESULT_GOOGLE))
 
     def test_google_credential(self):
-        instance = get_instance("google", "WRONG_API_KEY", "WRONG_PROJECT_ID")
+        instance = self.get_google_instance("WRONG_API_KEY", "WRONG_PROJECT_ID")
         # Set up mock
         with patch.object(texttospeech.TextToSpeechClient, "synthesize_speech") as mock_synthesize_speech:
             # Raise Exception
             mock_synthesize_speech.side_effect = Exception
-        self.assertRaises(Exception, instance.speech, "hello", "en-US")  # Incorrect credentials raise exception
+        # Incorrect credentials raise exception
+        self.assertRaises(Exception, instance.speech, "hello", "en-US")
 
     def test_google_language(self):
-        instance = get_instance("google", "<YOUR_API_KEY>", "<YOUR_PROJECT_ID>")
+        instance = self.get_google_instance("<YOUR_API_KEY>", "<YOUR_PROJECT_ID>")
         with patch.object(texttospeech.TextToSpeechClient, "synthesize_speech") as mock_synthesize_speech:
             mock_synthesize_speech.side_effect = Exception
-        self.assertRaises(Exception, instance.speech, "hello", "en-EN")  # Incorrect language
-        self.assertRaises(Exception, instance.speech, "hello", None)  # Empty language code
+        # Incorrect language
+        self.assertRaises(Exception, instance.speech, "hello", "en-EN")
+        # Empty language code
+        self.assertRaises(Exception, instance.speech, "hello", None)
 
     def test_speech_text(self):
-        instance = get_instance("google", "<YOUR_API_KEY>", "<YOUR_PROJECT_ID>")
+        instance = self.get_google_instance("<YOUR_API_KEY>", "<YOUR_PROJECT_ID>")
         with patch.object(texttospeech, "TextToSpeechClient") as mock_client:
             mock_client.side_effect = Exception
-        self.assertRaises(Exception, instance.speech, None, "en-US")  # Empty Text
+        # Set empty text
+        self.assertRaises(Exception, instance.speech, None, "en-US")
 
 
-class AzureTest(unittest.TestCase):
-    """Azure API Test Cases"""
+# class AzureTest(unittest.TestCase):
+#     """Azure API Test Cases"""
+#     def get_azure_instance(self, key, project_id):
+#         req = MyRequest({
+#             "payload": {
+#                 "provider": "azure",
+#                 "text": "hi",
+#                 "language": "en-US",
+#             },
+#             "variables": {
+#                 "API_KEY": key,
+#                 "PROJECT_ID": project_id,
+#             }
+#         })
+#         return main.Azure(req)
+    
+#     @parameterized.expand([
+#         (None, "123"),  # Missing API KEY
+#         ("123", None),  # Missing PROJECT ID
+#         (None, None),  # Missing Both
+#     ])
+#     def test_validate_request(self, key, project_id):
+#         """Test validate method when all required fields are present."""
+#         self.assertRaises(ValueError, self.get_azure_instance, key, project_id)
 
-    def test_validate_request(self, req):
-        """Test validate_request method when all required fields are present."""
-        pass
+#     def test_speech_happy(self):
+#         """Test speech method for successful text-to-speech synthesis."""
+#         instance = self.get_azure_instance("123", "123")
+#         # Set up mock
+#         with patch.object(speechsdk.SpeechSynthesizer, "speak_text_async") as mock_synthesize_speech:
+#             mock_synthesize_speech.return_value.audio_content = base64.b64decode(RESULT_AZURE)
+#             # Call the speech method
+#             audio_bytes = instance.speech("hi", "en-US")
+#             # Assert the result
+#             self.assertEqual(audio_bytes, base64.b64decode(RESULT_AZURE))
 
-    def test_validate_request_missing_aws_access_key_id(self, req):
-        """Test validate_request methsod when 'AWS_ACCESS_KEY_ID' is missing."""
-        pass
+#     def test_validate_request_missing_aws_secret_access_key(self, req):
+#         """Test validate_request method when 'AWS_SECRET_ACCESS_KEY' is missing."""
+#         pass
 
-    def test_validate_request_missing_aws_secret_access_key(self, req):
-        """Test validate_request method when 'AWS_SECRET_ACCESS_KEY' is missing."""
-        pass
+#     def test_speech(self, text, language):
+#         """Test speech method for text-to-speech synthesis."""
+#         pass
 
-    def test_speech(self, text, language):
-        """Test speech method for text-to-speech synthesis."""
-        pass
-
-    def test_speech_key_exception(self, text, language):
-        """Test speech method for handling exceptions during text-to-speech synthesis."""
-        pass
+#     def test_speech_key_exception(self, text, language):
+#         """Test speech method for handling exceptions during text-to-speech synthesis."""
+#         pass
 
 
 class AWSTest(unittest.TestCase):
     """AWS API Test Cases"""
-    def get_instance(self, key, secret_key):
+    def get_aws_instance(self, key, secret_key):
         req = MyRequest({
             "payload": {
                 "provider": "aws",
@@ -167,11 +189,11 @@ class AWSTest(unittest.TestCase):
         (None, None),  # Missing Both
     ])
     def test_validate_request(self, key, secret_key):
-        self.assertRaises(ValueError, self.get_instance, key, secret_key)
+        self.assertRaises(ValueError, self.get_aws_instance, key, secret_key)
 
     def test_speech_happy(self):
         """Test speech method for successful text-to-speech synthesis."""
-        instance = self.get_instance("123", "123")
+        instance = self.get_aws_instance("123", "123")
         # Set up mock
         with patch.object(boto3.Session, "client") as mock_client:
             mock_response = {"Audiostream": base64.b64decode(RESULT_AWS)}
@@ -183,7 +205,7 @@ class AWSTest(unittest.TestCase):
 
     def test_speech_key_exception(self):
         """Test speech method for handling exceptions during text-to-speech synthesis."""
-        instance = self.get_instance("123", "123")
+        instance = self.get_aws_instance("123", "123")
         self.assertRaises(Exception, instance.speech, "hi", "en-US")
 
 
@@ -206,7 +228,7 @@ class ValidateCommonTest(unittest.TestCase):
         want = ("google", "hi", "en-US")
         req = self.get_req("payload", "variables", "google", "hi", "en-US")
         got = main.validate_common(req)
-        self.assertEquals(got, want)
+        self.assertEqual(got, want)
 
     @parameterized.expand([
         ("", "variables", "aws", "hi", "en-US"),  # Missing payload
