@@ -130,10 +130,8 @@ class Azure(TextToSpeech):
         }
         data_azure = f"<speak version='1.0' xml:lang='{language}'><voice xml:lang='{language}' xml:gender='Male' name='en-US-ChristopherNeural'>{text}</voice></speak>"
         response = requests.request("POST", url, headers=headers_azure, data=data_azure)
-        if response.ok:
-            return response.content
-        else:
-            raise requests.ConnectionError("StatusCode", response.status_code)
+        response.raise_for_status()
+        return response.content
 
 
 class AWS(TextToSpeech):
@@ -180,7 +178,8 @@ class AWS(TextToSpeech):
             Text=text,
             LanguageCode=language
         )
-        return response["Audiostream"]
+        return response["Audiostream"].read()
+    
 
 
 list_of_providers = ["google", "azure", "aws"]

@@ -3,12 +3,14 @@ import base64
 import unittest
 import pathlib
 from unittest.mock import patch
+import io
 
 # Third party
 import requests
 from parameterized import parameterized
 from google.cloud import texttospeech
 import boto3
+import botocore.response
 
 # Local imports
 import main
@@ -118,21 +120,21 @@ class GoogleTest(unittest.TestCase):
         self.assertRaises(Exception, instance.speech, None, "en-US")
 
 
-# class AzureTest(unittest.TestCase):
-#     """Azure API Test Cases"""
-#     def get_azure_instance(self, key, project_id):
-#         req = MyRequest({
-#             "payload": {
-#                 "provider": "azure",
-#                 "text": "hi",
-#                 "language": "en-US",
-#             },
-#             "variables": {
-#                 "API_KEY": key,
-#                 "PROJECT_ID": project_id,
-#             }
-#         })
-#         return main.Azure(req)
+class AzureTest(unittest.TestCase):
+    """Azure API Test Cases"""
+    def get_azure_instance(self, key, project_id):
+        req = MyRequest({
+            "payload": {
+                "provider": "azure",
+                "text": "hi",
+                "language": "en-US",
+            },
+            "variables": {
+                "API_KEY": key,
+                "PROJECT_ID": project_id,
+            }
+        })
+        return main.Azure(req)
     
 #     @parameterized.expand([
 #         (None, "123"),  # Missing API KEY
@@ -197,9 +199,14 @@ class AWSTest(unittest.TestCase):
         # Set up mock
         with patch.object(boto3.Session, "client") as mock_client:
             mock_response = {"Audiostream": base64.b64decode(RESULT_AWS)}
-            mock_client.return_value.synthesize_speech.return_value = mock_response
+
+            mock_client.return_value.synthesize_speech.return_value = {
+                "Audiostream": botocore.response.StreamingBody(io.BytesIO(b"123456"), content_length=6),
+                "ContentType": "bytes",
+                "RequestCharacters": 123,
+            }
             got = instance.speech("hi", "en-US")
-            want = base64.b64decode(RESULT_AWS)
+            want = b"123456"
             # Assert the result
             self.assertEqual(got, want)
 
