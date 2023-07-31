@@ -7,7 +7,6 @@ import json
 # Third party
 import requests
 from google.cloud import texttospeech
-import azure.cognitiveservices.speech as speechsdk
 import boto3
 
 
@@ -100,6 +99,15 @@ class Azure(TextToSpeech):
         self.api_key = req.variables.get("API_KEY")
         self.region_key = req.variables.get("REGION_KEY")
 
+    def get_token(self, subscription_key):
+        fetch_token_url = 'https://westus.api.cognitive.microsoft.com/sts/v1.0/issuetoken'
+        headers = {
+            'Ocp-Apim-Subscription-Key': subscription_key
+        }
+        response = requests.post(fetch_token_url, headers=headers)
+        access_token = str(response.text)
+        return access_token
+
     def speech(self, text: str, language: str) -> bytes:
         """
         Converts the given text into speech with the Google text to speech API.
@@ -111,21 +119,17 @@ class Azure(TextToSpeech):
         Returns:
             bytes: The synthezied speech in bytes.
         """
-        # Set the speech configuration to speech key and region key.
-        speech_config = speechsdk.SpeechConfig(
-            subscription=self.api_key,
-            region=self.region_key
-        )
-        # The language of the voice that speaks.
-        speech_config.speech_synthesis_language = language
-        # Set the speech.
-        speech_synthesizer = speechsdk.SpeechSynthesizer(
-            speech_config=speech_config,
-            audio_config=None
-        )
-        # Response for the speech synthesizer.
-        response = speech_synthesizer.speak_text_async(text).get().audio_data
-        return response
+        url = f"https://{self.region_key}.tts.speech.microsoft.com/cognitiveservices/v1"
+
+        headers_azure = {
+            'Content-type': 'application/ssml+xml',
+            # 'Ocp-Apim-Subscription-Key': self.api_key,
+            'Authorization': 'Bearer ' + self.get_token(self.api_key),
+            'X-Microsoft-OutputFormat': 'audio-16khz-32kbitrate-mono-mp3',
+        }
+        data_azure = f"<speak version='1.0' xml:lang='{language}'><voice xml:lang='{language}' xml:gender='Male' name='en-US-ChristopherNeural'>{text}</voice></speak>"
+        response = requests.request("POST", url, headers=headers_azure, data=data_azure)
+        return response.content
 
 
 class AWS(TextToSpeech):
@@ -141,12 +145,12 @@ class AWS(TextToSpeech):
         Raises:
             ValueError: If any required value is missing or invalid.
         """
-        if not req.payload.get("API_KEY"):
+        if not req.variables.get("API_KEY"):
             raise ValueError("Missing API_KEY.")
-        if not req.payload.get("SECRET_API_KEY"):
+        if not req.variables.get("SECRET_API_KEY"):
             raise ValueError("Missing SECRET_API_KEY.")
-        self.api_key = req.payload.get("API_KEY")
-        self.secret_api_key = req.payload.get("SECRET_API_KEY")
+        self.api_key = req.variables.get("API_KEY")
+        self.secret_api_key = req.variables.get("SECRET_API_KEY")
 
     def speech(self, text: str, language: str) -> bytes:
         """
@@ -160,19 +164,10 @@ class AWS(TextToSpeech):
             bytes: The synthezied speech in bytes.
         """
         # Call polly client using boto3.session
-        polly_client = boto3.Session(
-            aws_access_key_id=self.api_key,
-            aws_secret_access_key=self.secret_api_key,
-            region_name="us-west-2"
-        ).client("polly")
+        polly_client = boto3.Session(aws_access_key_id=self.api_key, aws_secret_access_key=self.secret_api_key, region_name="us-west-2").client("polly")
         # Get response from polly client
-        response = polly_client.synthesize_speech(
-            VoiceId=AWS.voice_id,
-            OutputFormat="mp3",
-            Text=text,
-            LanguageCode=language
-        )
-        return response["Audiostream"].read()
+        response = polly_client.synthesize_speech(VoiceId=AWS.voice_id,OutputFormat="mp3",Text=text,LanguageCode=language)
+        return response["Audiostream"]
 
 
 list_of_providers = ["google", "azure", "aws"]
