@@ -5,7 +5,7 @@ import java.net.URL;
 import java.io.BufferedReader;
 import java.util.stream.Collectors;
 import java.util.stream.*;
-
+import java.util.Base64;
 import com.google.gson.Gson;
 
 /**
@@ -173,4 +173,25 @@ private enum Provider {
             return res.json(responseData);
         }
         return null;
+    }
+
+
+    /**
+     * Converts Base64 input of payload to byte array
+     * @param String baseInput is base64 string variable from payload
+     * @return byte [] baseInput decoded as byte array
+     */
+
+    private byte [] convertToByte(String baseInput) {
+        return Base64.getDecoder().decode(baseInput);
+    }
+
+    /**
+     * Converts byte array input returned by compression method to Base64
+     * @param byte [] byteInput is byte array variable returned from compression method
+     * @return String byteInput encoded as Base64 String
+     */
+
+    private String convertToByte(byte [] byteInput) {
+        return Base64.getEncoder().encodeToString(byteInput);
     }
