@@ -56,33 +56,39 @@ class Google(TextToSpeech):
             bytes: The synthezied speech in bytes.
         """
         # Instantiate a client.
-        client = texttospeech.TextToSpeechClient(client_options={
-            "api_key": self.api_key,
-            "quota_project_id": self.project_id,
-        })
+        client = texttospeech.TextToSpeechClient(
+            client_options={
+                "api_key": self.api_key,
+                "quota_project_id": self.project_id,
+            }
+        )
         # Set the text input to be synthesized.
         synthesis_input = texttospeech.SynthesisInput(text=text)
         # Build the voice request, select the language code ("en-US")
         # and the ssml voice gender is neutral.
         voice = texttospeech.VoiceSelectionParams(
             language_code=language,
-            ssml_gender=texttospeech.SsmlVoiceGender.NEUTRAL
+            ssml_gender=texttospeech.SsmlVoiceGender.NEUTRAL,
         )
         # Select the type of audio file you want returned.
         audio_config = texttospeech.AudioConfig(
-            audio_encoding=texttospeech.AudioEncoding.MP3)
+            audio_encoding=texttospeech.AudioEncoding.MP3,
+        )
         # Perform the text-to-speech request on the text input
         # with the selected voice parameters and audio file type.
         response = client.synthesize_speech(
             input=synthesis_input,
             voice=voice,
-            audio_config=audio_config
+            audio_config=audio_config,
         )
         return response.audio_content
 
 
 class Azure(TextToSpeech):
     """This class represents the implementation of Azure text to speech."""
+    VOICE = "en-US-ChristopherNeural"
+    GENDER = "Male"
+
     def validate_request(self, req: requests) -> None:
         """
         This method validates the request data for Azure text to speech.
@@ -107,7 +113,9 @@ class Azure(TextToSpeech):
         headers = {
             "Ocp-Apim-Subscription-Key": subscription_key
         }
+        # Send request with subscription key.
         response = requests.post(fetch_token_url, headers=headers, timeout=10)
+        # Grab access token valid for 10 minutes.
         access_token = str(response.text)
         return access_token
 
@@ -122,10 +130,12 @@ class Azure(TextToSpeech):
         Returns:
             bytes: The synthezied speech in bytes.
         """
+        # Endpoint for cognitive services speech api
         url = (
             f"https://{self.region_key}."
             f"tts.speech.microsoft.com/cognitiveservices/v1"
         )
+        # Headers and auth for request.
         headers_azure = {
             "Content-type": "application/ssml+xml",
             "Authorization": "Bearer " + self.get_token(self.api_key),
@@ -133,8 +143,8 @@ class Azure(TextToSpeech):
         }
         data_azure = (
             f"<speak version='1.0' xml:lang='{language}'><voice"
-            f"xml:lang='{language}' xml:gender='Male'"
-            f"name='en-US-ChristopherNeural'>{text}</voice></speak>"
+            f"xml:lang='{language}' xml:gender={Azure.GENDER}"
+            f"name={Azure.VOICE}>{text}</voice></speak>"
         )
         response = requests.request(
             "POST",
@@ -149,7 +159,7 @@ class Azure(TextToSpeech):
 
 class AWS(TextToSpeech):
     """This class represents the implementation of AWS text to speech. """
-    voice_id = "Joanna"
+    VOICE_ID = "Joanna"
 
     def validate_request(self, req: requests) -> None:
         """
@@ -178,18 +188,18 @@ class AWS(TextToSpeech):
         Returns:
             bytes: The synthezied speech in bytes.
         """
-        # Call polly client using boto3.session
+        # Call polly client using boto3.session.
         polly_client = boto3.Session(
             aws_access_key_id=self.api_key,
             aws_secret_access_key=self.secret_api_key,
             region_name="us-west-2").client("polly")
 
-        # Get response from polly client
+        # Get response from polly client.
         response = polly_client.synthesize_speech(
-            VoiceId=AWS.voice_id,
+            VoiceId=AWS.VOICE_ID,
             OutputFormat="mp3",
             Text=text,
-            LanguageCode=language
+            LanguageCode=language,
         )
         return response["AudioStream"].read()
 
@@ -197,10 +207,9 @@ class AWS(TextToSpeech):
 list_of_providers = ["google", "azure", "aws"]
 
 
-def validate_common(req: requests) -> tuple:
+def validate_common(req: requests) -> (str, str, str):
     """
-    This function validates the common fields in the request data
-        that are independent of the text-to-speech provider.
+    Validate common fields in request.
 
     Input:
         req (request): The request provided by the user.
@@ -237,8 +246,11 @@ def validate_common(req: requests) -> tuple:
         raise ValueError("Missing Language.")
 
     # Return the text and langage.
-    return (req.payload.get("provider").lower(),
-            req.payload.get("text"), req.payload.get("language"))
+    return (
+        req.payload.get("provider").lower(),
+        req.payload.get("text"),
+        req.payload.get("language"),
+    )
 
 
 def main(req: requests, res: json) -> json:
@@ -275,7 +287,6 @@ def main(req: requests, res: json) -> json:
             "success": False,
             "error": f"{type(error).__name__}: {error}",
         })
-
     return res.json({
         "success": True,
         "audio_bytes": base64.b64encode(audio_bytes).decode(),
