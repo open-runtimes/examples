@@ -132,8 +132,8 @@ class Azure(TextToSpeech):
         """
         # Endpoint for cognitive services speech api
         url = (
-            f"https://{self.region_key}."
-            f"tts.speech.microsoft.com/cognitiveservices/v1"
+            f"https://{self.region_key}.tts."
+            "speech.microsoft.com/cognitiveservices/v1"
         )
         # Headers and auth for request.
         headers_azure = {
@@ -142,9 +142,9 @@ class Azure(TextToSpeech):
             "X-Microsoft-OutputFormat": "audio-16khz-32kbitrate-mono-mp3",
         }
         data_azure = (
-            f"<speak version='1.0' xml:lang='{language}'><voice"
-            f"xml:lang='{language}' xml:gender={Azure.GENDER}"
-            f"name={Azure.VOICE}>{text}</voice></speak>"
+            f"<speak version='1.0' xml:lang='{language}'><voice "
+            f"xml:lang='{language}' xml:gender='{Azure.GENDER}' "
+            f"name='{Azure.VOICE}'>{text}</voice></speak>"
         )
         response = requests.request(
             "POST",
