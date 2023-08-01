@@ -201,7 +201,7 @@ class AWSTest(unittest.TestCase):
             mock_response = {"Audiostream": base64.b64decode(RESULT_AWS)}
 
             mock_client.return_value.synthesize_speech.return_value = {
-                "Audiostream": botocore.response.StreamingBody(io.BytesIO(b"123456"), content_length=6),
+                "AudioStream": botocore.response.StreamingBody(io.BytesIO(b"123456"), content_length=6),
                 "ContentType": "bytes",
                 "RequestCharacters": 123,
             }
