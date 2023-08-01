@@ -131,43 +131,58 @@ class AzureTest(unittest.TestCase):
             },
             "variables": {
                 "API_KEY": key,
-                "PROJECT_ID": project_id,
+                "REGION_KEY": project_id,
             }
         })
         return main.Azure(req)
     
-#     @parameterized.expand([
-#         (None, "123"),  # Missing API KEY
-#         ("123", None),  # Missing PROJECT ID
-#         (None, None),  # Missing Both
-#     ])
-#     def test_validate_request(self, key, project_id):
-#         """Test validate method when all required fields are present."""
-#         self.assertRaises(ValueError, self.get_azure_instance, key, project_id)
+    @parameterized.expand([
+        (None, "123"),  # Missing API KEY
+        ("123", None),  # Missing PROJECT ID
+        (None, None),  # Missing Both
+    ])
+    def test_validate_request(self, key, project_id):
+        """Test validate method when all required fields are present."""
+        self.assertRaises(ValueError, self.get_azure_instance, key, project_id)
 
-#     def test_speech_happy(self):
-#         """Test speech method for successful text-to-speech synthesis."""
-#         instance = self.get_azure_instance("123", "123")
-#         # Set up mock
-#         with patch.object(speechsdk.SpeechSynthesizer, "speak_text_async") as mock_synthesize_speech:
-#             mock_synthesize_speech.return_value.audio_content = base64.b64decode(RESULT_AZURE)
-#             # Call the speech method
-#             audio_bytes = instance.speech("hi", "en-US")
-#             # Assert the result
-#             self.assertEqual(audio_bytes, base64.b64decode(RESULT_AZURE))
+    def test_speech_happy(self):
+        """Test speech method for successful text-to-speech synthesis."""
+        instance = self.get_azure_instance("123", "123")
+        # Mock the requests.post method used in get_token
+        with patch("requests.post") as mock_post:
+            mock_response = requests.Response
+            mock_response.text = "fake_access_token"
+            mock_post.return_value = mock_response
 
-#     def test_validate_request_missing_aws_secret_access_key(self, req):
-#         """Test validate_request method when 'AWS_SECRET_ACCESS_KEY' is missing."""
-#         pass
+            # Call the speech method
+            with patch("requests.request") as mock_request:
+                mock_response_request = requests.Response()
+                mock_response_request._content = base64.b64decode(RESULT_AZURE)
+                mock_response_request.status_code = 200
+                mock_request.return_value = mock_response_request
 
-#     def test_speech(self, text, language):
-#         """Test speech method for text-to-speech synthesis."""
-#         pass
+                # Call the speech method
+                audio_bytes = instance.speech("hi", "en-US")
+                # Assert the result
+                self.assertEqual(audio_bytes, base64.b64decode(RESULT_AZURE))
 
-#     def test_speech_key_exception(self, text, language):
-#         """Test speech method for handling exceptions during text-to-speech synthesis."""
-#         pass
+    def test_credential(self):
+        # Set up mock for requests.post
+        with patch("requests.post") as mock_post:
+            mock_response = requests.Response
+            mock_response.text = "fake_access_token"
+            mock_post.return_value = mock_response
 
+            # Set up mock for requests.request with side_effect to raise an exception
+            with patch("requests.request") as mock_request:
+                instance = self.get_azure_instance("WRONG_API_KEY", "WRONG_PROJECT_ID")
+                mock_response_request = requests.Response()
+                mock_response_request._content = base64.b64decode(RESULT_AZURE)
+                mock_response_request.status_code = 200
+                mock_request.side_effect = Exception("Some error occurred")
+
+                # Call the speech method and assert the exception is raised
+                self.assertRaises(Exception, instance.speech, "hi", "en-US")
 
 class AWSTest(unittest.TestCase):
     """AWS API Test Cases"""
