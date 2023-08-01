@@ -178,8 +178,7 @@ class AWS(TextToSpeech):
             Text=text,
             LanguageCode=language
         )
-        return response["Audiostream"].read()
-    
+        return response["AudioStream"].read()
 
 
 list_of_providers = ["google", "azure", "aws"]
