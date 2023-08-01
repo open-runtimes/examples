@@ -135,7 +135,7 @@ class AzureTest(unittest.TestCase):
             }
         })
         return main.Azure(req)
-    
+
     @parameterized.expand([
         (None, "123"),  # Missing API KEY
         ("123", None),  # Missing PROJECT ID
@@ -184,6 +184,7 @@ class AzureTest(unittest.TestCase):
                 # Call the speech method and assert the exception is raised
                 self.assertRaises(Exception, instance.speech, "hi", "en-US")
 
+
 class AWSTest(unittest.TestCase):
     """AWS API Test Cases"""
     def get_aws_instance(self, key, secret_key):
@@ -213,8 +214,6 @@ class AWSTest(unittest.TestCase):
         instance = self.get_aws_instance("123", "123")
         # Set up mock
         with patch.object(boto3.Session, "client") as mock_client:
-            mock_response = {"Audiostream": base64.b64decode(RESULT_AWS)}
-
             mock_client.return_value.synthesize_speech.return_value = {
                 "AudioStream": botocore.response.StreamingBody(io.BytesIO(b"123456"), content_length=6),
                 "ContentType": "bytes",
