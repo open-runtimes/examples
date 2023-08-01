@@ -192,6 +192,6 @@ private enum Provider {
      * @return String byteInput encoded as Base64 String
      */
 
-    private String convertToByte(byte [] byteInput) {
+    private String convertToBase64(byte [] byteInput) {
         return Base64.getEncoder().encodeToString(byteInput);
     }
