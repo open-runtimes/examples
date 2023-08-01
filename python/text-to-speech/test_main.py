@@ -207,6 +207,7 @@ class AWSTest(unittest.TestCase):
         (None, None),  # Missing Both
     ])
     def test_validate_request(self, key, secret_key):
+
         self.assertRaises(ValueError, self.get_aws_instance, key, secret_key)
 
     def test_speech_happy(self):

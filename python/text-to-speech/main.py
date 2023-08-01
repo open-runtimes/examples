@@ -101,9 +101,11 @@ class Azure(TextToSpeech):
 
     def get_token(self, subscription_key):
         """Grabs token with subscription key for Azure."""
-        fetch_token_url = 'https://westus.api.cognitive.microsoft.com/sts/v1.0/issuetoken'
+        fetch_token_url = (
+            "https://westus.api.cognitive.microsoft.com/sts/v1.0/issuetoken"
+        )
         headers = {
-            'Ocp-Apim-Subscription-Key': subscription_key
+            "Ocp-Apim-Subscription-Key": subscription_key
         }
         response = requests.post(fetch_token_url, headers=headers, timeout=10)
         access_token = str(response.text)
@@ -120,15 +122,27 @@ class Azure(TextToSpeech):
         Returns:
             bytes: The synthezied speech in bytes.
         """
-        url = f"https://{self.region_key}.tts.speech.microsoft.com/cognitiveservices/v1"
+        url = (
+            f"https://{self.region_key}."
+            f"tts.speech.microsoft.com/cognitiveservices/v1"
+        )
         headers_azure = {
-            'Content-type': 'application/ssml+xml',
-            # 'Ocp-Apim-Subscription-Key': self.api_key,
-            'Authorization': 'Bearer ' + self.get_token(self.api_key),
-            'X-Microsoft-OutputFormat': 'audio-16khz-32kbitrate-mono-mp3',
+            "Content-type": "application/ssml+xml",
+            "Authorization": "Bearer " + self.get_token(self.api_key),
+            "X-Microsoft-OutputFormat": "audio-16khz-32kbitrate-mono-mp3",
         }
-        data_azure = f"<speak version='1.0' xml:lang='{language}'><voice xml:lang='{language}' xml:gender='Male' name='en-US-ChristopherNeural'>{text}</voice></speak>"
-        response = requests.request("POST", url, headers=headers_azure, data=data_azure, timeout=10)
+        data_azure = (
+            f"<speak version='1.0' xml:lang='{language}'><voice"
+            f"xml:lang='{language}' xml:gender='Male'"
+            f"name='en-US-ChristopherNeural'>{text}</voice></speak>"
+        )
+        response = requests.request(
+            "POST",
+            url,
+            headers=headers_azure,
+            data=data_azure,
+            timeout=10,
+        )
         response.raise_for_status()
         return response.content
 
