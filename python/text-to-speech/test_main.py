@@ -216,6 +216,7 @@ class AWSTest(unittest.TestCase):
         with patch.object(boto3.Session, "client") as mock_client:
             mock_client.return_value.synthesize_speech.return_value = {
                 "AudioStream": botocore.response.StreamingBody(io.BytesIO(b"123456"), content_length=6),
+
                 "ContentType": "bytes",
                 "RequestCharacters": 123,
             }
