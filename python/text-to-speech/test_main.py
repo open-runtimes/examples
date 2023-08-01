@@ -1,4 +1,4 @@
-"""Unittests for Text To Speech Function"""
+"""Unittests for Text To Speech Function."""
 # Standard library
 import base64
 import unittest
@@ -34,33 +34,24 @@ RESULT_AWS = (
     read_text(encoding="utf-8")
 )
 
+# Content of Google result (decoded bytes).
 DECODED_RESULT_GOOGLE = base64.b64decode(RESULT_GOOGLE)
+# Content of Azure result (decoded bytes).
 DECODED_RESULT_AZURE = base64.b64decode(RESULT_AZURE)
+# Content of AWS result (decoded bytes).
 DECODED_RESULT_AWS = base64.b64decode(RESULT_AWS)
 
 
 class MyRequest:
     """Class for defining My Request structure."""
-    def __init__(self, data):
+    def __init__(self, data: dict) -> None:
         self.payload = data.get("payload", {})
         self.variables = data.get("variables", {})
 
 
-class MyResponse:
-    """Class for defining My Response structure."""
-    def __init__(self):
-        self._json = None
-
-    def json(self, data=None):
-        """Create a response for json."""
-        if data is not None:
-            self._json = data
-        return self._json
-
-
 class GoogleTest(unittest.TestCase):
     """Google API Test Cases."""
-    def get_google_instance(self, key, project_id):
+    def get_google_instance(self, key: str, project_id: str) -> main.Google:
         """Set Google instance with request."""
         req = MyRequest({
             "payload": {
@@ -83,7 +74,7 @@ class GoogleTest(unittest.TestCase):
         # Missing Both.
         (None, None),
     ])
-    def test_validate_request(self, key, project_id):
+    def test_validate_request(self, key: str, project_id: str) -> None:
         """Test 'validate_request' method when fields missing or invalid."""
         self.assertRaises(
             ValueError,
@@ -92,8 +83,8 @@ class GoogleTest(unittest.TestCase):
             project_id,
         )
 
-    def test_speech_happy(self):
-        """Test speech method for successful text-to-speech synthesis."""
+    def test_speech_happy(self) -> None:
+        """Test speech method for successful TextToSpeech synthesis."""
         instance = self.get_google_instance("123", "123")
         # Set up mock
         patched_obj = texttospeech.TextToSpeechClient
@@ -107,22 +98,7 @@ class GoogleTest(unittest.TestCase):
             # Assert the result
             self.assertEqual(audio_bytes, DECODED_RESULT_GOOGLE)
 
-    def test_speech_error(self):
-        """Test speech method for unsuccessful text-to-speech synthesis."""
-        instance = self.get_google_instance("123", "123")
-        # Set up mock.
-        patched_obj = texttospeech.TextToSpeechClient
-        patched_func = "synthesize_speech"
-        with patch.object(patched_obj, patched_func) as mock_synthesize_speech:
-            mock_synthesize_speech.return_value.audio_content = (
-                b"INCORRECT_VALUE"
-            )
-            # Call the speech method.
-            audio_bytes = instance.speech("hi", "en-US")
-            # Assert the result.
-        self.assertNotEqual(audio_bytes, DECODED_RESULT_GOOGLE)
-
-    def test_google_credential(self):
+    def test_speech_invalid_credential(self) -> None:
         """Test credentials for speech method."""
         instance = self.get_google_instance(
             "WRONG_API_KEY",
@@ -137,7 +113,7 @@ class GoogleTest(unittest.TestCase):
         # Assert the raise.
         self.assertRaises(Exception, instance.speech, "hello", "en-US")
 
-    def test_google_language(self):
+    def test_speech_invalid_language(self) -> None:
         """Test language for speech method."""
         instance = self.get_google_instance(
             "<YOUR_API_KEY>",
@@ -153,7 +129,7 @@ class GoogleTest(unittest.TestCase):
         self.assertRaises(Exception, instance.speech, "hello", "en-EN")
         self.assertRaises(Exception, instance.speech, "hello", None)
 
-    def test_speech_text(self):
+    def test_speech_no_text(self) -> None:
         """Test text-content for speech method."""
         instance = self.get_google_instance(
             "<YOUR_API_KEY>",
@@ -169,7 +145,7 @@ class GoogleTest(unittest.TestCase):
 
 class AzureTest(unittest.TestCase):
     """Azure API Test Cases."""
-    def get_azure_instance(self, key, project_id):
+    def get_azure_instance(self, key: str, project_id: str) -> main.Azure:
         """Set Azure instance with request."""
         req = MyRequest({
             "payload": {
@@ -192,12 +168,12 @@ class AzureTest(unittest.TestCase):
         # Missing Both.
         (None, None),
     ])
-    def test_validate_request(self, key, project_id):
+    def test_validate_request(self, key: str, project_id: str) -> None:
         """Test 'validate_request' method when fields missing or invalid."""
         self.assertRaises(ValueError, self.get_azure_instance, key, project_id)
 
-    def test_speech_happy(self):
-        """Test speech method for successful text-to-speech synthesis."""
+    def test_speech_happy(self) -> None:
+        """Test speech method for successful TextToSpeech synthesis."""
         instance = self.get_azure_instance("123", "123")
         # Mock the requests.post method used in get_token.
         with patch("requests.post") as mock_post:
@@ -214,7 +190,7 @@ class AzureTest(unittest.TestCase):
                 # Assert the result.
                 self.assertEqual(audio_bytes, DECODED_RESULT_AZURE)
 
-    def test_credential(self):
+    def test_speech_invalid_credential(self) -> None:
         """Test credentials for speech method."""
         instance = self.get_azure_instance("WRONG_API_KEY", "WRONG_PROJECT_ID")
         # Mock the requests.post method used in get_token.
@@ -231,7 +207,7 @@ class AzureTest(unittest.TestCase):
 
 class AWSTest(unittest.TestCase):
     """AWS API Test Cases."""
-    def get_aws_instance(self, key, secret_key):
+    def get_aws_instance(self, key: str, secret_key: str) -> main.AWS:
         """Set AWS instance with request."""
         req = MyRequest({
             "payload": {
@@ -254,39 +230,39 @@ class AWSTest(unittest.TestCase):
         # Missing Both.
         (None, None),
     ])
-    def test_validate_request(self, key, secret_key):
+    def test_validate_request(self, key: str, secret_key: str) -> None:
         """Test 'validate_request' method when fields missing or invalid."""
         self.assertRaises(ValueError, self.get_aws_instance, key, secret_key)
 
-    def test_speech_happy(self):
-        """Test speech method for successful text-to-speech synthesis."""
+    def test_speech_happy(self) -> None:
+        """Test speech method for successful TextToSpeech synthesis."""
         instance = self.get_aws_instance("123", "123")
-
         # Set up mock.
         raw_stream = io.BytesIO(DECODED_RESULT_AWS)
         size = len(DECODED_RESULT_AWS)
         stream_body_obj = botocore.response.StreamingBody(raw_stream, size)
         with patch.object(boto3.Session, "client") as mock_client:
             mock_client.return_value.synthesize_speech.return_value = {
-                    "AudioStream": stream_body_obj,
-                    "ContentType": "bytes",
-                    "RequestCharacters": 123,
+                "AudioStream": stream_body_obj,
+                "ContentType": "bytes",
+                "RequestCharacters": 123,
             }
             got = instance.speech("hi", "en-US")
             want = DECODED_RESULT_AWS
             # Assert the result.
             self.assertEqual(got, want)
 
-    def test_speech_key_exception(self):
-        """Test speech method for exceptions during TTS synthesis."""
+    def test_speech_key_exception(self) -> None:
+        """Test speech method for exceptions during TextToSpeech synthesis."""
         instance = self.get_aws_instance("123", "123")
         # Assert the raise.
         self.assertRaises(Exception, instance.speech, "hi", "en-US")
 
 
 class ValidateCommonTest(unittest.TestCase):
-    """Test Cases for validate_common function"""
-    def get_req(self, payload, variables, provider, text, language):
+    """Test Cases for validate_common function."""
+    def get_req(self, payload: str, variables: str, provider: str, text: str,
+                language: str) -> None:
         """Get the request."""
         return MyRequest({
             payload: {
@@ -299,7 +275,7 @@ class ValidateCommonTest(unittest.TestCase):
             }
         })
 
-    def test_validate_common_happy(self):
+    def test_validate_common_happy(self) -> None:
         """Test validate common method happy path."""
         want = ("google", "hi", "en-US")
         req = self.get_req("payload", "variables", "google", "hi", "en-US")
@@ -320,9 +296,11 @@ class ValidateCommonTest(unittest.TestCase):
         # Missing language.
         ("payload", "variables", "aws", "hi", ""),
     ])
-    def test_validate_common_errors(self, payload, var, provider, text, lang):
+    def test_validate_common_errors(
+            self, payload: str, variables: str,
+            provider: str, text: str, language: str) -> None:
         """Test validate common method when it raises value errors."""
-        req = self.get_req(payload, var, provider, text, lang)
+        req = self.get_req(payload, variables, provider, text, language)
         # Assert the raise.
         self.assertRaises(ValueError, main.validate_common, req)
 
