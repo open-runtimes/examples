@@ -1,17 +1,19 @@
 """Synthesize text to speech using Google, Azure and AWS API."""
 # Standard library
-import base64
 import abc
-import json
+import base64
 
 # Third party
-import requests
-from google.cloud import texttospeech
 import boto3
+from google.cloud import texttospeech
+import requests
+
+SUPPORTED_PROVIDERS = ["google", "azure", "aws"]
 
 
 class TextToSpeech():
     """Base class for Text to Speech."""
+
     def __init__(self, req: requests) -> None:
         """Initialize class method."""
         self.validate_request(req)
@@ -26,10 +28,11 @@ class TextToSpeech():
 
 
 class Google(TextToSpeech):
-    """This class represents the implementation of Google text to speech."""
+    """Represent the implementation of Google text to speech."""
+
     def validate_request(self, req: requests) -> None:
         """
-        This method validates the request data for Google text to speech.
+        Validate the request data for Google text to speech.
 
         Input:
             req (request): The request provided by the user.
@@ -46,7 +49,7 @@ class Google(TextToSpeech):
 
     def speech(self, text: str, language: str) -> bytes:
         """
-        Converts the given text into speech with the Google text to speech API.
+        Convert the given text into speech with the Google text to speech API.
 
         Input:
             text: The text to be converted into speech.
@@ -85,13 +88,15 @@ class Google(TextToSpeech):
 
 
 class Azure(TextToSpeech):
-    """This class represents the implementation of Azure text to speech."""
+    """Represent the implementation of Azure text to speech."""
+
     VOICE = "en-US-ChristopherNeural"
     GENDER = "Male"
+    REGION = "westus"
 
     def validate_request(self, req: requests) -> None:
         """
-        This method validates the request data for Azure text to speech.
+        Validate the request data for Azure text to speech.
 
         Input:
             req (request): The request provided by the user.
@@ -100,13 +105,10 @@ class Azure(TextToSpeech):
         """
         if not req.variables.get("API_KEY"):
             raise ValueError("Missing API_KEY.")
-        if not req.variables.get("REGION_KEY"):
-            raise ValueError("Missing REGION_KEY.")
         self.api_key = req.variables.get("API_KEY")
-        self.region_key = req.variables.get("REGION_KEY")
 
-    def get_token(self, subscription_key):
-        """Grabs token with subscription key for Azure."""
+    def get_token(self, subscription_key: str) -> str:
+        """Return an Azure token for a given subscription key."""
         fetch_token_url = (
             "https://westus.api.cognitive.microsoft.com/sts/v1.0/issuetoken"
         )
@@ -116,7 +118,7 @@ class Azure(TextToSpeech):
         # Send request with subscription key.
         response = requests.post(fetch_token_url, headers=headers, timeout=10)
         # Grab access token valid for 10 minutes.
-        access_token = str(response.text)
+        access_token = response.text
         return access_token
 
     def speech(self, text: str, language: str) -> bytes:
@@ -132,7 +134,7 @@ class Azure(TextToSpeech):
         """
         # Endpoint for cognitive services speech api
         url = (
-            f"https://{self.region_key}.tts."
+            f"https://{Azure.REGION}.tts."
             "speech.microsoft.com/cognitiveservices/v1"
         )
         # Headers and auth for request.
@@ -158,12 +160,13 @@ class Azure(TextToSpeech):
 
 
 class AWS(TextToSpeech):
-    """This class represents the implementation of AWS text to speech. """
+    """Represent the implementation of AWS text to speech. """
+
     VOICE_ID = "Joanna"
 
     def validate_request(self, req: requests) -> None:
         """
-        This method validates the request data for AWS text to speech.
+        Validate the request data for AWS text to speech.
 
         Input:
             req (request): The request provided by the user.
@@ -204,10 +207,7 @@ class AWS(TextToSpeech):
         return response["AudioStream"].read()
 
 
-list_of_providers = ["google", "azure", "aws"]
-
-
-def validate_common(req: requests) -> (str, str, str):
+def validate_common(req: requests) -> tuple[str, str, str]:
     """
     Validate common fields in request.
 
@@ -234,7 +234,7 @@ def validate_common(req: requests) -> (str, str, str):
         raise ValueError("Missing Provider.")
 
     # Check if provider is in the list
-    if (req.payload.get("provider").lower() not in list_of_providers):
+    if req.payload.get("provider").lower() not in SUPPORTED_PROVIDERS:
         raise ValueError("Invalid Provider.")
 
     # Check if text is empty.
@@ -252,7 +252,8 @@ def validate_common(req: requests) -> (str, str, str):
         req.payload.get("language"),
     )
 
-def main(req: requests, res: json) -> json:
+
+def main(req: requests, res: str) -> str:
 
     """
     Main Function for Text to Speech.
@@ -273,8 +274,7 @@ def main(req: requests, res: json) -> json:
             provider_class = Azure(req)
         else:
             provider_class = AWS(req)
-
-    except (ValueError) as value_error:
+    except ValueError as value_error:
         return res.json({
             "success": False,
             "error": str(value_error),
