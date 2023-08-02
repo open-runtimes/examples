@@ -195,3 +195,15 @@ private enum Provider {
     private String convertToBase64(byte [] byteInput) {
         return Base64.getEncoder().encodeToString(byteInput);
     }
+
+
+    /**
+     * Compresses image in byte array format using TinyPNG provider
+     * @param byte [] image is image to compress in byte array format
+     * @return byte [] compressed image
+     */
+
+    private String tinifyCompress(byte [] image) {
+        Source source = Tinify.fromBuffer(image);
+        return source.toBuffer();
+    }
