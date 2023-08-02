@@ -205,8 +205,8 @@ private enum Provider {
      * @return byte [] compressed image
      */
 
-    private String tinifyCompress(byte [] image) {
-        Tinify.setKey("YOUR_API_KEY");
+    private String tinifyCompress(byte [] image, String apiKey) {
+        Tinify.setKey(apiKey);
         Source source = Tinify.fromBuffer(image);
         return source.toBuffer();
     }
