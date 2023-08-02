@@ -5,8 +5,8 @@ import base64
 
 # Third party
 import boto3
-from google.cloud import texttospeech
 import requests
+from google.cloud import texttospeech
 
 SUPPORTED_PROVIDERS = ["google", "azure", "aws"]
 
@@ -93,6 +93,9 @@ class Azure(TextToSpeech):
     VOICE = "en-US-ChristopherNeural"
     GENDER = "Male"
     REGION = "westus"
+    FETCH_TOKEN_URL = (
+            "https://westus.api.cognitive.microsoft.com/sts/v1.0/issuetoken"
+    )
 
     def validate_request(self, req: requests) -> None:
         """
@@ -109,21 +112,21 @@ class Azure(TextToSpeech):
 
     def get_token(self, subscription_key: str) -> str:
         """Return an Azure token for a given subscription key."""
-        fetch_token_url = (
-            "https://westus.api.cognitive.microsoft.com/sts/v1.0/issuetoken"
-        )
         headers = {
             "Ocp-Apim-Subscription-Key": subscription_key
         }
         # Send request with subscription key.
-        response = requests.post(fetch_token_url, headers=headers, timeout=10)
+        response = requests.post(
+            self.FETCH_TOKEN_URL,
+            headers=headers,
+            timeout=10,
+        )
         # Grab access token valid for 10 minutes.
-        access_token = response.text
-        return access_token
+        return response.text
 
     def speech(self, text: str, language: str) -> bytes:
         """
-        Converts the given text into speech with the Google text to speech API.
+        Convert the given text into speech with the Google text to speech API.
 
         Input:
             text: The text to be converted into speech.
@@ -134,7 +137,7 @@ class Azure(TextToSpeech):
         """
         # Endpoint for cognitive services speech api
         url = (
-            f"https://{Azure.REGION}.tts."
+            f"https://{self.REGION}.tts."
             "speech.microsoft.com/cognitiveservices/v1"
         )
         # Headers and auth for request.
@@ -145,8 +148,8 @@ class Azure(TextToSpeech):
         }
         data_azure = (
             f"<speak version='1.0' xml:lang='{language}'><voice "
-            f"xml:lang='{language}' xml:gender='{Azure.GENDER}' "
-            f"name='{Azure.VOICE}'>{text}</voice></speak>"
+            f"xml:lang='{language}' xml:gender='{self.GENDER}' "
+            f"name='{self.VOICE}'>{text}</voice></speak>"
         )
         response = requests.request(
             "POST",
@@ -163,6 +166,7 @@ class AWS(TextToSpeech):
     """Represent the implementation of AWS text to speech. """
 
     VOICE_ID = "Joanna"
+    REGION = "us-west-2"
 
     def validate_request(self, req: requests) -> None:
         """
@@ -195,7 +199,7 @@ class AWS(TextToSpeech):
         polly_client = boto3.Session(
             aws_access_key_id=self.api_key,
             aws_secret_access_key=self.secret_api_key,
-            region_name="us-west-2").client("polly")
+            region_name=self.REGION).client("polly")
 
         # Get response from polly client.
         response = polly_client.synthesize_speech(

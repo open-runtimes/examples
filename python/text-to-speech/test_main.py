@@ -4,41 +4,25 @@ import base64
 import io
 import pathlib
 import unittest
-from unittest.mock import MagicMock
+from unittest import mock
 
 # Third party
 import boto3
 import botocore.response
+import requests
 from google.cloud import texttospeech
 from parameterized import parameterized
-import requests
 
 # Local imports
 import main
 
-# Path to Google encoded result (str).
-RESULT_GOOGLE = (
-    pathlib.Path("results/google.txt").
-    read_text(encoding="utf-8")
+# Content of decoded result (str).
+DECODED_RESULT = (
+    base64.b64decode(
+        pathlib.Path("results.txt").
+        read_text(encoding="utf-8")
+    )
 )
-
-# Path to Azure encoded result (str).
-RESULT_AZURE = (
-    pathlib.Path("results/azure.txt").
-    read_text(encoding="utf-8")
-)
-# Path to Aws encoded result (str).
-RESULT_AWS = (
-    pathlib.Path("results/aws.txt").
-    read_text(encoding="utf-8")
-)
-
-# Content of Google result (decoded bytes).
-DECODED_RESULT_GOOGLE = base64.b64decode(RESULT_GOOGLE)
-# Content of Azure result (decoded bytes).
-DECODED_RESULT_AZURE = base64.b64decode(RESULT_AZURE)
-# Content of AWS result (decoded bytes).
-DECODED_RESULT_AWS = base64.b64decode(RESULT_AWS)
 
 
 class MyRequest:
@@ -87,16 +71,16 @@ class GoogleTest(unittest.TestCase):
         """Test speech method for successful TextToSpeech synthesis."""
         instance = self.get_google_instance("123", "123")
         # Set up mock
-        with unittest.mock.patch.object(
+        with mock.patch.object(
             texttospeech.TextToSpeechClient, "synthesize_speech"
         ) as mock_synthesize_speech:
             mock_synthesize_speech.return_value.audio_content = (
-                DECODED_RESULT_GOOGLE
+                DECODED_RESULT
             )
             # Call the speech method
             audio_bytes = instance.speech("hi", "en-US")
         # Assert the result
-        self.assertEqual(audio_bytes, DECODED_RESULT_GOOGLE)
+        self.assertEqual(audio_bytes, DECODED_RESULT)
 
     def test_speech_invalid_credential(self) -> None:
         """Test credentials for speech method."""
@@ -105,7 +89,7 @@ class GoogleTest(unittest.TestCase):
             "WRONG_PROJECT_ID",
         )
         # Set up mock.
-        with unittest.mock.patch.object(
+        with mock.patch.object(
             texttospeech.TextToSpeechClient, "synthesize_speech"
         ) as mock_synthesize_speech:
             # Raise Exception.
@@ -115,18 +99,15 @@ class GoogleTest(unittest.TestCase):
 
     def test_speech_invalid_language(self) -> None:
         """Test language for speech method."""
-        instance = self.get_google_instance(
-            "<YOUR_API_KEY>",
-            "<YOUR_PROJECT_ID>",
-        )
         # Set up mock.
-        with unittest.mock.patch.object(
+        instance = self.get_google_instance("123", "123")
+        with mock.patch.object(
             texttospeech.TextToSpeechClient, "synthesize_speech"
         ) as mock_synthesize_speech:
             # Raise Exception.
             mock_synthesize_speech.side_effect = Exception
-        # Assert the raise.
-        self.assertRaises(Exception, instance.speech, "hello", "en-EN")
+            # Assert the raise.
+            self.assertRaises(Exception, instance.speech, "hello", "en-EN")
 
     def test_speech_no_text(self) -> None:
         """Test text-content for speech method."""
@@ -135,7 +116,7 @@ class GoogleTest(unittest.TestCase):
             "<YOUR_PROJECT_ID>",
         )
         # Set mock.
-        with unittest.mock.patch.object(
+        with mock.patch.object(
             texttospeech, "TextToSpeechClient"
         ) as mock_client:
             # Raise Exception.
@@ -169,19 +150,19 @@ class AzureTest(unittest.TestCase):
         """Test speech method for successful TextToSpeech synthesis."""
         instance = self.get_azure_instance("123")
         # Mock the requests.post method used in get_token.
-        mock_response = MagicMock()
+        mock_response = mock.MagicMock()
         mock_response.text = "fake_access_token"
-        mock_response_request = MagicMock()
-        mock_response_request.content = DECODED_RESULT_AZURE
-        with unittest.mock.patch.object(
+        mock_response_request = mock.MagicMock()
+        mock_response_request.content = DECODED_RESULT
+        with mock.patch.object(
             requests, "post", return_value=mock_response
-        ), unittest.mock.patch.object(
+        ), mock.patch.object(
             requests, "request", return_value=mock_response_request
         ):
             # Call the speech method.
             got = instance.speech("hi", "en-US")
         # Assert the result.
-        self.assertEqual(got, DECODED_RESULT_AZURE)
+        self.assertEqual(got, DECODED_RESULT)
 
     def test_speech_invalid_credential(self) -> None:
         """Test credentials for speech method."""
@@ -189,9 +170,9 @@ class AzureTest(unittest.TestCase):
         # Mock the requests.post method used in get_token.
         mock_response = requests.Response
         mock_response.text = "fake_access_token"
-        with unittest.mock.patch.object(
+        with mock.patch.object(
             requests, "post", return_value=mock_response
-        ), unittest.mock.patch.object(
+        ), mock.patch.object(
             requests, "request", return_value=Exception("Error.")
         ):
             # Assert the raise.
@@ -232,10 +213,10 @@ class AWSTest(unittest.TestCase):
         """Test speech method for successful TextToSpeech synthesis."""
         instance = self.get_aws_instance("123", "123")
         # Set up mock.
-        raw_stream = io.BytesIO(DECODED_RESULT_AWS)
-        size = len(DECODED_RESULT_AWS)
+        raw_stream = io.BytesIO(DECODED_RESULT)
+        size = len(DECODED_RESULT)
         stream_body_obj = botocore.response.StreamingBody(raw_stream, size)
-        with unittest.mock.patch.object(
+        with mock.patch.object(
             boto3.Session, "client"
         ) as mock_client:
             mock_client.return_value.synthesize_speech.return_value = {
@@ -244,8 +225,8 @@ class AWSTest(unittest.TestCase):
                 "RequestCharacters": 123,
             }
             got = instance.speech("hi", "en-US")
-            want = DECODED_RESULT_AWS
         # Assert the result.
+        want = DECODED_RESULT
         self.assertEqual(got, want)
 
     def test_speech_key_exception(self) -> None:
