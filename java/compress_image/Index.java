@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import java.util.stream.*;
 import java.util.Base64;
 import com.google.gson.Gson;
+import com.tinify.*;
 
 /**
  * Enum for provider names
@@ -183,6 +184,7 @@ private enum Provider {
      */
 
     private byte [] convertToByte(String baseInput) {
+        // TODO:
         return Base64.getDecoder().decode(baseInput);
     }
 
@@ -204,6 +206,7 @@ private enum Provider {
      */
 
     private String tinifyCompress(byte [] image) {
+        Tinify.setKey("YOUR_API_KEY");
         Source source = Tinify.fromBuffer(image);
         return source.toBuffer();
     }
