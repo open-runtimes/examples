@@ -1,4 +1,8 @@
-"""Unittests for Text To Speech Function."""
+"""
+Unittests for Text To Speech Function.
+
+Note: You should be in examples/python/text-to-speech to run this file.
+"""
 # Standard library
 import base64
 import io
