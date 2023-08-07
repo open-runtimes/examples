@@ -1,8 +1,5 @@
-using System;
 using Tweetinvi;
-using System.Threading.Tasks;
-using Tweetinvi.Client;
-using System.Collections.Generic;
+
 
 namespace sendMessage.functions;
 
@@ -43,7 +40,7 @@ public class TwitterSender
             var client = new TwitterClient(consumerKey, consumerSecret, accessToken, accessTokenSecret);
             await client.Users.GetAuthenticatedUserAsync();
             var tweet = await client.Tweets.PublishTweetAsync(message);
-            return new Dictionary<string, object>{{"success", true}, {"tweet", tweet}};
+            return new Dictionary<string, object>{{"success", true}, {"message", tweet}};
         }
         catch (Exception e)
         {

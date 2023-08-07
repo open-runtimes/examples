@@ -1,55 +1,66 @@
 ﻿using sendMessage.functions;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Net;
-using System.Runtime;
 using Newtonsoft.Json;
-using System.Runtime.InteropServices;
-using Tweetinvi.Streams.Model;
-using Tweetinvi.Core.Models;
+using System.Text.Json;
 
-async Task Main(RuntimeRequest req, RuntimeResponse res) 
+namespace DotNetRuntime {
+
+    public class Handler {
+
+public async Task<RuntimeOutput> Main(RuntimeContext Context) 
 {
     Dictionary<string, object> result = new Dictionary<string, object>();
-    try{
-    if(String.IsNullOrEmpty(req.Payload)){
-        return res.Json(new()
-        {
-            { "success", false },
-            { "message", "Payload is missing" }
-        });
-    }
-    var payload = JsonConvert.DeserializeObject<Dictionary<string, string>>(req.Payload);
-    string message = payload["message"];
-    string channel = payload["type"];
 
-    if(channel == "SMS"){
-            string phoneNumber = payload["receiver"];
-            result = await SendSmsTwilio.SendSMS(req.Variables, phoneNumber, message);
-    }
-    else if(channel == "Email"){
-            string recipient = payload["receiver"];
-            string subject = payload["subject"];
-            result = await Mail.SendMail(req.Variables, recipient, message, subject);
-    }
-    else if(channel == "Twitter"){
-        result = await TwitterSender.SendTweet(req.Variables, message);
-    }
-    else if(channel == "Discord"){
-            result = await DiscordWebhook.SendDiscordMessage(req.Variables, message);
+    string channel = "type";
+    string message = "";
+    string recipient = "";
+    string subject = "";
+    object response = true;
+    object responsemessage = "";
+    Dictionary<string,string> variables = new Dictionary<string,string>();
+    Dictionary<string,string> payload = new Dictionary<string,string>();
+    
 
-    }
-    }
-    catch (Exception e){
-        return res.Json(new()
-        {
-            { "success", false },
-            { "message", e.Message }
-        });
+
+    if(!(Context.Req.Body is String)){
+
+        object? variableobject;
+        object? payloadobject;
+    
+        Dictionary<string,object> body = (Dictionary<string, object>) Context.Req.Body;
+        body.TryGetValue("variables", out variableobject);
+        body.TryGetValue("payload", out payloadobject);
+        string tempstring = ((JsonElement) variableobject).ToString();
+        variables = JsonConvert.DeserializeObject<Dictionary<string,string>>(tempstring);
+        tempstring = ((JsonElement) payloadobject).ToString();
+        payload = JsonConvert.DeserializeObject<Dictionary<string,string>>(tempstring);
+
+        payload.TryGetValue("type", out channel);
+        payload.TryGetValue("message", out message);
+        payload.TryGetValue("receiver", out recipient);     
+
+     if(channel == "SMS"){
+             result = await SendSmsTwilio.SendSMS(variables, recipient, message);
+     }
+     else if(channel == "Email"){
+            payload.TryGetValue("subject", out subject);
+             result = await Mail.SendMail(variables, recipient, message, subject);
+     }
+     else if(channel == "Twitter"){
+         result = await TwitterSender.SendTweet(variables, message);
+     }
+     else if(channel == "Discord"){
+             result = await DiscordWebhook.SendDiscordMessage(variables, message);
+            
+     }
+        
     }
 
-    return res.Json(
-        result
-    );
+    result.TryGetValue("success", out response);
+    result.TryGetValue("message", out responsemessage);
 
+     return Context.Res.Json( 
+        new Dictionary<string, object>(){{"success", response},{"message", responsemessage}});
+
+}
+}
 }

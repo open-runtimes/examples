@@ -1,16 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Net;
 using System.Text;
 using System.Net.Http.Headers;
-using System.Threading.Tasks;
+
 
 namespace sendMessage.functions;
 
 
 public class Mail
 {
-    public static async Task<object> SendMail(Dictionary<string,string> variables, string email, string message, string subject)
+    public static async Task<Dictionary<string,object>> SendMail(Dictionary<string,string> variables, string email, string message, string subject)
     {
         if(email == null || message == null || subject == null)
         {
@@ -53,6 +50,6 @@ public class Mail
             return new Dictionary<string, object>{{"success" , false}, {"message" , e.Message}};
         }
 
-        return new Dictionary<string, object>{{"success" , true}};
+        return new Dictionary<string, object>{{"success" , true}, {"message", "Your message was sent"}};
     }
 }

@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace sendMessage.functions;
 public class SendSmsTwilio
 {
-    public static async Task<object> SendSMS(Dictionary<string, string> variables, string phoneNumber, string message)
+    public static async Task<Dictionary<string, object>> SendSMS(Dictionary<string, string> variables, string phoneNumber, string message)
     {
         if (string.IsNullOrEmpty(phoneNumber))
         {
@@ -64,10 +60,10 @@ public class SendSmsTwilio
         catch (Exception e)
         {
             Console.WriteLine(e);
-            return new { success = false, message = e.Message };
+            return new Dictionary<string,object>  {{ "success", false}, {"message", e.Message }};
         }
 
-        return new { success = true };
+        return new Dictionary<string, object> {{ "success" , true }, {"message", "Your message was sent" }};
     }
 }
 
