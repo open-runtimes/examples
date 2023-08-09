@@ -15,9 +15,9 @@ public class SendSmsTwilio
             throw new Exception("No message provided");
         }
 
-        string accountSID = variables.TryGetValue("TWILIO_ACCOUNT_SID", out string accountSIDValue) ? accountSIDValue : null;
-        string authToken = variables.TryGetValue("TWILIO_AUTH_TOKEN", out string authTokenValue) ? authTokenValue : null;
-        string sender = variables.TryGetValue("TWILIO_SENDER", out string senderValue) ? senderValue : null;
+        string? accountSID = variables.TryGetValue("TWILIO_ACCOUNT_SID", out string? accountSIDValue) ? accountSIDValue : null;
+        string? authToken = variables.TryGetValue("TWILIO_AUTH_TOKEN", out string? authTokenValue) ? authTokenValue : null;
+        string? sender = variables.TryGetValue("TWILIO_SENDER", out string? senderValue) ? senderValue : null;
 
         if (string.IsNullOrEmpty(accountSID))
         {
