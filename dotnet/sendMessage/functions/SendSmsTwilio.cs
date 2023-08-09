@@ -39,7 +39,7 @@ public class SendSmsTwilio
         {
             using (var httpClient = new HttpClient())
             {
-                httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes("AC1080d69c297d7934275ccdfa921d3322:16007e6fa0ff1b501d0da351fabf8468")));
+            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes($"{accountSID}:{authToken}")));
 
                 var values = new Dictionary<string, string>
                 {
