@@ -26,6 +26,8 @@ public class DiscordWebhook{
                     "application/json"
                 );
                 HttpResponseMessage response = await httpclient.PostAsync(webhook, contentofmessage);
+                response.EnsureSuccessStatusCode();
+                return new Dictionary<string, object>{{"success" , true}, {"message", "Your message was sent"}};
             }
             
         }
@@ -35,6 +37,6 @@ public class DiscordWebhook{
             return new Dictionary<string, object>{{"success", false}, {"message", e.Message}};
         }
 
-        return new Dictionary<string, object>{{"success" , true}, {"message", "Your message was sent"}};
+        
 }
 }

@@ -16,6 +16,7 @@ public class Mail
 
         string domain = variables["MAILGUN_DOMAIN"];
         string apiKey = variables["MAILGUN_API_KEY"];
+        HttpResponseMessage? response;
     
         if(domain == null)
         {
@@ -39,17 +40,18 @@ public class Mail
                 {"text", message}
             });
 
-            HttpResponseMessage response = await client.PostAsync($"https://api.mailgun.net/v3/{domain}/messages", content);
-
+            response = await client.PostAsync($"https://api.mailgun.net/v3/{domain}/messages", content);
+            response.EnsureSuccessStatusCode();
+            var responseString = await response.Content.ReadAsStringAsync();
+            return new Dictionary<string, object>{{"success" , true}, {"message", "Your message was sent"}};
         }       
            
         }
     catch (Exception e)
         {
-            Console.WriteLine(e);
             return new Dictionary<string, object>{{"success" , false}, {"message" , e.Message}};
         }
 
-        return new Dictionary<string, object>{{"success" , true}, {"message", "Your message was sent"}};
+        
     }
 }

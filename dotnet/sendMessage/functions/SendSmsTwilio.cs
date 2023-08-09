@@ -34,11 +34,12 @@ public class SendSmsTwilio
             throw new Exception("Missing Twilio sender");
         }
 
+        
         try
         {
             using (var httpClient = new HttpClient())
             {
-                httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes($"{accountSID}:{authToken}")));
+                httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes("AC1080d69c297d7934275ccdfa921d3322:16007e6fa0ff1b501d0da351fabf8468")));
 
                 var values = new Dictionary<string, string>
                 {
@@ -49,12 +50,11 @@ public class SendSmsTwilio
 
                 var content = new FormUrlEncodedContent(values);
 
-                var response = await httpClient.PostAsync($"https://api.twilio.com/2010-04-01/Accounts/{accountSID}/Messages.json", content);
+                var response = await httpClient.PostAsync("https://api.twilio.com/2010-04-01/Accounts/AC1080d69c297d7934275ccdfa921d3322/Messages.json", content);
                 response.EnsureSuccessStatusCode();
                 var responseString = await response.Content.ReadAsStringAsync();
-
-              
-                Console.WriteLine(responseString);
+                return new Dictionary<string, object> {{ "success" , true }, {"message", "Your message was sent" }};
+                
             }
         }
         catch (Exception e)
@@ -63,7 +63,6 @@ public class SendSmsTwilio
             return new Dictionary<string,object>  {{ "success", false}, {"message", e.Message }};
         }
 
-        return new Dictionary<string, object> {{ "success" , true }, {"message", "Your message was sent" }};
+        
     }
 }
-
