@@ -89,7 +89,7 @@ private enum Provider {
         // response data to return
         Map<String, Object> responseData = new HashMap<>();
 
-        // TODO: compress image using provider API and store the result in compressedImage variable
+        // compress image using provider API and store the result in compressedImage variable
         if (Provider.TINY_PNG.getName().equals(provider)) {
             // Decode image from Base64 string
             byte[] imageByte = convertToByte(image);
@@ -103,8 +103,10 @@ private enum Provider {
             // Decode input string
             byte[] imageBytes = convertToByte(image);
 
+            // Compress image
             String urlResponse = krakenioCompress(imageBytes, apiKey, secretKey);
 
+            // Decode compressed image from URL
             URL url = new URL(urlResponse);
             InputStream inputStream = url.openStream();
             byte[] compressedImageBytes = inputStream.readAllBytes();
@@ -112,7 +114,11 @@ private enum Provider {
             inputStream.close();
         }
 
-        // TODO: check if compressedImage is valid
+        // Check if compressedImage is valid
+        errorResponse = checkCompressedImage(compressedImage, res);
+        if (errorResponse != null) {
+            return errorResponse;
+        }
 
         // If input valid then return success true and compressed image
         responseData.put("success", true);
@@ -191,7 +197,6 @@ private enum Provider {
      * @return null if API key is present, otherwise return error response
      */
 
-    // check API key is present in variables
     private RuntimeResponse checkEmptyApiKey(RuntimeRequest req, RuntimeResponse res, String apiKeyVariable) {
         Map<String, String> variables = req.getVariables();
 
@@ -199,6 +204,25 @@ private enum Provider {
             Map<String, Object> responseData = new HashMap<>();
             responseData.put("success", false);
             responseData.put("message", "API key is not present in variables, please provide " + apiKeyVariable + " for the provider");
+            return res.json(responseData);
+        }
+        return null;
+    }
+
+    /**
+     * Check if compressed image is valid
+     * @param compressedImage is compressed image in Base64 string
+     * @param res is response object from function call
+     * @return null if compressed image is valid, otherwise return error response
+     */
+
+    private RuntimeResponse checkCompressedImage(String compressedImage, RuntimeResponse res) {
+        Map<String, Object> responseData = new HashMap<>();
+
+        // check if compressed image is valid
+        if (!compressedImage.matches("^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$") || compressedImage.trim().isEmpty()) {
+            responseData.put("success", false);
+            responseData.put("message", "Compressed image is invalid, please provide a valid Base64 image");
             return res.json(responseData);
         }
         return null;
@@ -212,7 +236,6 @@ private enum Provider {
      */
 
     private byte [] convertToByte(String baseInput) {
-        // TODO:
         return Base64.getDecoder().decode(baseInput);
     }
 
@@ -239,6 +262,12 @@ private enum Provider {
         return source.toBuffer();
     }
 
+    /**
+     * Compresses image in byte array format using Kraken.io provider
+     * @param byte [] image is image to compress in byte array format
+     * @return byte [] url of compressed image in String format
+     */
+
     private String krakenioCompress(byte [] image, String apiKey, String secretKey) throws Exception {
         if (apiKey == null || apiKey.trim().isEmpty()) {
             throw new IllegalArgumentException("API key is empty");
@@ -248,7 +277,6 @@ private enum Provider {
         final DirectUploadRequest request = DirectUploadRequest.builder(new ByteArrayInputStream(image)).withLossy(true).build();
         final SuccessfulUploadResponse response = client.directUpload(request);
         try {
-
             if (response.getSuccess()) {
                 return response.getKrakedUrl();
             } else {
