@@ -45,9 +45,10 @@ $ cd java/compress_image
 
 2. Enter this function folder and build the code:
 ```
-docker run --rm --interactive --tty --volume $PWD:/usr/code openruntimes/java:v2-11.0 sh /usr/local/src/build.sh
+docker run -e INTERNAL_RUNTIME_ENTRYPOINT=Index.java --rm --interactive --tty --volume $PWD:/usr/code openruntimes/java:v2-11.0 sh /usr/local/src/build.sh
 ```
 As a result, a `code.tar.gz` file will be generated.
+
 3. Start the Open Runtime:
 ```
 docker run -p 3000:3000 -e INTERNAL_RUNTIME_KEY=secret-key -e INTERNAL_RUNTIME_ENTRYPOINT=Index.java --rm --interactive --tty --volume $PWD/code.tar.gz:/tmp/code.tar.gz:ro openruntimes/java:v2-11.0 sh /usr/local/src/start.sh
