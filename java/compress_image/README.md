@@ -30,9 +30,9 @@ _Example output:_
 
 > only selected provider's api keys are neccessary, ie. kraken's api keys are not neccessary when choosing tinypng as the provider.
 
-- **TINYPNG_API** - API key for tinypng service
-- **KRAKENIO_KEY** - API key for kraken-io service
-- **KRAKENIO_SECRET** - API Secret for kraken-io service
+- **TINYPNG_API_KEY** - API key for tinypng service
+- **KRAKENIO_API_KEY** - API key for kraken-io service
+- **KRAKENIO_API_SECRET** - API Secret for kraken-io service
 
 ## 🚀 Deployment
 
@@ -56,7 +56,7 @@ docker run -p 3000:3000 -e INTERNAL_RUNTIME_KEY=secret-key -e INTERNAL_RUNTIME_E
 4. Execute function:
 
 ```shell
-curl http://localhost:3000/ -d '{"variables":{"TINYPNG_API":"[YOUR_API_KEY]"},"payload":"{\"provider\":\"tinypng\",\"image\":\"iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAf0lEQVR4nO2Wuw2AMAxEbw1gpMwDDMBcGQpooDKydGVAoXCK6J7k6qyc83MCCFGP/Yz+CkDF4KHmjgowbQF0CKFrCDUiwztqxabHCL0/xwcNhoI2UdsjC8g0mQvaSs1zwkg0uQAsAEaGm9/UPCeU7eMj6loTEpf6ZOQWMxd98gAhZnS6XEZcNQAAAABJRU5ErkJggg==\"}"}' -H "X-Internal-Challenge: secret-key" -H "Content-Type: application/json"
+curl http://localhost:3000/ -d '{"variables":{"TINYPNG_API_KEY":"[YOUR_API_KEY]"},"payload":"{\"provider\":\"tinypng\",\"image\":\"iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAf0lEQVR4nO2Wuw2AMAxEbw1gpMwDDMBcGQpooDKydGVAoXCK6J7k6qyc83MCCFGP/Yz+CkDF4KHmjgowbQF0CKFrCDUiwztqxabHCL0/xwcNhoI2UdsjC8g0mQvaSs1zwkg0uQAsAEaGm9/UPCeU7eMj6loTEpf6ZOQWMxd98gAhZnS6XEZcNQAAAABJRU5ErkJggg==\"}"}' -H "X-Internal-Challenge: secret-key" -H "Content-Type: application/json"
 ```
 
 Your function is now listening on port `3000`, and you can execute it by sending `POST` request with appropriate authorization headers. To learn more about runtime, you can visit Python runtime [README](https://github.com/open-runtimes/open-runtimes/tree/main/runtimes/java-11.0).
