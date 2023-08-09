@@ -1,4 +1,7 @@
 dependencies {
-    implementation 'com.google.code.gson:gson:2.9.0'
-    compile 'com.tinify:tinify:latest.release'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'com.tinify:tinify:1.8.3'
+    implementation('io.kraken.client:client:1.1.2'){
+        exclude module: 'javax.inject'
+    }
 }

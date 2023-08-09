@@ -7,8 +7,14 @@ import java.util.stream.Collectors;
 import java.util.stream.*;
 import java.util.Base64;
 import com.google.gson.Gson;
-import com.tinify.*;
-
+import com.tinify.Source;
+import com.tinify.Tinify;
+import java.io.*;
+import io.kraken.client.model.response.SuccessfulUploadResponse;
+import io.kraken.client.model.request.DirectUploadRequest;
+import io.kraken.client.impl.DefaultKrakenIoClient;
+import io.kraken.client.KrakenIoClient;
+import io.kraken.client.exception.KrakenIoRequestException;
 /**
  * Enum for provider names
  * @param name is provider name
@@ -75,14 +81,36 @@ private enum Provider {
             return errorResponse;
         }
         String apiKey = req.getVariables().get(apiKeyVariable);
+        String secretKey = req.getVariables().get("KRAKENIO_API_SECRET");
 
         // compressed image in Base64 string
-        String compressedImage = "compressed image is under implementation";
+        String compressedImage = "";
 
         // response data to return
         Map<String, Object> responseData = new HashMap<>();
 
         // TODO: compress image using provider API and store the result in compressedImage variable
+        if (Provider.TINY_PNG.getName().equals(provider)) {
+            // Decode image from Base64 string
+            byte[] imageByte = convertToByte(image);
+
+            // Compress image
+            byte[] compressedImageByte = tinifyCompress(imageByte, apiKey);
+
+            // Encode image to Base64 string
+            compressedImage = convertToBase64(compressedImageByte);
+        } else {
+            // Decode input string
+            byte[] imageBytes = convertToByte(image);
+
+            String urlResponse = krakenioCompress(imageBytes, apiKey, secretKey);
+
+            URL url = new URL(urlResponse);
+            InputStream inputStream = url.openStream();
+            byte[] compressedImageBytes = inputStream.readAllBytes();
+            compressedImage = convertToBase64(compressedImageBytes);
+            inputStream.close();
+        }
 
         // TODO: check if compressedImage is valid
 
@@ -205,8 +233,29 @@ private enum Provider {
      * @return byte [] compressed image
      */
 
-    private String tinifyCompress(byte [] image, String apiKey) {
+    private byte [] tinifyCompress(byte [] image, String apiKey) throws Exception {
         Tinify.setKey(apiKey);
         Source source = Tinify.fromBuffer(image);
         return source.toBuffer();
+    }
+
+    private String krakenioCompress(byte [] image, String apiKey, String secretKey) throws Exception {
+        if (apiKey == null || apiKey.trim().isEmpty()) {
+            throw new IllegalArgumentException("API key is empty");
+        }
+        final KrakenIoClient client = new DefaultKrakenIoClient(apiKey, secretKey);
+
+        final DirectUploadRequest request = DirectUploadRequest.builder(new ByteArrayInputStream(image)).withLossy(true).build();
+        final SuccessfulUploadResponse response = client.directUpload(request);
+        try {
+
+            if (response.getSuccess()) {
+                return response.getKrakedUrl();
+            } else {
+                throw new IOException("Kraken.io failed to compress image");
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return null;
     }
