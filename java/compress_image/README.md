@@ -1,6 +1,6 @@
 # Compress .png Images
 
-A Ruby Cloud Function that compresses png images.
+A Java Cloud Function that compresses png images.
 
 
 `image` and `provider` are recieved from the payload, where `image` is a base64 encoded string and `provider` is either [`tinypng`](https://tinypng.com) or [`krakenio`](https://kraken.io)
