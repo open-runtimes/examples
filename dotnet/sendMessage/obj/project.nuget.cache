@@ -1,13 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "sh8AZGG1lGrewCT04Vz5f1/LniAQSilHemJQSP86HWvm6qlTimrng0cvCMClDa9J0vGrfEn0yr+5C84d527H8Q==",
+  "dgSpecHash": "Dtndl49ZAef11UkuiG6cggR8vg7NaL7fA0nR15YfMLNnENOU0eo9gt4nLCJQxvVc05IP0NMip8Mt8hUNvlsXOw==",
   "success": true,
   "projectFilePath": "c:\\Users\\me\\Documents\\Code-Day\\codeday-labs\\dotnet\\sendMessage\\sendMessage.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\me\\.nuget\\packages\\autofac\\4.9.4\\autofac.4.9.4.nupkg.sha512",
     "C:\\Users\\me\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.1\\microsoft.netcore.platforms.1.1.1.nupkg.sha512",
     "C:\\Users\\me\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
-    "C:\\Users\\me\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
+    "C:\\Users\\me\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\me\\.nuget\\packages\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl\\4.3.2\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
     "C:\\Users\\me\\.nuget\\packages\\runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl\\4.3.2\\runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
     "C:\\Users\\me\\.nuget\\packages\\runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl\\4.3.2\\runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
