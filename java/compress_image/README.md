@@ -40,7 +40,7 @@ _Example output:_
 
 ```
 $ git clone https://github.com/open-runtimes/examples.git && cd examples
-$ cd ruby/compress_image
+$ cd java/compress_image
 ```
 
 2. Enter this function folder and build the code:
