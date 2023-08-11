@@ -1,8 +1,6 @@
 import java.util.Map;
 import java.util.HashMap;
-import java.net.HttpURLConnection;
 import java.net.URL;
-import java.io.BufferedReader;
 import java.util.stream.Collectors;
 import java.util.stream.*;
 import java.util.Base64;
@@ -10,11 +8,15 @@ import com.google.gson.Gson;
 import com.tinify.Source;
 import com.tinify.Tinify;
 import java.io.*;
-import io.kraken.client.model.response.SuccessfulUploadResponse;
-import io.kraken.client.model.request.DirectUploadRequest;
-import io.kraken.client.impl.DefaultKrakenIoClient;
-import io.kraken.client.KrakenIoClient;
-import io.kraken.client.exception.KrakenIoRequestException;
+import java.io.InputStream;
+import java.io.ByteArrayInputStream;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.MultipartBody;
+
 /**
  * Enum for provider names
  * @param name is provider name
@@ -104,7 +106,7 @@ private enum Provider {
             byte[] imageBytes = convertToByte(image);
 
             // Compress image
-            String urlResponse = krakenioCompress(imageBytes, apiKey, secretKey);
+            String urlResponse = krakenCompress(imageBytes, apiKey, secretKey);
 
             // Decode compressed image from URL
             URL url = new URL(urlResponse);
@@ -265,25 +267,32 @@ private enum Provider {
     /**
      * Compresses image in byte array format using Kraken.io provider
      * @param byte [] image is image to compress in byte array format
-     * @return byte [] url of compressed image in String format
+     * @return String url of compressed image in String format
      */
 
-    private String krakenioCompress(byte [] image, String apiKey, String secretKey) throws Exception {
-        if (apiKey == null || apiKey.trim().isEmpty()) {
-            throw new IllegalArgumentException("API key is empty");
-        }
-        final KrakenIoClient client = new DefaultKrakenIoClient(apiKey, secretKey);
+    public String krakenCompress(byte[] image, String apiKey, String apiSecret) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        String krakedUrl = "";
 
-        final DirectUploadRequest request = DirectUploadRequest.builder(new ByteArrayInputStream(image)).withLossy(true).build();
-        final SuccessfulUploadResponse response = client.directUpload(request);
-        try {
-            if (response.getSuccess()) {
-                return response.getKrakedUrl();
-            } else {
-                throw new IOException("Kraken.io failed to compress image");
-            }
+        String data = "{\"auth\":{\"api_key\":\"" + apiKey + "\",\"api_secret\":\"" + apiSecret + "\"}, \"wait\": true}";
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("data", data)
+                .addFormDataPart("upload", "image.jpg", RequestBody.create(MediaType.parse("image/jpg"), image))
+                .build();
+
+        Request request = new Request.Builder()
+                .url("https://api.kraken.io/v1/upload")
+                .post(requestBody)
+                .addHeader("Content-Type", "application/json")
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            Gson responseGson = new Gson();
+            Map<String, Object> responseData = responseGson.fromJson(response.body().string(), Map.class);
+            krakedUrl = responseData.get("kraked_url").toString();
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            e.printStackTrace();
         }
-        return null;
-    }
+        return krakedUrl;
+    };
