@@ -276,7 +276,7 @@ private enum Provider {
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("data", data)
-                .addFormDataPart("upload", "image.jpg", RequestBody.create(MediaType.parse("image/jpg"), image))
+                .addFormDataPart("upload", "image.png", RequestBody.create(MediaType.parse("image/png"), image))
                 .build();
 
         Request request = new Request.Builder()
