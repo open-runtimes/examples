@@ -2,14 +2,13 @@ import java.util.Map;
 import java.util.HashMap;
 import java.net.URL;
 import java.util.stream.Collectors;
-import java.util.stream.*;
+import java.util.stream.Stream;
+import java.io.IOException;
 import java.util.Base64;
 import com.google.gson.Gson;
 import com.tinify.Source;
 import com.tinify.Tinify;
-import java.io.*;
 import java.io.InputStream;
-import java.io.ByteArrayInputStream;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -125,7 +124,6 @@ private enum Provider {
         // If input valid then return success true and compressed image
         responseData.put("success", true);
         responseData.put("image", compressedImage);
-
         return res.json(responseData);
     }
 
