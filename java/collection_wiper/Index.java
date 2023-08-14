@@ -13,6 +13,7 @@ import java.util.*;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.Gson;
 
 public RuntimeResponse main(RuntimeRequest req, RuntimeResponse res) {
     // Validate that values present in the request are not empty (payload, variables)
@@ -24,7 +25,7 @@ public RuntimeResponse main(RuntimeRequest req, RuntimeResponse res) {
     String apiKey = req.getVariables().get("APPWRITE_FUNCTION_API_KEY");
     String projectId = req.getVariables().get("APPWRITE_FUNCTION_PROJECT_ID");
 
-    Map<String, Object> responseData=new HashMap<>();
+    Map<String, Object> responseData = new HashMap<>();
     if (endpoint == null || apiKey == null || projectId == null) {
         responseData.put("success",false);
         responseData.put("message","Variables missing.");
@@ -38,17 +39,21 @@ public RuntimeResponse main(RuntimeRequest req, RuntimeResponse res) {
         .setKey(apiKey);
 
     Databases databases = new Databases(client);
-
+    Gson gson=new Gson();
     try {
-        JsonObject payload = JsonParser.parseString("{}").getAsJsonObject();
-        if (!payload.has("databaseId") || !payload.has("collectionId")) {
+        String payloadString = req.getPayload().toString();
+
+        Map<String, String> payload = gson.fromJson(payloadString, Map.class);
+        // Get file url from payload
+
+        String databaseId = payload.get("databaseId");
+        String collectionId = payload.get("collectionId");
+        if ( databaseId == null || collectionId == null) {
             responseData.put("success",false);
             responseData.put("message","Invalid payload.");
             return res.json(responseData);
         }
-        databases.deleteCollection(
-            payload.get("databaseId").getAsString(),
-            payload.get("collectionId").getAsString(),
+        databases.deleteCollection(databaseId, collectionId,
             new Continuation<Object>() {
                 @NotNull
                 @Override
