@@ -8,7 +8,7 @@ Supported channels include, `SMS`, `Email` ,`Disocrd` and `Twitter`.
 
 ### Example input: (Discord)
 
-```markdown
+```json
 {
     "type": "Discord",
     "message": "Programming is fun!"
@@ -17,7 +17,7 @@ Supported channels include, `SMS`, `Email` ,`Disocrd` and `Twitter`.
 
 ### Example input: (SMS)
 
-```markdown
+```json
 {
     "type": "SMS",
     "receiver": "+123456789",
@@ -27,7 +27,7 @@ Supported channels include, `SMS`, `Email` ,`Disocrd` and `Twitter`.
 
 ### Example input: (Email)
 
-```markdown
+```json
 {
     "type": "Email",
     "receiver": "user@example.app",
@@ -38,7 +38,7 @@ Supported channels include, `SMS`, `Email` ,`Disocrd` and `Twitter`.
 
 ### Example input: (Twitter)
 
-```markdown
+```json
 {
     "type": "Twitter",
     "message": "Programming is fun!"
@@ -47,7 +47,7 @@ Supported channels include, `SMS`, `Email` ,`Disocrd` and `Twitter`.
 
 ### Example output: (Success)
 
-```markdown
+```json
 {
   "success": true
 }
@@ -55,7 +55,7 @@ Supported channels include, `SMS`, `Email` ,`Disocrd` and `Twitter`.
 
 ### Example output: (Failure)
 
-```markdown
+```json
 {
   "success": false,
   "message": "Receiver is not a valid email."
