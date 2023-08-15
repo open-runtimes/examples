@@ -1,15 +1,15 @@
 using Tweetinvi;
+using Tweetinvi.Exceptions;
 
-
-namespace sendMessage.functions;
-
+namespace SendMessage.functions
+{
 public class TwitterSender
 {
-    public async static Task<Dictionary<string,object>> SendTweet(Dictionary<string,string> variables, string message)
+    public async static Task<Dictionary<string,object>> SendTweet(Dictionary<string,string> variables, string? message)
     {
         if (string.IsNullOrEmpty(message))
         {
-            throw new Exception("Missing message");
+            return new Dictionary<string,object> {{"success", false}, {"message","Missing message"}};
         }
 
         string consumerKey = variables["TWITTER_API_KEY"];
@@ -19,35 +19,43 @@ public class TwitterSender
 
         if (string.IsNullOrEmpty(consumerKey))
         {
-            throw new Exception("Missing Twitter consumer key");
+            return new Dictionary<string,object> {{"success", false}, {"message","Missing Twitter consumer key"}};
         }
 
         if (string.IsNullOrEmpty(consumerSecret))
         {
-            throw new Exception("Missing Twitter consumer secret");
+            return new Dictionary<string,object> {{"success", false}, {"message","Missing Twitter consumer secret"}};
         }
 
         if (string.IsNullOrEmpty(accessToken))
         {
-            throw new Exception("Missing Twitter access token");
+            return new Dictionary<string,object> {{"success", false}, {"message","Missing Twitter access token"}};
         }
 
         if (string.IsNullOrEmpty(accessTokenSecret))
         {
-            throw new Exception("Missing Twitter access token secret");
+            return new Dictionary<string,object> {{"success", false}, {"message","Missing Twitter access token secret"}};
         }
+        var client = new TwitterClient(consumerKey, consumerSecret, accessToken, accessTokenSecret);
         try {
-            var client = new TwitterClient(consumerKey, consumerSecret, accessToken, accessTokenSecret);
+            
             await client.Users.GetAuthenticatedUserAsync();
-            var tweet = await client.Tweets.PublishTweetAsync(message);
-            return new Dictionary<string, object>{{"success", true}, {"message", tweet}};
         }
-        catch (Exception e)
+        catch (TwitterException e)
         {
             Console.WriteLine(e);
-            return new Dictionary<string, object>{{"success", false}, {"message", e.Message}};
+            return new Dictionary<string, object> {{"success", false}, {"message", e.ToString()}};
+        }
+        try{
+            await client.Tweets.PublishTweetAsync(message);
+            return new Dictionary<string, object> {{"success", true}, {"message", "tweet was sent!"}};
+        }
+        catch(TwitterException ex)
+        {
+            return new Dictionary<string, object> {{"success", false}, {"message", ex.ToString()}};
         }
         
         
     }
+}
 }

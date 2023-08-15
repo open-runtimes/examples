@@ -2,16 +2,16 @@ using System.Text;
 using System.Net.Http.Headers;
 
 
-namespace sendMessage.functions;
-
+namespace SendMessage.functions
+{
 
 public class Mail
 {
-    public static async Task<Dictionary<string,object>> SendMail(Dictionary<string,string> variables, string email, string message, string subject)
+    public static async Task<Dictionary<string,object>> SendMail(Dictionary<string,string> variables, string? email, string? message, string? subject)
     {
         if(email == null || message == null || subject == null)
         {
-            throw new Exception("Missing email, message or subject");
+            return new Dictionary<string,object> {{"success", false}, {"message","Missing email, subject, or message"}};
         }
 
         string domain = variables["MAILGUN_DOMAIN"];
@@ -20,11 +20,11 @@ public class Mail
     
         if(domain == null)
         {
-            throw new Exception("Missing Mailgun domain");
+            return new Dictionary<string,object> {{"success", false}, {"message","Missing Mailgun domain"}};
         }
         if(apiKey == null)
         {
-            throw new Exception("Missing Mailgun API key");
+            return new Dictionary<string,object> {{"success", false}, {"message","Missing Mailgun API key"}};
         }
     try 
         {
@@ -43,15 +43,16 @@ public class Mail
             response = await client.PostAsync($"https://api.mailgun.net/v3/{domain}/messages", content);
             response.EnsureSuccessStatusCode();
             var responseString = await response.Content.ReadAsStringAsync();
-            return new Dictionary<string, object>{{"success" , true}, {"message", "Your message was sent"}};
+            return new Dictionary<string, object> {{"success" , true}, {"message", "Your message was sent"}};
         }       
            
         }
     catch (Exception e)
         {
-            return new Dictionary<string, object>{{"success" , false}, {"message" , e.Message}};
+            return new Dictionary<string, object> {{"success" , false}, {"message" , e.ToString()}};
         }
 
         
     }
+}
 }

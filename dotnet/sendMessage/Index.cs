@@ -1,4 +1,4 @@
-﻿using sendMessage.functions;
+﻿using SendMessage.functions;
 using Newtonsoft.Json;
 using System.Text.Json;
 
@@ -10,18 +10,18 @@ public async Task<RuntimeOutput> Main(RuntimeContext Context)
 {
     Dictionary<string, object> result = new Dictionary<string, object>();
 
-    string channel = "type";
-    string message = "";
-    string recipient = "";
-    string subject = "";
-    object response = true;
-    object responsemessage = "";
-    Dictionary<string,string> variables = new Dictionary<string,string>();
-    Dictionary<string,string> payload = new Dictionary<string,string>();
+    string? channel = "type";
+    string? message = "";
+    string? recipient = "";
+    string? subject = "";
+    object? response = true;
+    object? responsemessage = "";
+    Dictionary<string,string>? variables = new Dictionary<string,string>();
+    Dictionary<string,string>? payload = new Dictionary<string,string>();
     
 
 
-    if(!(Context.Req.Body is String)){
+    if(!(Context.Req.Body is string)){
 
         object? variableobject;
         object? payloadobject;
@@ -29,7 +29,7 @@ public async Task<RuntimeOutput> Main(RuntimeContext Context)
         Dictionary<string,object> body = (Dictionary<string, object>) Context.Req.Body;
         body.TryGetValue("variables", out variableobject);
         body.TryGetValue("payload", out payloadobject);
-        string tempstring = ((JsonElement) variableobject).ToString();
+        string? tempstring = ((JsonElement) variableobject).ToString();
         variables = JsonConvert.DeserializeObject<Dictionary<string,string>>(tempstring);
         tempstring = ((JsonElement) payloadobject).ToString();
         payload = JsonConvert.DeserializeObject<Dictionary<string,string>>(tempstring);

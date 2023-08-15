@@ -1,18 +1,19 @@
 using System.Text;
 
-namespace sendMessage.functions;
+namespace SendMessage.functions
+{
 public class SendSmsTwilio
 {
-    public static async Task<Dictionary<string, object>> SendSMS(Dictionary<string, string> variables, string phoneNumber, string message)
+    public static async Task<Dictionary<string, object>> SendSMS(Dictionary<string, string> variables, string? phoneNumber, string? message)
     {
         if (string.IsNullOrEmpty(phoneNumber))
         {
-            throw new Exception("No phone number provided");
+            return new Dictionary<string,object> {{"success", false} , {"message","No phone number provided"}};
         }
 
         if (string.IsNullOrEmpty(message))
         {
-            throw new Exception("No message provided");
+            return new Dictionary<string,object> {{"success", false} , {"message","No message provided"}};
         }
 
         string? accountSID = variables.TryGetValue("TWILIO_ACCOUNT_SID", out string? accountSIDValue) ? accountSIDValue : null;
@@ -21,17 +22,17 @@ public class SendSmsTwilio
 
         if (string.IsNullOrEmpty(accountSID))
         {
-            throw new Exception("Missing Twilio account SID");
+            return new Dictionary<string,object> {{"success", false}, {"message","Missing Twilio account SID"}};
         }
 
         if (string.IsNullOrEmpty(authToken))
         {
-            throw new Exception("Missing Twilio auth token");
+            return new Dictionary<string,object> {{"success", false}, {"message","Missing Twilio auth token"}};
         }
 
         if (string.IsNullOrEmpty(sender))
         {
-            throw new Exception("Missing Twilio sender");
+            return new Dictionary<string,object> {{"success", false}, {"message","Missing Twilio sender"}};
         }
 
         
@@ -60,9 +61,10 @@ public class SendSmsTwilio
         catch (Exception e)
         {
             Console.WriteLine(e);
-            return new Dictionary<string,object>  {{ "success", false}, {"message", e.Message }};
+            return new Dictionary<string,object>  {{ "success", false}, {"message", e.ToString() }};
         }
 
         
     }
+}
 }
