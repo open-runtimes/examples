@@ -12,7 +12,7 @@ Supported channels include, `SMS`, `Email` ,`Disocrd` and `Twitter`.
 {
     "type": "Discord",
     "message": "Programming is fun!"
-};
+}
 ```
 
 ### Example input: (SMS)
@@ -22,7 +22,7 @@ Supported channels include, `SMS`, `Email` ,`Disocrd` and `Twitter`.
     "type": "SMS",
     "receiver": "+123456789",
     "message": "Programming is fun!"
-};
+}
 ```
 
 ### Example input: (Email)
@@ -33,7 +33,7 @@ Supported channels include, `SMS`, `Email` ,`Disocrd` and `Twitter`.
     "receiver": "user@example.app",
     "subject": "Programming is fun!",
     "message": "Programming is fun!"
-};
+}
 ```
 
 ### Example input: (Twitter)
@@ -42,7 +42,7 @@ Supported channels include, `SMS`, `Email` ,`Disocrd` and `Twitter`.
 {
     "type": "Twitter",
     "message": "Programming is fun!"
-};
+}
 ```
 
 ### Example output: (Success)
