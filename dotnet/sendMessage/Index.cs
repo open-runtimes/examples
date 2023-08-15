@@ -14,10 +14,10 @@ public async Task<RuntimeOutput> Main(RuntimeContext Context)
     string? message = "";
     string? recipient = "";
     string? subject = "";
-    object? response = true;
-    object? responsemessage = "";
-    Dictionary<string,string>? variables = new Dictionary<string,string>();
-    Dictionary<string,string>? payload = new Dictionary<string,string>();
+    object response = true;
+    object responsemessage = "";
+    Dictionary<string,string> variables = new Dictionary<string,string>();
+    Dictionary<string,string> payload = new Dictionary<string,string>();
     
 
 
@@ -29,10 +29,10 @@ public async Task<RuntimeOutput> Main(RuntimeContext Context)
         Dictionary<string,object> body = (Dictionary<string, object>) Context.Req.Body;
         body.TryGetValue("variables", out variableobject);
         body.TryGetValue("payload", out payloadobject);
-        string? tempstring = ((JsonElement) variableobject).ToString();
-        variables = JsonConvert.DeserializeObject<Dictionary<string,string>>(tempstring);
-        tempstring = ((JsonElement) payloadobject).ToString();
-        payload = JsonConvert.DeserializeObject<Dictionary<string,string>>(tempstring);
+        string? tempstring = ((JsonElement) variableobject!).ToString();
+        variables = JsonConvert.DeserializeObject<Dictionary<string,string>>(tempstring)!;
+        tempstring = ((JsonElement) payloadobject!).ToString();
+        payload = JsonConvert.DeserializeObject<Dictionary<string,string>>(tempstring)!;
 
         payload.TryGetValue("type", out channel);
         payload.TryGetValue("message", out message);
@@ -55,8 +55,8 @@ public async Task<RuntimeOutput> Main(RuntimeContext Context)
         
     }
 
-    result.TryGetValue("success", out response);
-    result.TryGetValue("message", out responsemessage);
+    result.TryGetValue("success", out response!);
+    result.TryGetValue("message", out responsemessage!);
 
      return Context.Res.Json( 
         new Dictionary<string, object>(){{"success", response},{"message", responsemessage}});
