@@ -97,22 +97,29 @@ List of variables used by this cloud function:
 
 ```markdown
 git clone https://github.com/open-runtimes/examples.git && cd examples
-$ cd dotnet/send_message
+$ cd dotnet/sendMessage
 ```
 
 2. Enter this function folder and build the code:
 
 ```
-docker run --rm --interactive --tty --volume $PWD:/usr/code openruntimes/dotnet:v3-7.0 sh /usr/local/src/build.sh
+docker run -e OPEN_RUNTIMES_ENTRYPOINT=Index.cs --rm --interactive --tty --volume $PWD:/mnt/code openruntimes/dotnet:v3-7.0 sh helpers/build.sh
+
 ```
 
 3. Start the Open Runtime:
 
 ```
-docker run -p 3000:3000 -e INTERNAL_RUNTIME_KEY=secret-key -e INTERNAL_RUNTIME_ENTRYPOINT=Index.cs --rm --interactive --tty --volume $PWD/code.tar.gz:/tmp/code.tar.gz:ro openruntimes/dotnet:v3-7.0  sh /usr/local/src/start.sh
+docker run -p 3000:3000 -e OPEN_RUNTIMES_SECRET=secret-key --rm --interactive --tty --volume $PWD/code.tar.gz:/mnt/code/code.tar.gz:ro openruntimes/dotnet:v3-7.0 sh helpers/start.sh "dotnet /usr/local/server/src/function/DotNetRuntime.dll"
 ```
 
 Your function is now listening on port `3000`, and you can execute it by sending `POST` request with appropriate authorization headers. To learn more about runtime, you can visit .NET Runtime 7.0 [README](https://github.com/open-runtimes/open-runtimes/blob/main/runtimes/dotnet-7.0/README.md).
+
+4. Sample curl command (Email)
+```
+curl -H "x-open-runtimes-secret: secret-key" -H "Content-Type: application/json" -X POST http://localhost:3000/ -d '{"variables":{"MAILGUN_DOMAIN":"sandbox4b061e2c81e94adda674598971b62172.mailgun.org", "MAILGUN_API_KEY":"1867c7be2b0c41bcb8b1bb1f8500fd6e-28e9457d-57f47498"},"payload":{"type":"Email","message":"I am testing my cloud function","receiver":"oluwafemisire.ojuawo@kibo.school", "subject":"Testing"}}'
+```
+
 
 ## 📝 Notes
 

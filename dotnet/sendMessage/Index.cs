@@ -59,7 +59,7 @@ public async Task<RuntimeOutput> Main(RuntimeContext Context)
     result.TryGetValue("message", out responsemessage!);
 
      return Context.Res.Json( 
-        new Dictionary<string, object>(){{"success", response},{"message", responsemessage}});
+        new Dictionary<string,object>() {{"success", response},{"message", responsemessage}});
 
 }
 }
