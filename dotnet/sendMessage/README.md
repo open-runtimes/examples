@@ -10,8 +10,8 @@ Supported channels include, `SMS`, `Email` ,`Disocrd` and `Twitter`.
 
 ```markdown
 {
-    "type" = "Discord",
-    "message" = "Programming is fun!"
+    "type": "Discord",
+    "message": "Programming is fun!"
 };
 ```
 
@@ -19,9 +19,9 @@ Supported channels include, `SMS`, `Email` ,`Disocrd` and `Twitter`.
 
 ```markdown
 {
-    "type" = "SMS",
-    "receiver" = "+123456789",
-    "message" = "Programming is fun!"
+    "type": "SMS",
+    "receiver": "+123456789",
+    "message": "Programming is fun!"
 };
 ```
 
@@ -29,10 +29,10 @@ Supported channels include, `SMS`, `Email` ,`Disocrd` and `Twitter`.
 
 ```markdown
 {
-    "type" = "Email",
-    "receiver" = "user@example.app",
-    "subject" = "Programming is fun!",
-    "message" = "Programming is fun!"
+    "type": "Email",
+    "receiver": "user@example.app",
+    "subject": "Programming is fun!",
+    "message": "Programming is fun!"
 };
 ```
 
@@ -40,8 +40,8 @@ Supported channels include, `SMS`, `Email` ,`Disocrd` and `Twitter`.
 
 ```markdown
 {
-    "type" = "Twitter",
-    "message" = "Programming is fun!"
+    "type": "Twitter",
+    "message": "Programming is fun!"
 };
 ```
 
@@ -100,7 +100,19 @@ git clone https://github.com/open-runtimes/examples.git && cd examples
 $ cd dotnet/send_message
 ```
 
-- ***To be updated soon***
+2. Enter this function folder and build the code:
+
+```
+docker run --rm --interactive --tty --volume $PWD:/usr/code openruntimes/dotnet:v3-7.0 sh /usr/local/src/build.sh
+```
+
+3. Start the Open Runtime:
+
+```
+docker run -p 3000:3000 -e INTERNAL_RUNTIME_KEY=secret-key -e INTERNAL_RUNTIME_ENTRYPOINT=Index.cs --rm --interactive --tty --volume $PWD/code.tar.gz:/tmp/code.tar.gz:ro openruntimes/dotnet:v3-7.0  sh /usr/local/src/start.sh
+```
+
+Your function is now listening on port `3000`, and you can execute it by sending `POST` request with appropriate authorization headers. To learn more about runtime, you can visit .NET Runtime 7.0 [README](https://github.com/open-runtimes/open-runtimes/blob/main/runtimes/dotnet-7.0/README.md).
 
 ## 📝 Notes
 
