@@ -75,14 +75,23 @@ private enum Provider {
         String image = payload.get("image").toString();
 
         // check API key is present in variables
-        String apiKeyVariable = Provider.TINY_PNG.getName().equals(provider) ? "TINYPNG_API_KEY" : "KRAKENIO_API_KEY";
+        String apiKeyVariable;
+        String apiSecretVariable;
 
-        errorResponse = checkEmptyApiKey(req, res, apiKeyVariable);
+        if (Provider.TINY_PNG.getName().equals(provider)) {
+            apiKeyVariable = "TINYPNG_API_KEY";
+            apiSecretVariable = null;
+        } else {
+            apiKeyVariable = "KRAKENIO_API_KEY";
+            apiSecretVariable = "KRAKENIO_API_SECRET";
+        }
+
+        errorResponse = checkEmptyApiKeyAndSecret(req, res, apiKeyVariable, apiSecretVariable);
         if (errorResponse != null) {
             return errorResponse;
         }
         String apiKey = req.getVariables().get(apiKeyVariable);
-        String secretKey = req.getVariables().get("KRAKENIO_API_SECRET");
+        String secretKey = req.getVariables().get(apiSecretVariable);
 
         // compressed image in Base64 string
         String compressedImage = "";
@@ -197,13 +206,20 @@ private enum Provider {
      * @return null if API key is present, otherwise return error response
      */
 
-    private RuntimeResponse checkEmptyApiKey(RuntimeRequest req, RuntimeResponse res, String apiKeyVariable) {
+    private RuntimeResponse checkEmptyApiKeyAndSecret(RuntimeRequest req, RuntimeResponse res, String apiKeyVariable, String apiSecretVariable) {
         Map<String, String> variables = req.getVariables();
 
         if (!variables.containsKey(apiKeyVariable) || variables.get(apiKeyVariable) == null || variables.get(apiKeyVariable).trim().isEmpty()) {
             Map<String, Object> responseData = new HashMap<>();
             responseData.put("success", false);
             responseData.put("message", "API key is not present in variables, please provide " + apiKeyVariable + " for the provider");
+            return res.json(responseData);
+        }
+
+        if (apiSecretVariable != null && (!variables.containsKey(apiSecretVariable) || variables.get(apiSecretVariable) == null || variables.get(apiSecretVariable).trim().isEmpty())) {
+            Map<String, Object> responseData = new HashMap<>();
+            responseData.put("success", false);
+            responseData.put("message", "API secret is not present in variables, please provide " + apiSecretVariable + " for the provider");
             return res.json(responseData);
         }
         return null;
