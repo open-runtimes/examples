@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wipeAppwriteCollection", "w
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sendMessage", "sendMessage\sendMessage.csproj", "{4775AEB9-F2E2-4FB9-AD52-946F432A8118}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SendMessageFunction", "SendMessageFunction\SendMessageFunction.csproj", "{62C0D051-82D4-4E0B-8C86-5F9E66577C41}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{4775AEB9-F2E2-4FB9-AD52-946F432A8118}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4775AEB9-F2E2-4FB9-AD52-946F432A8118}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4775AEB9-F2E2-4FB9-AD52-946F432A8118}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62C0D051-82D4-4E0B-8C86-5F9E66577C41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62C0D051-82D4-4E0B-8C86-5F9E66577C41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62C0D051-82D4-4E0B-8C86-5F9E66577C41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62C0D051-82D4-4E0B-8C86-5F9E66577C41}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
