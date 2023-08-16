@@ -1,7 +1,7 @@
 using System.Text;
 
 
-namespace SendMessage.functions
+namespace SendMessage.Functions
 {
 public class DiscordWebhook{
     public static async Task<Dictionary<string, object>> SendDiscordMessage(Dictionary<string,string> variables, string? message)

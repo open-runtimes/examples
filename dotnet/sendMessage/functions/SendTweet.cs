@@ -1,7 +1,7 @@
 using Tweetinvi;
 using Tweetinvi.Exceptions;
 
-namespace SendMessage.functions
+namespace SendMessage.Functions
 {
 public class TwitterSender
 {

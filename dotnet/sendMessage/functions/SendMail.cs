@@ -2,7 +2,7 @@ using System.Text;
 using System.Net.Http.Headers;
 
 
-namespace SendMessage.functions
+namespace SendMessage.Functions
 {
 
 public class Mail

@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace SendMessage.functions
+namespace SendMessage.Functions
 {
 public class SendSmsTwilio
 {

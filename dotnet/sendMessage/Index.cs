@@ -1,66 +1,55 @@
-﻿using SendMessage.functions;
-using Newtonsoft.Json;
-using System.Text.Json;
+﻿using Newtonsoft.Json;
+using SendMessage.Functions;
 
-namespace DotNetRuntime {
-
-    public class Handler {
-
-public async Task<RuntimeOutput> Main(RuntimeContext Context) 
+public async Task<RuntimeResponse> Main(RuntimeRequest req, RuntimeResponse res)
 {
-    Dictionary<string, object> result = new Dictionary<string, object>();
-
+  
     string? channel = "type";
     string? message = "";
     string? recipient = "";
     string? subject = "";
     object response = true;
     object responsemessage = "";
-    Dictionary<string,string> variables = new Dictionary<string,string>();
-    Dictionary<string,string> payload = new Dictionary<string,string>();
-    
+    Dictionary<string, object> result = new Dictionary<string, object>{};
+  
+    if (string.IsNullOrEmpty(req.Payload))
+    {
+      return res.Json(new()
+      {
+        {"success", false},
+        {"message", req.Variables}
+      });
+    }
 
+    var payload = JsonConvert.DeserializeObject<Dictionary<string, string>>(req.Payload);
+    payload.TryGetValue("type", out channel);
+    payload.TryGetValue("message", out message);
+    payload.TryGetValue("receiver", out recipient);
 
-    if(!(Context.Req.Body is string)){
-
-        object? variableobject;
-        object? payloadobject;
-    
-        Dictionary<string,object> body = (Dictionary<string, object>) Context.Req.Body;
-        body.TryGetValue("variables", out variableobject);
-        body.TryGetValue("payload", out payloadobject);
-        string? tempstring = ((JsonElement) variableobject!).ToString();
-        variables = JsonConvert.DeserializeObject<Dictionary<string,string>>(tempstring)!;
-        tempstring = ((JsonElement) payloadobject!).ToString();
-        payload = JsonConvert.DeserializeObject<Dictionary<string,string>>(tempstring)!;
-
-        payload.TryGetValue("type", out channel);
-        payload.TryGetValue("message", out message);
-        payload.TryGetValue("receiver", out recipient);     
-
-     if(channel == "SMS"){
-             result = await SendSmsTwilio.SendSMS(variables, recipient, message);
+    if(channel == "SMS"){
+            result = await SendSmsTwilio.SendSMS(req.Variables, recipient, message);
      }
      else if(channel == "Email"){
             payload.TryGetValue("subject", out subject);
-             result = await Mail.SendMail(variables, recipient, message, subject);
+            result = await Mail.SendMail(req.Variables, recipient, message, subject);
      }
      else if(channel == "Twitter"){
-         result = await TwitterSender.SendTweet(variables, message);
+            result = await TwitterSender.SendTweet(req.Variables, message);
      }
      else if(channel == "Discord"){
-             result = await DiscordWebhook.SendDiscordMessage(variables, message);
+            result = await DiscordWebhook.SendDiscordMessage(req.Variables, message);
             
-     }
-        
-    }
+     }   
 
-    result.TryGetValue("success", out response!);
-    result.TryGetValue("message", out responsemessage!);
+   result.TryGetValue("success", out response!);
+   result.TryGetValue("message", out responsemessage!);
 
-     return Context.Res.Json( 
-        new Dictionary<string,object>() {{"success", response},{"message", responsemessage}});
+   return res.Json(new()
+   {
+    {"success", response},
+    {"message", responsemessage}
+   }
 
-}
-}
+   );
+
 }
