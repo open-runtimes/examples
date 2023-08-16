@@ -93,33 +93,13 @@ List of variables used by this cloud function:
 <!-- To do:
 1. Update the deployment section  -->
 
-1. Clone this repository, and enter this function folder:
+There are two ways of deploying the Appwrite function, both having the same results, but each using a different process. We highly recommend using CLI deployment to achieve the best experience.
 
-```markdown
-git clone https://github.com/open-runtimes/examples.git && cd examples
-$ cd dotnet/sendMessage
-```
+### Using CLI
 
-2. Enter this function folder and build the code:
+Make sure you have [Appwrite CLI](https://appwrite.io/docs/command-line#installation) installed, and you have successfully logged into your Appwrite server. To make sure Appwrite CLI is ready, you can use the command `appwrite client --debug` and it should respond with green text `✓ Success`.
 
-```
-docker run -e OPEN_RUNTIMES_ENTRYPOINT=Index.cs --rm --interactive --tty --volume $PWD:/mnt/code openruntimes/dotnet:v3-7.0 sh helpers/build.sh
-
-```
-
-3. Start the Open Runtime:
-
-```
-docker run -p 3000:3000 -e OPEN_RUNTIMES_SECRET=secret-key --rm --interactive --tty --volume $PWD/code.tar.gz:/mnt/code/code.tar.gz:ro openruntimes/dotnet:v3-7.0 sh helpers/start.sh "dotnet /usr/local/server/src/function/DotNetRuntime.dll"
-```
-
-Your function is now listening on port `3000`, and you can execute it by sending `POST` request with appropriate authorization headers. To learn more about runtime, you can visit .NET Runtime 7.0 [README](https://github.com/open-runtimes/open-runtimes/blob/main/runtimes/dotnet-7.0/README.md).
-
-4. Sample curl command (Email)
-```
-curl -H "x-open-runtimes-secret: secret-key" -H "Content-Type: application/json" -X POST http://localhost:3000/ -d '{"variables":{"MAILGUN_DOMAIN":"sandbox4b061e2c81e94adda674598971b62172.mailgun.org", "MAILGUN_API_KEY":"1867c7be2b0c41bcb8b1bb1f8500fd6e-28e9457d-57f47498"},"payload":{"type":"Email","message":"I am testing my cloud function","receiver":"oluwafemisire.ojuawo@kibo.school", "subject":"Testing"}}'
-```
-
+Make sure you are in the same folder as your `appwrite.json` file and run `appwrite deploy function` to deploy your function. You will be prompted to select which functions you want to deploy.
 
 ## 📝 Notes
 
