@@ -3138,11 +3138,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\me\\Documents\\codeday-labs\\dotnet\\SendMessageFunction\\SendMessageFunction.csproj",
+      "projectUniqueName": "c:\\Users\\me\\Documents\\codeday-labs\\dotnet\\SendMessage\\SendMessageFunction.csproj",
       "projectName": "SendMessageFunction",
-      "projectPath": "c:\\Users\\me\\Documents\\codeday-labs\\dotnet\\SendMessageFunction\\SendMessageFunction.csproj",
+      "projectPath": "c:\\Users\\me\\Documents\\codeday-labs\\dotnet\\SendMessage\\SendMessageFunction.csproj",
       "packagesPath": "C:\\Users\\me\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\me\\Documents\\codeday-labs\\dotnet\\SendMessageFunction\\obj\\",
+      "outputPath": "c:\\Users\\me\\Documents\\codeday-labs\\dotnet\\SendMessage\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\me\\AppData\\Roaming\\NuGet\\NuGet.Config"

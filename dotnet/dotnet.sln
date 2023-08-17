@@ -7,9 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Function", "generateShortUr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wipeAppwriteCollection", "wipe_appwrite_collection\wipeAppwriteCollection.csproj", "{C905F6A7-F542-4E7D-9686-D38B5BE95D4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sendMessage", "sendMessage\sendMessage.csproj", "{4775AEB9-F2E2-4FB9-AD52-946F432A8118}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SendMessageFunction", "SendMessageFunction\SendMessageFunction.csproj", "{62C0D051-82D4-4E0B-8C86-5F9E66577C41}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SendMessageFunction", "SendMessage\SendMessageFunction.csproj", "{62C0D051-82D4-4E0B-8C86-5F9E66577C41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

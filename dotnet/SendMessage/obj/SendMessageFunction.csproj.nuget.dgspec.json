@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\me\\Documents\\codeday-labs\\dotnet\\sendmessagefunction\\SendMessageFunction.csproj": {}
+    "c:\\Users\\me\\Documents\\codeday-labs\\dotnet\\SendMessage\\SendMessageFunction.csproj": {}
   },
   "projects": {
-    "C:\\Users\\me\\Documents\\codeday-labs\\dotnet\\sendmessagefunction\\SendMessageFunction.csproj": {
+    "c:\\Users\\me\\Documents\\codeday-labs\\dotnet\\SendMessage\\SendMessageFunction.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\me\\Documents\\codeday-labs\\dotnet\\sendmessagefunction\\SendMessageFunction.csproj",
+        "projectUniqueName": "c:\\Users\\me\\Documents\\codeday-labs\\dotnet\\SendMessage\\SendMessageFunction.csproj",
         "projectName": "SendMessageFunction",
-        "projectPath": "C:\\Users\\me\\Documents\\codeday-labs\\dotnet\\sendmessagefunction\\SendMessageFunction.csproj",
+        "projectPath": "c:\\Users\\me\\Documents\\codeday-labs\\dotnet\\SendMessage\\SendMessageFunction.csproj",
         "packagesPath": "C:\\Users\\me\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\me\\Documents\\codeday-labs\\dotnet\\sendmessagefunction\\obj\\",
+        "outputPath": "c:\\Users\\me\\Documents\\codeday-labs\\dotnet\\SendMessage\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\me\\AppData\\Roaming\\NuGet\\NuGet.Config"

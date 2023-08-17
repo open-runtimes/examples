@@ -57,11 +57,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\me\\Documents\\Code-Day\\codeday-labs\\dotnet\\wipe_appwrite_collection\\wipeAppwriteCollection.csproj",
+      "projectUniqueName": "c:\\Users\\me\\Documents\\codeday-labs\\dotnet\\wipe_appwrite_collection\\wipeAppwriteCollection.csproj",
       "projectName": "wipeAppwriteCollection",
-      "projectPath": "c:\\Users\\me\\Documents\\Code-Day\\codeday-labs\\dotnet\\wipe_appwrite_collection\\wipeAppwriteCollection.csproj",
+      "projectPath": "c:\\Users\\me\\Documents\\codeday-labs\\dotnet\\wipe_appwrite_collection\\wipeAppwriteCollection.csproj",
       "packagesPath": "C:\\Users\\me\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\me\\Documents\\Code-Day\\codeday-labs\\dotnet\\wipe_appwrite_collection\\obj\\",
+      "outputPath": "c:\\Users\\me\\Documents\\codeday-labs\\dotnet\\wipe_appwrite_collection\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\me\\AppData\\Roaming\\NuGet\\NuGet.Config"

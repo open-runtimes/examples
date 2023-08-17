@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "w+BkZYtAIB3Dpr0KU/D/KB/f1L4X9zWlrZ3Cq1xDJpy9Vzjgt4ReJweh1Js5eea8FE2qz4lzB39GdqTKM9wJGw==",
+  "dgSpecHash": "RTdVg24WK2cvhtlTCTTofzsn2EBCFei5PpvtFFMR7lqa6/DMYsUyzf/zl8KOxM3SmJyN3E+v8v+ghVZRIlz8rQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\me\\Documents\\codeday-labs\\dotnet\\sendmessagefunction\\SendMessageFunction.csproj",
+  "projectFilePath": "c:\\Users\\me\\Documents\\codeday-labs\\dotnet\\SendMessage\\SendMessageFunction.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\me\\.nuget\\packages\\autofac\\4.9.4\\autofac.4.9.4.nupkg.sha512",
     "C:\\Users\\me\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.1\\microsoft.netcore.platforms.1.1.1.nupkg.sha512",
