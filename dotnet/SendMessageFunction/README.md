@@ -120,7 +120,7 @@ After creating `.tar.gz` file, visit Appwrite Console, click on the `Create depl
 
 ### Executing the function without the Appwrite Console
 
-After you have created built the code with the command above, run the following up command to start a server to listen to your request on your local host.
+After you have built the code with the command above, run the following up command to start a server to listen to your request on your local host.
 ```
 docker run --rm --interactive --tty \
   -p 3000:3000 \
