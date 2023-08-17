@@ -2,14 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
-  <ItemGroup>
+<ItemGroup>
   <PackageReference Include="TweetinviAPI" Version="5.0.4" />
   <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 
   </ItemGroup>
-
 </Project>
