@@ -14,25 +14,59 @@ _Example output 1:_
 
 ```json
 {
-	"deepgramData": {
-	    "confidence": 0.9926758,
-	    "transcript": "another big problem in the ... company succeed using this product",
-	    "words": [
-		{
-		    "confidence": 0.9995117,
-		    "end": 0.839599,
-		    "start": 0.33959904,
-		    "word": "another"
-		},
-		{
-		    "confidence": 0.99365234,
-		    "end": 95.770004,
-		    "start": 95.41,
-		    "word": "product"
-		}
-	    ]
-	},
-        "success": true
+  "success": true,
+  "deepgramData": {
+    "metadata": {
+      "transaction_key": "deprecated",
+      "channels": 1,
+      "sha256": "<sha256hash>",
+      "created": "<time-stamp>",
+      "request_id": "<request-id>",
+      "models": [
+        "96a295ec-6336-43d5-b1cb-1e48b5e6d9a4"
+      ],
+      "duration": 17.56631,
+      "model_info": {
+        "96a295ec-6336-43d5-b1cb-1e48b5e6d9a4": {
+          "version": "2023-02-22.3",
+          "name": "general",
+          "arch": "base"
+        }
+      }
+    },
+    "results": {
+      "channels": [
+        {
+          "alternatives": [
+            {
+              "transcript": "yep i said",
+              "confidence": 0.9955948,
+              "words": [
+                {
+                  "confidence": 0.9886008,
+                  "start": 5.6079545,
+                  "word": "yep",
+                  "end": 5.846591
+                },
+                {
+                  "confidence": 0.94343305,
+                  "start": 7.213404,
+                  "word": "i",
+                  "end": 7.3721275
+                },
+                {
+                  "confidence": 0.92837,
+                  "start": 7.3721275,
+                  "word": "said",
+                  "end": 7.530851
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
 }
 ```
 
