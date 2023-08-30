@@ -1,40 +1,28 @@
-import AsyncHTTPClient
 import Foundation
 
-func main(context: RuntimeContext) async throws -> RuntimeOutput{
-
-    //Settingup necessary variables
-    let bodyString = context.req.bodyRaw
-    let bodyDict = try JSONSerialization.jsonObject(with: bodyString.data(using: .utf8)! ,options: []) as! [String:Any]
-    let variables = bodyDict["variables"] as! [String:Any]
-    let payload = bodyDict["payload"] as! [String:Any]
-    let fileUrl = payload["fileUrl"] as! String
-    let apikey = variables["DEEPGRAM_API_KEY"] as! String
-    let jsonString = "{\"url\":\"\(fileUrl)\"}"
-
-    let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
-    var request = HTTPClientRequest(url: "https://api.deepgram.com/v1/listen")
-    request.method = .POST
-    request.headers.add(name: "Authorization", value: "Token \(apikey)")
-    request.headers.add(name: "Content-Type", value: "application/json")
-
-    request.body = .bytes([UInt8](jsonString.utf8))
-    
-    let response = try await httpClient.execute(request, timeout: .seconds(30))
-    var body = try await response.body.collect(upTo: 1024*1024) // 1MB 
-    let string = body.readString(length: body.readableBytes)!
-    let json = string.data(using: .utf8)!
-    let jsonDict = try JSONSerialization.jsonObject(with: json,options: [])
-    if(response.status.code == 200){
-        return try context.res.json([
-            "success":true,
-            "deepgramData": jsonDict
-        ])
-    }else{
-        return try context.res.json([
-            "success":false,
-            "error": jsonDict
-        ])
+func main(context: RuntimeContext) async throws -> RuntimeOutput {
+  var transcribeRequest: TranscribeRequest
+  var response: [String: Any] = ["success": false]
+  do {
+    transcribeRequest = try context.req.bodyRaw.decodeTranscribeRequest()
+    guard !transcribeRequest.variables.DEEPGRAM_API_KEY.isEmpty else {
+      throw TranscribeRequestError.emptyApiKey
     }
-   
+    let transcribedAudioResponse = await TranscribeAudio(
+      url: transcribeRequest.payload.fileUrl, apiKey: transcribeRequest.variables.DEEPGRAM_API_KEY)
+
+    response = transcribedAudioResponse
+  } catch let TranscribeRequestError.dataCorrupted(message) {
+    response["error"] = message
+  } catch let TranscribeRequestError.keyNotFound(key: key) {
+    response["error"] =
+      "Key \(key.stringValue) not found in the request body a proper request body for this function looks something like \(exampleRequest)"
+  } catch TranscribeRequestError.emptyApiKey {
+    response["error"] = "Please provide valid apikey"
+  } catch {
+    print(error.localizedDescription)
+    response["error"] =
+      "Please provide valid Request body. A proper request body for this function looks something like \(exampleRequest)"
+  }
+  return try context.res.json(response)
 }
