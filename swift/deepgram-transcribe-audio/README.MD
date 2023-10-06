@@ -1,6 +1,6 @@
 # Transcribe Audio Files
 
-A Swift Cloud Function that transcribes an Audio file with the help of Deepgram.
+A Swift Cloud Function that transcribes an Audio file with the help of [Deepgram API](https://deepgram.com/).
 
 _Example input 1:_
 
@@ -93,6 +93,7 @@ _Example output 2:_
 List of variables used by this cloud function:
 
 - **DEEPGRAM_API_KEY** - Deepgram API Key
+ℹ️ Create your Deepgram API key at [console.deepgram.com](https://console.deepgram.com)
 
 ## 🚀 Deployment
 
@@ -127,3 +128,4 @@ curl -g -X POST http://localhost:4000/ -H "x-open-runtimes-secret: secret-key" -
 ## 📝 Notes
 
 - This function is designed for use with Appwrite Cloud Functions. You can learn more about it in [Appwrite docs](https://appwrite.io/docs/functions).
+- Working fine with both [openruntimes/swift:v3-5.5](https://github.com/open-runtimes/open-runtimes/tree/main/runtimes/swift-5.5) and [openruntimes/swift:v3-5.8](https://github.com/open-runtimes/open-runtimes/tree/main/runtimes/swift-5.8)
