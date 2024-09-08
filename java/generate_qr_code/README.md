@@ -13,16 +13,9 @@ _Example output:_
 ![successful_response](images/successful_response.png)
 
 
-```
-
 _Error Example output:_
 
-```json
-{
-  "success": false,
-  "message": "Required fields are not present: text"
-}
-```
+![failed_response](images/failed_response.png)
 
 
 ## 📝 Environment Variables
