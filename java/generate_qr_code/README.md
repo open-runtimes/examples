@@ -10,7 +10,7 @@ A Java Cloud Function to generate QR code for the given text.
 
 _Example output:_
 
-![successful_response](images/successful_response)
+![successful_response](images/successful_response.png)
 
 
 ```
