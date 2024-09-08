@@ -17,24 +17,23 @@ public class Index {
         RuntimeResponse res = context.getRes();
         
         Map<String, Object> payload = (Map<String, Object>) req.getBody();
-        try {
+		
+	try {
             // validate payload
             List<String> errorFields = validatePayload(payload);
             if (!errorFields.isEmpty()) {
                 throw new NoSuchFieldException("Required fields are not present: " + String.join(",", errorFields));
             }
-            
-            String base64QR = generateQR((String) payload.get("text"));
 
-            Map<String, Object> map = new HashMap<>();
-            map.put("message", base64QR);
-            map.put("success", true);
-            return res.json(map, 200);
-        } catch (NoSuchFieldException e) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("message", e.getMessage());
-            map.put("success", false);
-            return res.json(map, 400);
+            byte[] qrCode = generateQR((String) payload.get("text"));
+            Map<String, String> resHeaders = new HashMap<>();
+            resHeaders.put("content-type", "image/png");
+            return res.binary(qrCode, 200, resHeaders);
+        } catch (Exception e) {
+            Map<String, Object> responseData = new HashMap<>();
+            responseData.put("message", e.getMessage());
+            responseData.put("success", false);
+            return res.json(responseData, 400);
         }
 
     }
@@ -50,8 +49,8 @@ public class Index {
         return fields;
     }
 
-    // Returns QR code in Base64 string format for the input text
-    public String generateQR(String text) {
+    // Returns QR code(byte[])  in png format for the input text
+    public byte[] generateQR(String text) throws Exception{
 
         QrCode.Ecc errCorLvl = QrCode.Ecc.LOW;  // Error correction level
         QrCode qr = QrCode.encodeText(text, errCorLvl);  // Make the QR Code symbol
@@ -61,10 +60,13 @@ public class Index {
         final ByteArrayOutputStream os = new ByteArrayOutputStream();
         try {
             ImageIO.write(img, "png", os);
-            return Base64.getEncoder().encodeToString(os.toByteArray());
+            os.flush();
+            return os.toByteArray();
         } catch (final IOException ioe) {
-            throw new UncheckedIOException(ioe);
-        }
+            throw new IOException("IO error occured.");
+        } finally{
+	   os.close();
+	}
 
     }
 }
