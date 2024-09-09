@@ -16,57 +16,59 @@ public class Index {
         RuntimeRequest req = context.getReq();
         RuntimeResponse res = context.getRes();
         
-        Map<String, Object> payload = (Map<String, Object>) req.getBody();
+        Map<String, String> payload = req.getQuery();
 		
-	try {
-            // validate payload
+        try {
             List<String> errorFields = validatePayload(payload);
+
             if (!errorFields.isEmpty()) {
                 throw new NoSuchFieldException("Required fields are not present: " + String.join(",", errorFields));
             }
 
-            byte[] qrCode = generateQR((String) payload.get("text"));
-            Map<String, String> resHeaders = new HashMap<>();
-            resHeaders.put("content-type", "image/png");
-            return res.binary(qrCode, 200, resHeaders);
+            String text = payload.get("text");
+            byte[] qrCode = generateQR(text);
+
+            Map<String, String> headers = new HashMap<>();
+            headers.put("content-type", "image/png");
+
+            return res.binary(qrCode, 200, headers);
         } catch (Exception e) {
-            Map<String, Object> responseData = new HashMap<>();
-            responseData.put("message", e.getMessage());
-            responseData.put("success", false);
-            return res.json(responseData, 400);
+                Map<String, Object> output = new HashMap<>();
+                output.put("message", e.getMessage());
+                output.put("success", false);
+                return res.json(output, 400);
+            }
         }
 
-    }
+        // Checks whether all the requried arguments are present and ensure proper value
+        // Return array of fields with an error during validation
+        public List<String> validatePayload(Map<String, String> payload) {
+            List<String> fields = new ArrayList<>();
 
-    // Checks whether all the requried arguments are present and validates it's values
-    public List<String> validatePayload(Map<String, Object> payload) {
-        List<String> fields = new ArrayList<>();
+            if (!payload.containsKey("text") || payload.get("text") == null || payload.get("text").toString().isEmpty()) {
+                fields.add("text");
+            }
 
-        if (!payload.containsKey("text") || payload.get("text") == null || payload.get("text").toString().isEmpty()) {
-            fields.add("text");
+            return fields;
         }
 
-        return fields;
-    }
+        // Returns QR code in png format
+        public byte[] generateQR(String text) throws Exception {
+            QrCode.Ecc errCorLvl = QrCode.Ecc.LOW;  // Error correction level
+            QrCode qr = QrCode.encodeText(text, errCorLvl);  // Make the QR Code symbol
+            BufferedImage img = qr.toImage(10, 3); // get BufferedImage for qr
 
-    // Returns QR code(byte[])  in png format for the input text
-    public byte[] generateQR(String text) throws Exception{
+            // convert buffer to byte array
+            final ByteArrayOutputStream os = new ByteArrayOutputStream();
 
-        QrCode.Ecc errCorLvl = QrCode.Ecc.LOW;  // Error correction level
-        QrCode qr = QrCode.encodeText(text, errCorLvl);  // Make the QR Code symbol
-        BufferedImage img = qr.toImage(10, 3); // get  BufferedImage for qr
-
-        // convert image to base 64 string
-        final ByteArrayOutputStream os = new ByteArrayOutputStream();
-        try {
-            ImageIO.write(img, "png", os);
-            os.flush();
-            return os.toByteArray();
-        } catch (final IOException ioe) {
-            throw new IOException("IO error occured.");
-        } finally{
-	   os.close();
-	}
-
-    }
+            try {
+                ImageIO.write(img, "png", os);
+                os.flush();
+                return os.toByteArray();
+            } catch (final IOException ioe) {
+                throw new IOException("IO error occured.");
+            } finally {
+                os.close();
+            }
+        }
 }

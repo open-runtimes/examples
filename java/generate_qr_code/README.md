@@ -1,11 +1,9 @@
-#  Generate QR Code
+# 🖼️ Generate QR Code
 
 A Java Cloud Function to generate QR code for the given text.
 
-```json
-{
-  "text":"https://github.com/open-runtimes"
-}
+```
+http://localhost:3000/?text=https://github.com/open-runtimes
 ```
 
 _Example output:_
@@ -15,8 +13,12 @@ _Example output:_
 
 _Error Example output:_
 
-![failed_response](images/failed_response.png)
-
+```json
+{
+  "success": false,
+  "message": "Required fields are not present: text"
+}
+```
 
 ## 📝 Environment Variables
 
@@ -39,7 +41,7 @@ As a result, a `code.tar.gz` file will be generated.
 
 3. Start the Open Runtime:
 ```
-docker run -p 3000:3000 -e OPEN_RUNTIMES_SECRET=secret-key --rm --interactive --tty --volume $PWD/code.tar.gz:/mnt/code/code.tar.gz:ro openruntimes/java:v4-8.0 sh helpers/start.sh "java -jar /usr/local/server/src/function/java-runtime-1.0.0.jar"
+docker run -p 3000:3000 -e OPEN_RUNTIMES_SECRET="" --rm --interactive --tty --volume $PWD/code.tar.gz:/mnt/code/code.tar.gz:ro openruntimes/java:v4-8.0 sh helpers/start.sh "java -jar /usr/local/server/src/function/java-runtime-1.0.0.jar"
 ```
 
 Your function is now listening on port `3000`, and you can execute it using curl request with appropriate authorization headers. To learn more about runtime, you can visit Java runtime [README](https://github.com/open-runtimes/open-runtimes/tree/main/runtimes/java-18.0).
@@ -47,7 +49,7 @@ Your function is now listening on port `3000`, and you can execute it using curl
 4. In a new terminal window, execute function:
 
 ```
-curl http://localhost:3000/ -d '{"text":"https://github.com/open-runtimes"}' -H "x-open-runtimes-secret: secret-key" -H "Content-Type: application/json"
+curl http://localhost:3000/?text=https://github.com/open-runtimes
 ```
 
 ## 📝 Notes
