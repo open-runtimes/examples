@@ -21,6 +21,7 @@ Example functions to show off what you can achieve with Open Runtimes.
 | Compresss Imagse |      |      |      |     |        |[✅](/ruby/compress-image)|      |
 | Send a HTTP Request |      |      |      |     |        | [✅](/ruby/send-http-request) |      |
 | Wipe Appwrite Bucket |      |      | [✅](/node/wipe_appwrite_bucket) |      |      |      |      |
+| Wipe Appwrite Collection |      |      | [✅](/node/wipe_appwrite_collection/) | [✅](/php/wipe_appwrite_collection/) |      | [✅](/ruby/wipe-appwrite-collection/) |      |
 | Detect Language with Deepgram  |      |      |      |      | [✅](/python/deepgram-language-detection) |      |      |
 | Summarize Audio with Deepgram |      |      |      |      |      |[✅](/ruby/deepgram-audio-summary)|      |
 | Summarize Audio with Deepgram |      |      |      |      | [✅](/python/deepgram-audio-summary) |      |      |
