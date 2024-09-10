@@ -1,0 +1,3 @@
+dependencies {
+    implementation  'io.nayuki:qrcodegen:1.4.0'
+}
