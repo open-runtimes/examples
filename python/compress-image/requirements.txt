@@ -1,0 +1,3 @@
+tinify==1.6.0
+requests==2.31.0
+parameterized==0.9.0
