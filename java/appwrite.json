@@ -1,0 +1,20 @@
+{
+    "projectId": "649f0fde61b9f6d9d83c",
+    "projectName": "CodeDay Open Source",
+    "functions": [
+        {
+            "$id": "64b036a92b2e743106ca",
+            "name": "AppwriteCollectionWiper",
+            "runtime": "java-17.0",
+            "path": "AppwriteCollectionWiper",
+            "entrypoint": "src/Index.java",
+            "ignore": [
+                "build"
+            ],
+            "execute": [],
+            "events": [],
+            "schedule": "",
+            "timeout": 15
+        }
+    ]
+}
