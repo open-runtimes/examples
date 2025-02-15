@@ -18,7 +18,7 @@ Example functions to show off what you can achieve with Open Runtimes.
 | Object Detection |[✅](/dart/object_detection) |  [✅](/deno/object_detection) | [✅](/node/object_detection) | [✅](/php/object_detection) |   [✅](/python/object-detection)     |      |      |
 | Generate Giphy GIF | [✅](/dart/generate_giphy_gif) | [✅](/deno/generate-giphy-gif) | [✅](/node/generate_giphy_gif) |     |  [✅](/python/generate-giphy-gif)  |      |      |
 | Get COVID-19 Stats |      |      |      |     |        |      | [✅](/swift/get-covid-stats) |
-| Compresss Imagse |      |      |      |     |        |[✅](/ruby/compress-image)|      |
+| Compresss Images |      |      |      |     |        |[✅](/ruby/compress-image)|      |
 | Send a HTTP Request |      |      |      |     |        | [✅](/ruby/send-http-request) |      |
 | Wipe Appwrite Bucket |      |      | [✅](/node/wipe_appwrite_bucket) |      |      |      |      |
 | Detect Language with Deepgram  |      |      |      |      | [✅](/python/deepgram-language-detection) |      |      |
