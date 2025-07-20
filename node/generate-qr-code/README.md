@@ -27,3 +27,11 @@ Sample `200` Response:
   }
 }
 ```
+
+## Usage
+
+```bash
+curl -X POST http://localhost:3000/ \
+  -H "Content-Type: application/json" \
+  -d '{"variables":{"text":"Your text here"}}'
+```
