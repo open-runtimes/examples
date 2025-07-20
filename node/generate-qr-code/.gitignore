@@ -1,0 +1,16 @@
+# Build artifacts
+code.tar.gz
+
+# Node.js
+node_modules/
+npm-debug.log*
+.npm
+
+# Logs
+*.log
+
+# Other
+.DS_Store
+Thumbs.db
+
+test.bat

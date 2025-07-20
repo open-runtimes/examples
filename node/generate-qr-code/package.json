@@ -1,0 +1,20 @@
+{
+  "name": "generate-qr-code",
+  "version": "1.0.0",
+  "description": "Generate QR code from text using Open Runtimes",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "qrcode": "^1.5.3"
+  },
+  "keywords": [
+    "qr",
+    "code",
+    "generator",
+    "open-runtimes"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}
