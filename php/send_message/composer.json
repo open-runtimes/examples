@@ -4,7 +4,7 @@
   "type": "project",
   "require": {
       "guzzlehttp/guzzle": "^7.5",
-      "guzzlehttp/oauth-subscriber": "^0.6.0"
+      "guzzlehttp/oauth-subscriber": "^0.9.6"
   },
   "license": "ISC",
   "minimum-stability": "stable"
