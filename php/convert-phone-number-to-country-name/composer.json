@@ -6,6 +6,6 @@
     "authors": [],
     "require": {
         "php": ">=8.0.0",
-        "appwrite/appwrite": "4.0.*"
+        "appwrite/appwrite": "4.1.*"
     }
 }
