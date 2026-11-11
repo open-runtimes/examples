@@ -1,2 +1,2 @@
-requests==2.33.0
-cloudmersive-image-api-client==3.0.1
+requests==2.34.2
+cloudmersive-image-api-client==3.1.0
