@@ -10,6 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "pdfkit": "^0.13.0"
+    "pdfkit": "^0.20.0"
   }
 }
