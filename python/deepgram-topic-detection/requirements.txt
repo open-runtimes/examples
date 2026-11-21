@@ -1,2 +1,2 @@
-requests==2.33.0
-validators==0.20.0
+requests==2.34.2
+validators==0.36.0
