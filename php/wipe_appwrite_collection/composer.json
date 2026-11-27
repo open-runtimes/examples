@@ -1,0 +1,11 @@
+{
+    "name": "user/function",
+    "description": "",
+    "type": "library",
+    "license": "ISC",
+    "authors": [],
+    "require": {
+        "php": ">=8.0.0",
+        "appwrite/appwrite": "7.0.*"
+    }
+}
